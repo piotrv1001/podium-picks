@@ -5,6 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './user/user.entity';
 import { AuthModule } from './auth/auth.module';
+import { TeamModule } from './team/team.module';
+import { DriverModule } from './driver/driver.module';
+import { RaceModule } from './race/race.module';
 
 @Module({
   imports: [
@@ -25,6 +28,9 @@ import { AuthModule } from './auth/auth.module';
       }),
     }),
     AuthModule,
+    TeamModule,
+    DriverModule,
+    RaceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -21,6 +21,9 @@ export class Driver {
   @ManyToOne(() => Team, (team) => team.drivers, { nullable: true })
   team?: Relation<Team>;
 
+  @Column({ nullable: true })
+  teamId?: number;
+
   @OneToMany(() => Prediction, (prediction) => prediction.driver, {
     nullable: true,
   })
