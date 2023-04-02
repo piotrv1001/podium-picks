@@ -7,6 +7,11 @@ import { TeamDTO } from './team.dto';
 export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
+  @Post('init')
+  initTeams(): Promise<Team[]> {
+    return this.teamService.initTeams();
+  }
+
   @Post()
   create(@Body() teamDto: TeamDTO): Promise<Team> {
     return this.teamService.create(teamDto);

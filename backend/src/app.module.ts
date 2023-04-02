@@ -12,6 +12,13 @@ import { GroupModule } from './group/group.module';
 import { PredictionModule } from './prediction/prediction.module';
 import { ResultModule } from './result/result.module';
 import { ScoreModule } from './score/score.module';
+import { Prediction } from './prediction/prediction.entity';
+import { Score } from './score/score.entity';
+import { Result } from './result/result.entity';
+import { Race } from './race/race.entity';
+import { Driver } from './driver/driver.entity';
+import { Group } from './group/group.entity';
+import { Team } from './team/team.entity';
 
 @Module({
   imports: [
@@ -27,7 +34,7 @@ import { ScoreModule } from './score/score.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User],
+        entities: [User, Prediction, Score, Result, Race, Driver, Group, Team],
         synchronize: true,
       }),
     }),
