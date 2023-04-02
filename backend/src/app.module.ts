@@ -8,6 +8,10 @@ import { AuthModule } from './auth/auth.module';
 import { TeamModule } from './team/team.module';
 import { DriverModule } from './driver/driver.module';
 import { RaceModule } from './race/race.module';
+import { GroupModule } from './group/group.module';
+import { PredictionModule } from './prediction/prediction.module';
+import { ResultModule } from './result/result.module';
+import { ScoreModule } from './score/score.module';
 
 @Module({
   imports: [
@@ -31,6 +35,10 @@ import { RaceModule } from './race/race.module';
     TeamModule,
     DriverModule,
     RaceModule,
+    GroupModule,
+    PredictionModule,
+    ResultModule,
+    ScoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],
