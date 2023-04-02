@@ -6,6 +6,11 @@ import { Driver } from './driver.entity';
 export class DriverController {
   constructor(private readonly driverService: DriverService) {}
 
+  @Post('init')
+  initDrivers(): Promise<Driver[]> {
+    return this.driverService.initDrivers();
+  }
+
   @Post()
   create(@Request() req): Promise<Driver> {
     return this.driverService.create(req.body);
