@@ -19,7 +19,11 @@ export class DriverService {
   }
 
   async getAll(): Promise<Driver[]> {
-    return this.driverRepository.find();
+    return this.driverRepository.find({
+      relations: {
+        team: true,
+      },
+    });
   }
 
   async getById(id: number): Promise<Driver> {

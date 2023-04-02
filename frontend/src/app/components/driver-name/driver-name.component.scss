@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem;
+}
+
+.team-color-icon {
+  width: 0.3rem;
+  margin-right: 1rem;
+  height: 1.2rem;
+}
+
+.driver-name {
+  font-size: 1.2rem;
+}
+
+.team-name {
+  margin-left: 1rem;
+  font-size: 1rem;
+  color: gray;
+}
+
+.driver-last-name {
+  margin-left: .5rem;
+  text-transform: uppercase;
+  font-weight: bold;
+}
