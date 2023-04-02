@@ -1,4 +1,5 @@
 import { Prediction } from 'src/prediction/prediction.entity';
+import { Result } from 'src/result/result.entity';
 import { Score } from 'src/score/score.entity';
 import {
   Column,
@@ -8,23 +9,31 @@ import {
   Relation,
 } from 'typeorm';
 
-@Entity({ name: 'user' })
-export class User {
+@Entity({ name: 'race' })
+export class Race {
   @PrimaryGeneratedColumn()
   id?: number;
 
   @Column({ nullable: true })
-  username?: string;
+  name?: string;
 
   @Column({ nullable: true })
-  password?: string;
+  date?: Date;
 
-  @OneToMany(() => Prediction, (prediction) => prediction.user, {
+  @Column({ nullable: true })
+  country?: string;
+
+  @OneToMany(() => Prediction, (prediction) => prediction.race, {
     nullable: true,
   })
   predictions?: Relation<Prediction[]>;
 
-  @OneToMany(() => Score, (score) => score.user, {
+  @OneToMany(() => Result, (result) => result.race, {
+    nullable: true,
+  })
+  results?: Relation<Result[]>;
+
+  @OneToMany(() => Score, (score) => score.race, {
     nullable: true,
   })
   scores?: Relation<Score[]>;
