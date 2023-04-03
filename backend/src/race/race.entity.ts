@@ -1,12 +1,14 @@
 import { Prediction } from 'src/prediction/prediction.entity';
 import { Result } from 'src/result/result.entity';
 import { Score } from 'src/score/score.entity';
+import { Season } from 'src/season/season.entity';
 import {
   Column,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity({ name: 'race' })
@@ -37,4 +39,10 @@ export class Race {
     nullable: true,
   })
   scores?: Relation<Score[]>;
+
+  @ManyToOne(() => Season, (season) => season.races)
+  season?: Relation<Season>;
+
+  @Column({ nullable: true })
+  seasonId?: number;
 }

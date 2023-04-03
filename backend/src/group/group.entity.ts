@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { User } from 'src/user/user.entity';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Relation,
+} from 'typeorm';
 
 @Entity({ name: 'group' })
 export class Group {
@@ -10,4 +17,7 @@ export class Group {
 
   @Column({ nullable: true })
   code?: string;
+
+  @OneToMany(() => User, (user) => user.group, { nullable: true })
+  users?: Relation<User[]>;
 }
