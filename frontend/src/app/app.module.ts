@@ -19,6 +19,8 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { SeasonListComponent } from './pages/season-list/season-list.component';
+import { SeasonComponent } from './components/season/season.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { RegisterComponent } from './pages/register/register.component';
     LoginComponent,
     RegisterComponent,
     DriverNameComponent,
-    DriverDragDropComponent
+    DriverDragDropComponent,
+    SeasonListComponent,
+    SeasonComponent
   ],
   imports: [
     BrowserModule,
