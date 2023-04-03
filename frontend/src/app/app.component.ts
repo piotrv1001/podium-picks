@@ -36,6 +36,13 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  logOut(): void {
+    this.authService.logout().then(() => {
+        this.isAuthenticated = false;
+      }
+    );
+  }
+
   handleRegisterBtnClick(): void {
     this.createNewAccount = true;
   }

@@ -1,4 +1,7 @@
 <div *ngIf="isAuthenticated; else loginPage">
+  <nav class="top-nav">
+    <mat-icon class="log-out-btn" (click)="logOut()">power_settings_new</mat-icon>
+  </nav>
   <div class="router-wrapper">
     <router-outlet></router-outlet>
   </div>

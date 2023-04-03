@@ -15,6 +15,8 @@ import { HomeComponent } from './pages/home/home.component';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 
@@ -36,7 +38,8 @@ import { RegisterComponent } from './pages/register/register.component';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatIconModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
