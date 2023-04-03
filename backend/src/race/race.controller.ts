@@ -1,10 +1,28 @@
 import { Race } from './race.entity';
 import { RaceService } from './race.service';
-import { Controller, Post, Get, Request, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Request,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 
 @Controller('races')
 export class RaceController {
   constructor(private readonly raceService: RaceService) {}
+
+  @Post('init')
+  initRaces(): Promise<Race[]> {
+    return this.raceService.initRaces();
+  }
+
+  @Get()
+  getAllRacesBySeasonId(@Query('seasonId') seasonId: number): Promise<Race[]> {
+    return this.raceService.getAllBySeasonId(seasonId);
+  }
 
   @Post()
   create(@Request() req): Promise<Race> {
