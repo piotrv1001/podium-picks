@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <div class="login-card">
+    <div class="login-heading">Login</div>
+    <form *ngIf="loginForm !== undefined" [formGroup]="loginForm" class="login-form ">
+      <mat-form-field class="login-form-field">
+        <input
+          matInput
+          placeholder="Your username"
+          formControlName="username">
+      </mat-form-field>
+      <mat-form-field class="login-form-field">
+        <input
+          type="password"
+          matInput
+          placeholder="Your password"
+          formControlName="password">
+      </mat-form-field>
+      <button class="login-btn" (click)="login()">Login</button>
+      <span *ngIf="!areCredentialsCorrect" style="color: red; margin-top: 1rem;">Invalid username or password</span>
+      <button class="no-account-btn" mat-button (click)="registerBtnClicked()">Don't have an account?</button>
+    </form>
+  </div>
+</div>

@@ -20,6 +20,7 @@ import { Driver } from './driver/driver.entity';
 import { Group } from './group/group.entity';
 import { Team } from './team/team.entity';
 import { SeasonModule } from './season/season.module';
+import { Season } from './season/season.entity';
 
 @Module({
   imports: [
@@ -35,7 +36,17 @@ import { SeasonModule } from './season/season.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User, Prediction, Score, Result, Race, Driver, Group, Team],
+        entities: [
+          User,
+          Prediction,
+          Score,
+          Result,
+          Race,
+          Driver,
+          Group,
+          Team,
+          Season,
+        ],
         synchronize: true,
       }),
     }),
