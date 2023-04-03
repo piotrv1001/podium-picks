@@ -19,6 +19,7 @@ import { Race } from './race/race.entity';
 import { Driver } from './driver/driver.entity';
 import { Group } from './group/group.entity';
 import { Team } from './team/team.entity';
+import { SeasonModule } from './season/season.module';
 
 @Module({
   imports: [
@@ -46,6 +47,7 @@ import { Team } from './team/team.entity';
     PredictionModule,
     ResultModule,
     ScoreModule,
+    SeasonModule,
   ],
   controllers: [AppController],
   providers: [AppService],
