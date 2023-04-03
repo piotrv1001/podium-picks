@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Season } from "src/app/model/entities/season.model";
 import { SeasonService } from "src/app/services/season.service";
 
@@ -11,14 +12,21 @@ export class SeasonListComponent implements OnInit {
 
   seasons: Season[] = [];
 
-  constructor(private seasonService: SeasonService) {}
+  constructor(
+    private seasonService: SeasonService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.getAllSeasons();
   }
 
   handleSeasonClick(season: Season): void {
-    console.log('season', season);
+    setTimeout(() => {
+      if(season.id) {
+        this.seasonService.updateCurrentSeasonId(season.id);
+      }
+    }, 0);
+    this.router.navigate(['races']);
   }
 
   private getAllSeasons(): void {
