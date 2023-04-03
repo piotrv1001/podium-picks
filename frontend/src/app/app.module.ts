@@ -21,6 +21,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { SeasonListComponent } from './pages/season-list/season-list.component';
 import { SeasonComponent } from './components/season/season.component';
+import { RaceListComponent } from './pages/race-list/race-list.component';
+import { RaceComponent } from './components/race/race.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { SeasonComponent } from './components/season/season.component';
     DriverNameComponent,
     DriverDragDropComponent,
     SeasonListComponent,
-    SeasonComponent
+    SeasonComponent,
+    RaceListComponent,
+    RaceComponent
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ export class Race {
     public name?: string,
     public date?: Date,
     public country?: string,
+    public countryCode?: string,
     public predictions?: Prediction[],
     public results?: Result[],
     public scores?: Score[],

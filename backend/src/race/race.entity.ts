@@ -25,6 +25,9 @@ export class Race {
   @Column({ nullable: true })
   country?: string;
 
+  @Column({ nullable: true })
+  countryCode?: string;
+
   @OneToMany(() => Prediction, (prediction) => prediction.race, {
     nullable: true,
   })
