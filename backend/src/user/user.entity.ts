@@ -1,8 +1,10 @@
+import { Group } from 'src/group/group.entity';
 import { Prediction } from 'src/prediction/prediction.entity';
 import { Score } from 'src/score/score.entity';
 import {
   Column,
   Entity,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation,
@@ -28,4 +30,10 @@ export class User {
     nullable: true,
   })
   scores?: Relation<Score[]>;
+
+  @ManyToOne(() => Group, (group) => group.users, { nullable: true })
+  group?: Relation<Group>;
+
+  @Column({ nullable: true })
+  groupId?: number;
 }
