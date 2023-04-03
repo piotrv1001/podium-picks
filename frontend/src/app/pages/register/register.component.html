@@ -1,0 +1,30 @@
+<div class="wrapper">
+  <div class="login-card">
+    <div class="login-heading">Register</div>
+    <form *ngIf="registerForm !== undefined" [formGroup]="registerForm" class="login-form ">
+      <mat-form-field class="login-form-field">
+        <input
+          matInput
+          placeholder="Your username"
+          formControlName="username">
+      </mat-form-field>
+      <mat-form-field class="login-form-field">
+        <input
+          type="password"
+          matInput
+          placeholder="Your password"
+          formControlName="password">
+      </mat-form-field>
+      <mat-form-field class="login-form-field">
+        <input
+          type="password"
+          matInput
+          placeholder="Confirm password"
+          formControlName="confirmPassword">
+      </mat-form-field>
+      <button class="login-btn" (click)="register()">Register</button>
+      <span *ngIf="!doPasswordsMatch" style="color: red; margin-top: 1rem;">Passwords need to match</span>
+      <button class="no-account-btn" mat-button (click)="loginBtnClicked()">Already have an account? Sign in</button>
+    </form>
+  </div>
+</div>

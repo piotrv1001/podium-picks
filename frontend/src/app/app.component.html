@@ -1,3 +1,12 @@
-<div class="main-content">
-  <app-driver-drag-drop></app-driver-drag-drop>
+<div *ngIf="isAuthenticated; else loginPage">
+  <div class="router-wrapper">
+    <router-outlet></router-outlet>
+  </div>
 </div>
+<ng-template #loginPage>
+  <app-login *ngIf="!createNewAccount; else registerPage" (registerBtnClick)="handleRegisterBtnClick()"></app-login>
+  <ng-template #registerPage>
+    <app-register (loginBtnClick)="handleLoginBtnClick()"></app-register>
+  </ng-template>
+</ng-template>
+
