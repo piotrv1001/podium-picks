@@ -48,10 +48,10 @@ export class AuthService {
       .pipe(map(response => this.authenticateSuccess(response)));
   }
 
-  logout(): Observable<void> {
-    return new Observable(observer => {
+  logout(): Promise<void> {
+    return new Promise(resolve => {
       localStorage.removeItem('token');
-      observer.complete();
+      resolve();
     });
   }
 
