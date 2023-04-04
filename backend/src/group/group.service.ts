@@ -41,6 +41,16 @@ export class GroupService {
     return this.groupRepository.findOneBy({ id: id });
   }
 
+  async getGroupsByUserId(userId: number): Promise<Group[]> {
+    const queryBuilder = this.groupRepository
+      .createQueryBuilder('group')
+      .innerJoin('group.users', 'user')
+      .where('user.id = :userId', { userId })
+      .getMany();
+
+    return queryBuilder;
+  }
+
   async delete(id: number): Promise<void> {
     await this.groupRepository.delete(id);
   }

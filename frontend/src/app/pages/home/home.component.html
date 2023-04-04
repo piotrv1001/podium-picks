@@ -1,1 +1,10 @@
-<app-season-list></app-season-list>
+<!-- <app-season-list></app-season-list> -->
+<div class="wrapper">
+  <h1>Create or join a group</h1>
+  <div class="create-join-row">
+    <button mat-raised-button color="primary" (click)="openCreateGroupDialog()">Create</button>
+    <button mat-raised-button color="accent">Join</button>
+  </div>
+  <h1>Your groups</h1>
+  <app-group-list [groups]="groups"></app-group-list>
+</div>
