@@ -1,6 +1,6 @@
 <div class="wrapper">
   <h1 class="create-group-heading">Create group</h1>
-  <form class="create-group-form">
+  <form class="create-group-form" *ngIf="!groupCreated; else groupCodeTemplate">
     <mat-form-field>
       <input
         matInput
@@ -11,5 +11,10 @@
     </mat-form-field>
     <button mat-raised-button (click)="createGroup()" class="create-group-btn">Create group</button>
   </form>
+  <ng-template #groupCodeTemplate>
+    <h2>{{ group?.code }}</h2>
+    <button [cdkCopyToClipboard]="group?.code ?? ''" mat-raised-button (click)="copyToClipBoard()">Copy</button>
+    <button mat-raised-button (click)="closeDialog()" class="create-group-btn">Finish</button>
+  </ng-template>
 </div>
 

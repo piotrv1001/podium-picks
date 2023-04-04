@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
@@ -27,6 +29,7 @@ import { RaceComponent } from './components/race/race.component';
 import { GroupListComponent } from './pages/group-list/group-list.component';
 import { GroupComponent } from './components/group/group.component';
 import { CreateGroupDialogComponent } from './components/create-group-dialog/create-group-dialog.component';
+import { JoinGroupDialogComponent } from './components/join-group-dialog/join-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,8 @@ import { CreateGroupDialogComponent } from './components/create-group-dialog/cre
     RaceComponent,
     GroupListComponent,
     GroupComponent,
-    CreateGroupDialogComponent
+    CreateGroupDialogComponent,
+    JoinGroupDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +59,9 @@ import { CreateGroupDialogComponent } from './components/create-group-dialog/cre
     MatButtonModule,
     MatInputModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSnackBarModule,
+    ClipboardModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

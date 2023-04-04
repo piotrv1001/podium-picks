@@ -25,4 +25,8 @@ export class GroupService {
     return this.http.get<Group[]>(`${BASE_URL}/${this.GROUP_ROTE}?userId=${userId}`);
   }
 
+  getGroupByCode(code: string, userId: number): Observable<Group> {
+    return this.http.put<Group>(`${BASE_URL}/${this.GROUP_ROTE}?code=${code}&userId=${userId}`, {});
+  }
+
 }

@@ -4,6 +4,7 @@ import { GroupService } from "src/app/services/group.service";
 import { LocalStorageService } from "src/app/services/local-storage.service";
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupDialogComponent } from "src/app/components/create-group-dialog/create-group-dialog.component";
+import { JoinGroupDialogComponent } from "src/app/components/join-group-dialog/join-group-dialog.component";
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,15 @@ export class HomeComponent implements OnInit {
 
   openCreateGroupDialog(): void {
     const dialogRef = this.dialog.open(CreateGroupDialogComponent, {
+      data: { userId: this.userId }
+    });
+    dialogRef.afterClosed().subscribe((group) => {
+      this.groups.push(group);
+    });
+  }
+
+  openJoinGroupDialog(): void {
+    const dialogRef = this.dialog.open(JoinGroupDialogComponent, {
       data: { userId: this.userId }
     });
     dialogRef.afterClosed().subscribe((group) => {
