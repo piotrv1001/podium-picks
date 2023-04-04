@@ -9,7 +9,6 @@ export class User {
     public password?: string,
     public predictions?: Prediction[],
     public scores?: Score[],
-    public group?: Group,
-    public groupId?: number
+    public groups?: Group[],
   ) {}
 }

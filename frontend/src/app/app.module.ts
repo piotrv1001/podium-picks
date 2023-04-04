@@ -16,6 +16,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
@@ -23,6 +24,9 @@ import { SeasonListComponent } from './pages/season-list/season-list.component';
 import { SeasonComponent } from './components/season/season.component';
 import { RaceListComponent } from './pages/race-list/race-list.component';
 import { RaceComponent } from './components/race/race.component';
+import { GroupListComponent } from './pages/group-list/group-list.component';
+import { GroupComponent } from './components/group/group.component';
+import { CreateGroupDialogComponent } from './components/create-group-dialog/create-group-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,10 @@ import { RaceComponent } from './components/race/race.component';
     SeasonListComponent,
     SeasonComponent,
     RaceListComponent,
-    RaceComponent
+    RaceComponent,
+    GroupListComponent,
+    GroupComponent,
+    CreateGroupDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +54,8 @@ import { RaceComponent } from './components/race/race.component';
     ReactiveFormsModule,
     MatButtonModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

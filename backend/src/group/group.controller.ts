@@ -20,6 +20,11 @@ export class GroupController {
   }
 
   @Get()
+  getByUserId(@Query('userId') userId: number) {
+    return this.groupService.getGroupsByUserId(userId);
+  }
+
+  @Get()
   getAll(): Promise<Group[]> {
     return this.groupService.getAll();
   }

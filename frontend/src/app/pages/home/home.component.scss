@@ -1,0 +1,10 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-join-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

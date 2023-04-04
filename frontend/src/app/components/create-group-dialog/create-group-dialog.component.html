@@ -1,0 +1,15 @@
+<div class="wrapper">
+  <h1 class="create-group-heading">Create group</h1>
+  <form class="create-group-form">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Group name"
+        [(ngModel)]="groupName"
+        id="groupName"
+        name="groupName">
+    </mat-form-field>
+    <button mat-raised-button (click)="createGroup()" class="create-group-btn">Create group</button>
+  </form>
+</div>
+
