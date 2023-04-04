@@ -1,5 +1,13 @@
 import { UserService } from './user.service';
-import { Controller, Delete, Get, Param, Patch, Request } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Request,
+  Query,
+} from '@nestjs/common';
 import { User } from './user.entity';
 
 @Controller('users')
@@ -12,8 +20,11 @@ export class UserController {
   }
 
   @Get(':id')
-  getById(@Param('id') id: number): Promise<User> {
-    return this.userService.getById(id);
+  getById(
+    @Param('id') id: number,
+    @Query('withGroups') withGroups: string,
+  ): Promise<User> {
+    return this.userService.getById(id, withGroups);
   }
 
   @Patch()

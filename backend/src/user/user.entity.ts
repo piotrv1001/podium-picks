@@ -4,10 +4,11 @@ import { Score } from 'src/score/score.entity';
 import {
   Column,
   Entity,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   Relation,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity({ name: 'user' })
@@ -31,9 +32,7 @@ export class User {
   })
   scores?: Relation<Score[]>;
 
-  @ManyToOne(() => Group, (group) => group.users, { nullable: true })
-  group?: Relation<Group>;
-
-  @Column({ nullable: true })
-  groupId?: number;
+  @ManyToMany(() => Group, (group) => group.users, { nullable: true })
+  @JoinTable()
+  groups?: Relation<Group[]>;
 }
