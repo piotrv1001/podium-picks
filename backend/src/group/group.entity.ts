@@ -2,7 +2,7 @@ import { User } from 'src/user/user.entity';
 import {
   Column,
   Entity,
-  OneToMany,
+  ManyToMany,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
@@ -18,6 +18,6 @@ export class Group {
   @Column({ nullable: true })
   code?: string;
 
-  @OneToMany(() => User, (user) => user.group, { nullable: true })
+  @ManyToMany(() => User, (user) => user.groups, { nullable: true })
   users?: Relation<User[]>;
 }

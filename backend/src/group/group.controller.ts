@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Delete, Param, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  Request,
+  Query,
+} from '@nestjs/common';
 import { GroupService } from './group.service';
 import { Group } from './group.entity';
 
@@ -7,8 +15,8 @@ export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
   @Post()
-  create(@Request() req): Promise<Group> {
-    return this.groupService.create(req.body);
+  create(@Request() req, @Query('userId') userId?: number): Promise<Group> {
+    return this.groupService.create(req.body, userId);
   }
 
   @Get()

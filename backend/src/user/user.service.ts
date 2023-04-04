@@ -25,7 +25,15 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  async getById(id: number): Promise<User> {
+  async getById(id: number, withGroups: string): Promise<User> {
+    if (withGroups === 'true') {
+      return this.userRepository.findOne({
+        where: { id: id },
+        relations: {
+          groups: true,
+        },
+      });
+    }
     return this.userRepository.findOneBy({ id: id });
   }
 
