@@ -1,0 +1,14 @@
+<div class="wrapper">
+  <form class="join-group-form">
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Code"
+        [(ngModel)]="code"
+        id="code"
+        name="code">
+    </mat-form-field>
+    <span *ngIf="!isCodeValid" style="color: red">Oops! It looks like the code you provided is invalid.</span>
+    <button mat-raised-button (click)="validateCode()" class="validate-code-btn">Join group</button>
+  </form>
+</div>

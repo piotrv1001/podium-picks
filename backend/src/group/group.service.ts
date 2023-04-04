@@ -22,14 +22,14 @@ export class GroupService {
       });
       const group = this.groupRepository.create({
         name: groupDto.name,
-        code: getRandomString(15),
+        code: getRandomString(10) + Date.now(),
         users: [user],
       });
       return this.groupRepository.save(group);
     }
     const group = new Group();
     group.name = groupDto.name;
-    group.code = getRandomString(15);
+    group.code = getRandomString(10) + Date.now();
     return this.groupRepository.save(group);
   }
 
@@ -49,6 +49,33 @@ export class GroupService {
       .getMany();
 
     return queryBuilder;
+  }
+
+  async getGroupByCode(code: string): Promise<Group> {
+    return this.groupRepository.findOne({
+      where: {
+        code: code,
+      },
+    });
+  }
+
+  async addUserToGroup(userId: number, groupId: number): Promise<Group> {
+    const group = await this.groupRepository.findOne({
+      relations: {
+        users: true,
+      },
+      where: {
+        id: groupId,
+      },
+    });
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    if (!group || !user) {
+      return group;
+    }
+    group.users.push(user);
+    return this.groupRepository.save(group);
   }
 
   async delete(id: number): Promise<void> {
