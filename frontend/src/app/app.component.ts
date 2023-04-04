@@ -3,6 +3,7 @@ import { JwtPayload } from './model/types/jwt-payload';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthService } from './shared/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router
     ) {}
 
   ngOnInit(): void {
@@ -39,6 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
   logOut(): void {
     this.authService.logout().then(() => {
         this.isAuthenticated = false;
+        this.router.navigate(['/']);
       }
     );
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { switchMap, take } from "rxjs";
 import { Race } from "src/app/model/entities/race.model";
 import { RaceService } from "src/app/services/race.service";
@@ -15,10 +16,15 @@ export class RaceListComponent implements OnInit {
 
   constructor(
     private seasonService: SeasonService,
-    private raceService: RaceService) {}
+    private raceService: RaceService,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.init();
+  }
+
+  handleRaceClick(raceId: number) {
+    this.router.navigate(['drivers']);
   }
 
   private init(): void {

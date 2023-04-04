@@ -1,4 +1,4 @@
-<div class="race-card">
+<div class="race-card" (click)="raceClicked()">
   <div class="race-name">{{ race?.name }}</div>
   <div class="race-country">{{ race?.country }}</div>
   <div class="race-date">{{ race?.date | date : 'longDate' }}</div>

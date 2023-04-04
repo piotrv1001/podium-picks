@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Race } from "src/app/model/entities/race.model";
 
 @Component({
@@ -9,5 +9,11 @@ import { Race } from "src/app/model/entities/race.model";
 export class RaceComponent {
 
   @Input() race?: Race;
+  @Output() raceClick: EventEmitter<number> = new EventEmitter<number>();
 
+  raceClicked(): void {
+    if(this.race?.id) {
+      this.raceClick.emit(this.race.id);
+    }
+  }
 }

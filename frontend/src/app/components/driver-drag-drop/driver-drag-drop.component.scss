@@ -10,13 +10,10 @@
 }
 
 .driver-box {
-  padding: 10px 5px;
+  // padding: 10px 5px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
   box-sizing: border-box;
   cursor: move;
   background: white;
@@ -24,6 +21,7 @@
 }
 
 .cdk-drag-preview {
+  background-color: #e4e4e4;
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
