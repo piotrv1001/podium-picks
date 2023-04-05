@@ -11,6 +11,15 @@ export class PredictionService {
     private readonly predictionRepository: Repository<Prediction>,
   ) {}
 
+  async createMany(predictionDtoArray: PredictionDTO[]): Promise<Prediction[]> {
+    const newPredictionArray: Prediction[] = [];
+    for (const predictionDto of predictionDtoArray) {
+      const newPrediction = await this.predictionRepository.save(predictionDto);
+      newPredictionArray.push(newPrediction);
+    }
+    return newPredictionArray;
+  }
+
   async create(predictionDto: PredictionDTO): Promise<Prediction> {
     const prediction = new Prediction();
     prediction.predictedPosition = predictionDto.predictedPosition;
@@ -26,6 +35,26 @@ export class PredictionService {
 
   async getById(id: number): Promise<Prediction> {
     return this.predictionRepository.findOneBy({ id: id });
+  }
+
+  async getByUserAndRace(
+    userId: number,
+    raceId: number,
+  ): Promise<Prediction[]> {
+    return this.predictionRepository.find({
+      where: {
+        userId: userId,
+        raceId: raceId,
+      },
+      order: {
+        predictedPosition: 'ASC',
+      },
+      relations: {
+        driver: {
+          team: true,
+        },
+      },
+    });
   }
 
   async delete(id: number): Promise<void> {

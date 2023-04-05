@@ -24,7 +24,7 @@ export class RaceListComponent implements OnInit {
   }
 
   handleRaceClick(raceId: number) {
-    this.router.navigate(['drivers']);
+    this.router.navigate(['drivers'], { state: { raceId: raceId } });
   }
 
   private init(): void {
