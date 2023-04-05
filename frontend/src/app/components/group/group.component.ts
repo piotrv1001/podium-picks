@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Group } from "src/app/model/entities/group.model";
 
 @Component({
@@ -9,5 +9,12 @@ import { Group } from "src/app/model/entities/group.model";
 export class GroupComponent {
 
   @Input() group?: Group;
+  @Output() groupClick: EventEmitter<number> = new EventEmitter<number>();
+
+  groupClicked(): void {
+    if(this.group?.id) {
+      this.groupClick.emit(this.group.id);
+    }
+  }
 
 }

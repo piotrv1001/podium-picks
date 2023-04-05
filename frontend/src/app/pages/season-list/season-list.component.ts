@@ -11,10 +11,13 @@ import { SeasonService } from "src/app/services/season.service";
 export class SeasonListComponent implements OnInit {
 
   seasons: Season[] = [];
+  groupId?: number;
 
   constructor(
     private seasonService: SeasonService,
-    private router: Router) {}
+    private router: Router) {
+      this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
+    }
 
   ngOnInit(): void {
     this.getAllSeasons();

@@ -1,4 +1,12 @@
-import { Controller, Post, Get, Delete, Param, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Delete,
+  Param,
+  Request,
+  Query,
+} from '@nestjs/common';
 import { PredictionService } from './prediction.service';
 import { Prediction } from './prediction.entity';
 
@@ -6,9 +14,22 @@ import { Prediction } from './prediction.entity';
 export class PredictionController {
   constructor(private readonly predictionService: PredictionService) {}
 
+  @Post('createMany')
+  createMany(@Request() req): Promise<Prediction[]> {
+    return this.predictionService.createMany(req.body);
+  }
+
   @Post()
   create(@Request() req): Promise<Prediction> {
     return this.predictionService.create(req.body);
+  }
+
+  @Get()
+  getByUserAndRace(
+    @Query('userId') userId: number,
+    @Query('raceId') raceId: number,
+  ) {
+    return this.predictionService.getByUserAndRace(userId, raceId);
   }
 
   @Get()
