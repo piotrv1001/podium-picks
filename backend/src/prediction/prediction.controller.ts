@@ -6,6 +6,7 @@ import {
   Param,
   Request,
   Query,
+  Put,
 } from '@nestjs/common';
 import { PredictionService } from './prediction.service';
 import { Prediction } from './prediction.entity';
@@ -22,6 +23,11 @@ export class PredictionController {
   @Post()
   create(@Request() req): Promise<Prediction> {
     return this.predictionService.create(req.body);
+  }
+
+  @Put('updateMany')
+  updateMany(@Request() req): Promise<Prediction[]> {
+    return this.predictionService.updateMany(req.body);
   }
 
   @Get()

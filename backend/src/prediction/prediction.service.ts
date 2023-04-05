@@ -20,6 +20,17 @@ export class PredictionService {
     return newPredictionArray;
   }
 
+  async updateMany(predictionArray: Prediction[]): Promise<Prediction[]> {
+    const updatedPredictionArray: Prediction[] = [];
+    for (const prediction of predictionArray) {
+      const updatedPrediction = await this.predictionRepository.save(
+        prediction,
+      );
+      updatedPredictionArray.push(updatedPrediction);
+    }
+    return updatedPredictionArray;
+  }
+
   async create(predictionDto: PredictionDTO): Promise<Prediction> {
     const prediction = new Prediction();
     prediction.predictedPosition = predictionDto.predictedPosition;
