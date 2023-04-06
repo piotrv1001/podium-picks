@@ -8,6 +8,7 @@ import { PredictionService } from "src/app/services/prediction.service";
 import { Prediction } from "src/app/model/entities/prediction.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PredictionDTO } from "src/app/model/dto/prediction.dto";
+import { ERROR_MSG } from "src/app/app.constants";
 
 @Component({
   selector: 'app-driver-drag-drop',
@@ -20,6 +21,7 @@ export class DriverDragDropComponent implements OnInit {
   raceId?: number;
   userId?: number;
   predictions: Prediction[] = [];
+  madeChanges: boolean = false;
 
   constructor(
     private driverService: DriverService,
@@ -45,11 +47,31 @@ export class DriverDragDropComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<Driver[]>) {
+    this.madeChanges = true;
     moveItemInArray(this.drivers, event.previousIndex, event.currentIndex);
+    if(this.predictions.length > 0) {
+      const lower = Math.min(event.previousIndex, event.currentIndex);
+      const upper = Math.max(event.previousIndex, event.currentIndex);
+      for(let i = lower; i <= upper; i++) {
+        const driverIndex = this.predictions.findIndex(prediction => prediction.driverId === this.drivers[i].id);
+        if(driverIndex !== -1) {
+          this.predictions[driverIndex].predictedPosition = i + 1;
+        }
+      }
+    }
   }
 
   private updatePredictions(): void {
-
+    this.predictionService.updateMany(this.predictions).subscribe({
+      next: (predictions) => {
+        this.predictions = predictions;
+        this.showSnackBar('Updated predictions!');
+        this.madeChanges = false;
+      },
+      error: () => {
+        this.showSnackBar(ERROR_MSG);
+      }
+    })
   }
 
   private createPredictions(): void {
@@ -64,12 +86,14 @@ export class DriverDragDropComponent implements OnInit {
         );
         newPredictionArray.push(newPrediction);
       } else {
-        this.showSnackBar('Error occured. Try again later.');
+        this.showSnackBar(ERROR_MSG);
         return;
       }
     });
-    this.predictionService.createMany(newPredictionArray).subscribe(() => {
+    this.predictionService.createMany(newPredictionArray).subscribe((predictions) => {
+      this.predictions = predictions;
       this.showSnackBar('Created predictions!');
+      this.madeChanges = false;
     });
   }
 
