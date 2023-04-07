@@ -34,8 +34,13 @@ export class PredictionController {
   getByUserAndRace(
     @Query('userId') userId: number,
     @Query('raceId') raceId: number,
+    @Query('groupId') groupId: number,
   ) {
-    return this.predictionService.getByUserAndRace(userId, raceId);
+    return this.predictionService.getByUserAndRaceAndGroup(
+      userId,
+      raceId,
+      groupId,
+    );
   }
 
   @Get()

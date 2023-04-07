@@ -37,6 +37,7 @@ export class PredictionService {
     prediction.driverId = predictionDto.driverId;
     prediction.raceId = predictionDto.raceId;
     prediction.userId = predictionDto.userId;
+    prediction.groupId = predictionDto.groupId;
     return this.predictionRepository.save(prediction);
   }
 
@@ -48,14 +49,16 @@ export class PredictionService {
     return this.predictionRepository.findOneBy({ id: id });
   }
 
-  async getByUserAndRace(
+  async getByUserAndRaceAndGroup(
     userId: number,
     raceId: number,
+    groupId: number,
   ): Promise<Prediction[]> {
     return this.predictionRepository.find({
       where: {
         userId: userId,
         raceId: raceId,
+        groupId: groupId,
       },
       order: {
         predictedPosition: 'ASC',

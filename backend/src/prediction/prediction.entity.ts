@@ -1,4 +1,5 @@
 import { Driver } from 'src/driver/driver.entity';
+import { Group } from 'src/group/group.entity';
 import { Race } from 'src/race/race.entity';
 import { User } from 'src/user/user.entity';
 import {
@@ -26,6 +27,9 @@ export class Prediction {
   @ManyToOne(() => Race, (race) => race.predictions, { nullable: true })
   race?: Relation<Race>;
 
+  @ManyToOne(() => Group, (group) => group.predictions, { nullable: true })
+  group?: Relation<Group>;
+
   @Column({ nullable: true })
   driverId?: number;
 
@@ -34,4 +38,7 @@ export class Prediction {
 
   @Column({ nullable: true })
   raceId?: number;
+
+  @Column({ nullable: true })
+  groupId?: number;
 }
