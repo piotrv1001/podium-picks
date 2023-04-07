@@ -3,4 +3,5 @@ export class PredictionDTO {
   driverId: number;
   raceId: number;
   userId: number;
+  groupId: number;
 }

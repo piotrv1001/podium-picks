@@ -29,7 +29,7 @@ export class SeasonListComponent implements OnInit {
         this.seasonService.updateCurrentSeasonId(season.id);
       }
     }, 0);
-    this.router.navigate(['races']);
+    this.router.navigate(['races'], { state: { groupId: this.groupId } });
   }
 
   private getAllSeasons(): void {

@@ -1,8 +1,10 @@
+import { Prediction } from 'src/prediction/prediction.entity';
 import { User } from 'src/user/user.entity';
 import {
   Column,
   Entity,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   Relation,
 } from 'typeorm';
@@ -17,6 +19,11 @@ export class Group {
 
   @Column({ nullable: true })
   code?: string;
+
+  @OneToMany(() => Prediction, (prediction) => prediction.group, {
+    nullable: true,
+  })
+  predictions?: Relation<Prediction[]>;
 
   @ManyToMany(() => User, (user) => user.groups, { nullable: true })
   users?: Relation<User[]>;

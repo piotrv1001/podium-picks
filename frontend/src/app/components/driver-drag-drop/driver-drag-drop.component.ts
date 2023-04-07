@@ -20,6 +20,7 @@ export class DriverDragDropComponent implements OnInit {
   drivers: Driver[] = [];
   raceId?: number;
   userId?: number;
+  groupId?: number;
   predictions: Prediction[] = [];
   madeChanges: boolean = false;
 
@@ -30,6 +31,7 @@ export class DriverDragDropComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar) {
       this.raceId = this.router.getCurrentNavigation()?.extras?.state?.["raceId"];
+      this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
     }
 
   ngOnInit(): void {
@@ -77,12 +79,13 @@ export class DriverDragDropComponent implements OnInit {
   private createPredictions(): void {
     const newPredictionArray: PredictionDTO[] = [];
     this.drivers.forEach((driver: Driver, index: number) => {
-      if(driver.id && this.raceId && this.userId) {
+      if(driver.id && this.raceId && this.userId && this.groupId) {
         const newPrediction = new PredictionDTO(
           index + 1,
           driver.id,
           this.raceId,
-          this.userId
+          this.userId,
+          this.groupId
         );
         newPredictionArray.push(newPrediction);
       } else {
@@ -113,9 +116,9 @@ export class DriverDragDropComponent implements OnInit {
 
   private getPredictionsForUserForRace(): void {
     const userId = this.localStorageService.getUserId();
-    if(userId && this.raceId) {
+    if(userId && this.raceId && this.groupId) {
       this.userId = userId;
-      this.predictionService.getByUserAndRace(userId, this.raceId).subscribe(predictions => {
+      this.predictionService.getByUserAndRaceAndGroup(userId, this.raceId, this.groupId).subscribe(predictions => {
         this.predictions = predictions;
         if(predictions.length > 0) {
           const predictedDrivers: Driver[] = [];

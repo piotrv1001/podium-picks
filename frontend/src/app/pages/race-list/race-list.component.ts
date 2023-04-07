@@ -13,18 +13,21 @@ import { SeasonService } from "src/app/services/season.service";
 export class RaceListComponent implements OnInit {
 
   races: Race[] = [];
+  groupId?: number;
 
   constructor(
     private seasonService: SeasonService,
     private raceService: RaceService,
-    private router: Router) {}
+    private router: Router) {
+      this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
+    }
 
   ngOnInit(): void {
     this.init();
   }
 
   handleRaceClick(raceId: number) {
-    this.router.navigate(['drivers'], { state: { raceId: raceId } });
+    this.router.navigate(['drivers'], { state: { raceId: raceId, groupId: this.groupId } });
   }
 
   private init(): void {

@@ -22,8 +22,8 @@ export class PredictionService {
     return this.http.put<Prediction[]>(`${BASE_URL}/${this.PREDICTION_ROUTE}/updateMany`, predictionArray);
   }
 
-  getByUserAndRace(userId: number, raceId: number): Observable<Prediction[]> {
-    return this.http.get<Prediction[]>(`${BASE_URL}/${this.PREDICTION_ROUTE}?userId=${userId}&raceId=${raceId}`);
+  getByUserAndRaceAndGroup(userId: number, raceId: number, groupId: number): Observable<Prediction[]> {
+    return this.http.get<Prediction[]>(`${BASE_URL}/${this.PREDICTION_ROUTE}?userId=${userId}&raceId=${raceId}&groupId=${groupId}`);
   }
 
 }
