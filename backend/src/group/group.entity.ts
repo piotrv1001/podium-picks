@@ -3,6 +3,7 @@ import { User } from 'src/user/user.entity';
 import {
   Column,
   Entity,
+  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -25,6 +26,10 @@ export class Group {
   })
   predictions?: Relation<Prediction[]>;
 
-  @ManyToMany(() => User, (user) => user.groups, { nullable: true })
+  @ManyToMany(() => User, (user) => user.groups, {
+    nullable: true,
+    cascade: true,
+  })
+  @JoinTable()
   users?: Relation<User[]>;
 }
