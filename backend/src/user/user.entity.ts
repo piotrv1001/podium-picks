@@ -8,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
   Relation,
   ManyToMany,
-  JoinTable,
 } from 'typeorm';
 
 @Entity({ name: 'user' })
@@ -33,6 +32,5 @@ export class User {
   scores?: Relation<Score[]>;
 
   @ManyToMany(() => Group, (group) => group.users, { nullable: true })
-  @JoinTable()
   groups?: Relation<Group[]>;
 }

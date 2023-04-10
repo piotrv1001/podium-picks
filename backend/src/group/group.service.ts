@@ -79,21 +79,54 @@ export class GroupService {
   }
 
   async removeUserFromGroup(groupId: number, userId: number): Promise<Group> {
-    const group = await this.groupRepository.findOne({
-      relations: {
-        users: true,
-      },
-      where: {
-        id: groupId,
-      },
-    });
-    const userIndex = group.users.findIndex((user) => user.id === userId);
-    if (userIndex >= 0) {
-      group.users.splice(userIndex, 1);
-      await this.groupRepository.save(group);
+    const group = await this.groupRepository
+      .createQueryBuilder('group')
+      .leftJoinAndSelect('group.users', 'user')
+      .where('group.id = :groupId', { groupId })
+      .andWhere('user.id = :userId', { userId })
+      .getOne();
+
+    if (!group) {
+      throw new Error('Group not found.');
     }
-    return group;
+
+    await this.groupRepository
+      .createQueryBuilder()
+      .relation(Group, 'users')
+      .of(group.id)
+      .remove(userId);
+
+    await this.userRepository
+      .createQueryBuilder()
+      .relation(User, 'groups')
+      .of(userId)
+      .remove(group.id);
+
+    const updatedGroup = await this.groupRepository
+      .createQueryBuilder('group')
+      .leftJoinAndSelect('group.users', 'user')
+      .where('group.id = :groupId', { groupId })
+      .getOne();
+
+    if (!updatedGroup) {
+      throw new Error('Failed to reload updated Group object.');
+    }
+
+    return updatedGroup;
   }
+
+  // async removeUserFromGroup(groupId: number, userId: number): Promise<Group> {
+  //   const group = await this.groupRepository.findOne({
+  //     relations: {
+  //       users: true,
+  //     },
+  //     where: {
+  //       id: groupId,
+  //     },
+  //   });
+  //   group.users = group.users.filter((user) => user.id !== userId);
+  //   return this.groupRepository.save(group);
+  // }
 
   async delete(id: number): Promise<void> {
     await this.groupRepository.delete(id);
