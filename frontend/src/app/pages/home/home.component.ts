@@ -5,6 +5,7 @@ import { LocalStorageService } from "src/app/services/local-storage.service";
 import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupDialogComponent } from "src/app/components/create-group-dialog/create-group-dialog.component";
 import { JoinGroupDialogComponent } from "src/app/components/join-group-dialog/join-group-dialog.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-home',
@@ -19,10 +20,23 @@ export class HomeComponent implements OnInit {
   constructor(
     private localStorageService: LocalStorageService,
     private groupService: GroupService,
-    public dialog: MatDialog) {}
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.getGroupsForUser();
+  }
+
+  handleLeaveGroupClick(groupId: number): void {
+    if(this.userId) {
+      this.groupService.removeUserFromGroup(groupId, this.userId).subscribe((group) => {
+        const groupIndex = this.groups.findIndex(mGroup => mGroup.id === group.id);
+        if(groupIndex >= 0) {
+          this.groups.splice(groupIndex, 1);
+          this.showSnackBar(`Left group: ${group.name}`);
+        }
+      });
+    }
   }
 
   openCreateGroupDialog(): void {
@@ -39,7 +53,9 @@ export class HomeComponent implements OnInit {
       data: { userId: this.userId }
     });
     dialogRef.afterClosed().subscribe((group) => {
-      this.groups.push(group);
+      if(group) {
+        this.groups.push(group);
+      }
     });
   }
 
@@ -51,6 +67,12 @@ export class HomeComponent implements OnInit {
         this.groups = groups;
       });
     }
+  }
+
+  private showSnackBar(msg: string): void {
+    this.snackBar.open(msg, 'OK', {
+      duration: 3000
+    });
   }
 
 }

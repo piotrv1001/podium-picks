@@ -5,5 +5,5 @@
     <span class="driver-last-name driver-name">{{ lastName }}</span>
     <span class="team-name">{{ driver?.team?.name }}</span>
   </div>
-  <mat-icon>drag_indicator</mat-icon>
+  <mat-icon *ngIf="showDragIcon">drag_indicator</mat-icon>
 </div>

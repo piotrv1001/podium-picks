@@ -1,3 +1,12 @@
 <div class="group-card" (click)="groupClicked()">
   <div class="group-name">{{ group?.name }}</div>
 </div>
+<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item (click)="leaveGroupBtnClicked()">
+    <mat-icon>remove</mat-icon>
+    <span>Leave group</span>
+  </button>
+</mat-menu>

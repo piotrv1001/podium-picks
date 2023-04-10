@@ -1,4 +1,3 @@
-<!-- <app-season-list></app-season-list> -->
 <div class="wrapper">
   <h1>Create or join a group</h1>
   <div class="create-join-row">
@@ -6,5 +5,5 @@
     <button mat-raised-button color="accent" (click)="openJoinGroupDialog()">Join</button>
   </div>
   <h1>Your groups</h1>
-  <app-group-list [groups]="groups"></app-group-list>
+  <app-group-list [groups]="groups" (leaveGroupClick)="handleLeaveGroupClick($event)"></app-group-list>
 </div>

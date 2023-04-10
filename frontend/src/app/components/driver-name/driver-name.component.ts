@@ -9,6 +9,7 @@ import { Driver } from "src/app/model/entities/driver.model";
 export class DriverNameComponent {
 
   @Input() driver?: Driver;
+  @Input() showDragIcon: boolean = true;
 
   get firstName(): string {
     return this.driver?.name?.split(' ')[0] ?? '';

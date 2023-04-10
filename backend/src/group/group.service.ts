@@ -78,6 +78,23 @@ export class GroupService {
     return this.groupRepository.save(group);
   }
 
+  async removeUserFromGroup(groupId: number, userId: number): Promise<Group> {
+    const group = await this.groupRepository.findOne({
+      relations: {
+        users: true,
+      },
+      where: {
+        id: groupId,
+      },
+    });
+    const userIndex = group.users.findIndex((user) => user.id === userId);
+    if (userIndex >= 0) {
+      group.users.splice(userIndex, 1);
+      await this.groupRepository.save(group);
+    }
+    return group;
+  }
+
   async delete(id: number): Promise<void> {
     await this.groupRepository.delete(id);
   }
