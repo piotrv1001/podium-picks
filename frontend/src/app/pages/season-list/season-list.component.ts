@@ -24,12 +24,7 @@ export class SeasonListComponent implements OnInit {
   }
 
   handleSeasonClick(season: Season): void {
-    setTimeout(() => {
-      if(season.id) {
-        this.seasonService.updateCurrentSeasonId(season.id);
-      }
-    }, 0);
-    this.router.navigate(['races'], { state: { groupId: this.groupId } });
+    this.router.navigate(['races'], { state: { groupId: this.groupId, seasonId: season.id } });
   }
 
   private getAllSeasons(): void {

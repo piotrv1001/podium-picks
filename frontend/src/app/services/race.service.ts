@@ -13,6 +13,10 @@ export class RaceService {
 
   constructor(private http: HttpClient) {}
 
+  getById(raceId: number): Observable<Race> {
+    return this.http.get<Race>(`${BASE_URL}/${this.RACE_ROUTE}/${raceId}`);
+  }
+
   getAllRacesForSeason(seasonId: number): Observable<Race[]> {
     return this.http.get<Race[]>(`${BASE_URL}/${this.RACE_ROUTE}?seasonId=${seasonId}`);
   }
