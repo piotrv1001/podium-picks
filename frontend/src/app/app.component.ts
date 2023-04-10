@@ -38,6 +38,10 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
+  navigateHome(): void {
+    this.router.navigate(['/']);
+  }
+
   logOut(): void {
     this.authService.logout().then(() => {
         this.isAuthenticated = false;

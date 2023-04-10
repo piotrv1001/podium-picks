@@ -19,7 +19,7 @@ export class Race {
   @Column({ nullable: true })
   name?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'datetime' })
   date?: Date;
 
   @Column({ nullable: true })
