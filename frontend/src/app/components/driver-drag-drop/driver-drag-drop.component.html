@@ -3,9 +3,19 @@
   <div class="index-list">
     <span *ngFor="let driver of drivers; let i = index" class="index">{{ i + 1 }}</span>
   </div>
-  <div cdkDropList class="driver-list" (cdkDropListDropped)="drop($event)">
-    <div class="driver-box" *ngFor="let driver of drivers" cdkDrag>
-      <app-driver-name [driver]="driver"></app-driver-name>
+  <div
+    cdkDropList
+    class="driver-list"
+    (cdkDropListDropped)="drop($event)">
+    <div
+      class="driver-box"
+      *ngFor="let driver of drivers"
+      cdkDrag [cdkDragDisabled]="raceFinished"
+      [ngStyle]="{'cursor': raceFinished ? 'default' : 'move'}">
+      <app-driver-name
+        [driver]="driver"
+        [showDragIcon]="!raceFinished">
+      </app-driver-name>
     </div>
   </div>
   <button mat-raised-button color="primary" (click)="savePredictions()" class="save-predictions-btn" [disabled]="!madeChanges">Save</button>

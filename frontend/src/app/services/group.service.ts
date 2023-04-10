@@ -29,4 +29,8 @@ export class GroupService {
     return this.http.put<Group>(`${BASE_URL}/${this.GROUP_ROTE}?code=${code}&userId=${userId}`, {});
   }
 
+  removeUserFromGroup(groupId: number, userId: number): Observable<Group> {
+    return this.http.delete(`${BASE_URL}/${this.GROUP_ROTE}/${groupId}/users/${userId}`);
+  }
+
 }

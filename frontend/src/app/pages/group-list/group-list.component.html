@@ -1,3 +1,8 @@
 <div class="group-list">
-  <app-group *ngFor="let group of groups" [group]="group" (groupClick)="handleGroupClick($event)"></app-group>
+  <app-group
+    *ngFor="let group of groups"
+    [group]="group"
+    (groupClick)="handleGroupClick($event)"
+    (leaveGroupClick)="handleLeaveGroupClick($event)">
+</app-group>
 </div>

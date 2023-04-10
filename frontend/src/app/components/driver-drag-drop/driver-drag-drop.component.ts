@@ -29,6 +29,7 @@ export class DriverDragDropComponent implements OnInit {
   race?: Race;
   madeChanges: boolean = false;
   timeLeft?: CustomDate;
+  raceFinished: boolean = false;
 
   constructor(
     private driverService: DriverService,
@@ -38,15 +39,16 @@ export class DriverDragDropComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private dateUtilService: DateUtilService) {
-      this.raceId = this.router.getCurrentNavigation()?.extras?.state?.["raceId"];
-      this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
+      const navState = this.router.getCurrentNavigation()?.extras?.state
+      this.raceId = navState?.["raceId"];
+      this.groupId = navState?.["groupId"];
     }
 
   get timer(): string {
+    if(this.raceFinished) {
+      return 'Race finished';
+    }
     if(this.timeLeft) {
-      if(this.timeLeft.days < 0 || this.timeLeft.hours < 0) {
-        return 'Race finished';
-      }
       const minutes = this.timeLeft.minutes.toString().padStart(2, '0');
       const seconds = this.timeLeft.seconds.toString().padStart(2, '0');
       const days = this.timeLeft.days > 0 ? `${this.timeLeft.days} Days, ` : '';
@@ -174,6 +176,10 @@ export class DriverDragDropComponent implements OnInit {
   private updateTimeLeft(raceDate: Date): void {
     const currentDate = new Date();
     const timeDiff = raceDate.getTime() - currentDate.getTime();
+    if(timeDiff < 0) {
+      this.raceFinished = true;
+      return;
+    }
     let timeLeftSeconds = timeDiff;
 
     const intervalId = setInterval(() => {

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Router } from "@angular/router";
 import { Group } from "src/app/model/entities/group.model";
 
@@ -10,11 +10,16 @@ import { Group } from "src/app/model/entities/group.model";
 export class GroupListComponent {
 
   @Input() groups?: Group[];
+  @Output() leaveGroupClick: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private router: Router) {}
 
   handleGroupClick(groupId: number): void {
     this.router.navigate(['seasons'], { state: { groupId: groupId }});
+  }
+
+  handleLeaveGroupClick(groupId: number): void {
+    this.leaveGroupClick.emit(groupId);
   }
 
 }

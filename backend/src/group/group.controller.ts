@@ -48,6 +48,14 @@ export class GroupController {
     return this.groupService.getById(id);
   }
 
+  @Delete(':groupId/users/:userId')
+  async removeUserFromGroup(
+    @Param('groupId') groupId: number,
+    @Param('userId') userId: number,
+  ) {
+    return this.groupService.removeUserFromGroup(groupId, userId);
+  }
+
   @Delete(':id')
   delete(@Param('id') id: number): Promise<void> {
     return this.groupService.delete(id);

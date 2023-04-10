@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -61,7 +62,8 @@ import { JoinGroupDialogComponent } from './components/join-group-dialog/join-gr
     MatIconModule,
     MatDialogModule,
     MatSnackBarModule,
-    ClipboardModule
+    ClipboardModule,
+    MatMenuModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
