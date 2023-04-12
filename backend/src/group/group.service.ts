@@ -115,19 +115,6 @@ export class GroupService {
     return updatedGroup;
   }
 
-  // async removeUserFromGroup(groupId: number, userId: number): Promise<Group> {
-  //   const group = await this.groupRepository.findOne({
-  //     relations: {
-  //       users: true,
-  //     },
-  //     where: {
-  //       id: groupId,
-  //     },
-  //   });
-  //   group.users = group.users.filter((user) => user.id !== userId);
-  //   return this.groupRepository.save(group);
-  // }
-
   async delete(id: number): Promise<void> {
     await this.groupRepository.delete(id);
   }
