@@ -1,0 +1,11 @@
+<div class="copy-code-row">
+  <div class="code">{{ code }}</div>
+  <div class="copy-box" (click)="copyToClipboard()">
+    <ng-container *ngIf="!codeCopied; else codeCopy">
+      <mat-icon>content_copy</mat-icon>
+    </ng-container>
+    <ng-template #codeCopy>
+      <mat-icon style="color: limegreen;">check</mat-icon>
+    </ng-template>
+  </div>
+</div>
