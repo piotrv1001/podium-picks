@@ -1,12 +1,15 @@
 <div class="group-card" (click)="groupClicked()">
-  <div class="group-name">{{ group?.name }}</div>
+  <div class="header-row">
+    <div class="group-name">{{ group?.name }}</div>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </div>
 </div>
-<button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-  <mat-icon>more_vert</mat-icon>
-</button>
-<mat-menu #menu="matMenu">
+<mat-menu #menu="matMenu" class="group-menu" (closed)="codeCopy.resetState()">
+  <app-copy-code #codeCopy [code]="group?.code" (click)="$event.stopPropagation()"></app-copy-code>
   <button mat-menu-item (click)="leaveGroupBtnClicked()">
-    <mat-icon>remove</mat-icon>
+    <mat-icon>exit_to_app</mat-icon>
     <span>Leave group</span>
   </button>
 </mat-menu>
