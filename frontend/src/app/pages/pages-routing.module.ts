@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { RaceListComponent } from "./race-list/race-list.component";
 import { DriverDragDropComponent } from "../components/driver-drag-drop/driver-drag-drop.component";
 import { SeasonListComponent } from "./season-list/season-list.component";
+import { GroupPredictionsComponent } from "./group-predictions/group-predictions.component";
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { SeasonListComponent } from "./season-list/season-list.component";
     },
     {
       path: 'drivers',
-      component: DriverDragDropComponent
+      component: GroupPredictionsComponent
     }
   ])
 ]})

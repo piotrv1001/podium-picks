@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
   handleLeaveGroupClick(groupId: number): void {
     if(this.userId) {
       this.groupService.removeUserFromGroup(groupId, this.userId).subscribe((group) => {
-        console.log('group', group);
         const groupIndex = this.groups.findIndex(mGroup => mGroup.id === group.id);
         if(groupIndex >= 0) {
           this.groups.splice(groupIndex, 1);
@@ -45,7 +44,9 @@ export class HomeComponent implements OnInit {
       data: { userId: this.userId }
     });
     dialogRef.afterClosed().subscribe((group) => {
-      this.groups.push(group);
+      if(group) {
+        this.groups.push(group);
+      }
     });
   }
 

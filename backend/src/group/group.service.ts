@@ -115,6 +115,21 @@ export class GroupService {
     return updatedGroup;
   }
 
+  async getUserIdsByGroupId(groupId: number): Promise<number[]> {
+    const group = await this.groupRepository.findOne({
+      relations: {
+        users: true,
+      },
+      where: {
+        id: groupId,
+      },
+    });
+    if (!group) {
+      throw new Error(`Group with ID ${groupId} not found`);
+    }
+    return group.users.map((user) => user.id);
+  }
+
   async delete(id: number): Promise<void> {
     await this.groupRepository.delete(id);
   }

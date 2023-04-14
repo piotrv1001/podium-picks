@@ -30,6 +30,25 @@ export class PredictionController {
     return this.predictionService.updateMany(req.body);
   }
 
+  @Get(':groupId/races/:raceId/predictions')
+  async getGroupedPredictions(
+    @Param('groupId') groupId: number,
+    @Param('raceId') raceId: number,
+  ) {
+    const groupedPredictions =
+      await this.predictionService.getPredictionsByGroupAndRace(
+        groupId,
+        raceId,
+      );
+
+    const response = {};
+    groupedPredictions.forEach((predictions, userId) => {
+      response[userId] = predictions;
+    });
+
+    return response;
+  }
+
   @Get()
   getByUserAndRace(
     @Query('userId') userId: number,
