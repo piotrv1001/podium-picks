@@ -33,6 +33,7 @@ import { CreateGroupDialogComponent } from './components/create-group-dialog/cre
 import { JoinGroupDialogComponent } from './components/join-group-dialog/join-group-dialog.component';
 import { CopyCodeComponent } from './components/copy-code/copy-code.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.compnent';
+import { GroupPredictionsComponent } from './pages/group-predictions/group-predictions.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     CreateGroupDialogComponent,
     JoinGroupDialogComponent,
     CopyCodeComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    GroupPredictionsComponent
   ],
   imports: [
     BrowserModule,

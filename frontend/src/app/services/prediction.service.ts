@@ -26,4 +26,9 @@ export class PredictionService {
     return this.http.get<Prediction[]>(`${BASE_URL}/${this.PREDICTION_ROUTE}?userId=${userId}&raceId=${raceId}&groupId=${groupId}`);
   }
 
+  getGroupedPredictions(groupId: number, raceId: number): Observable<Map<number, Prediction[]>> {
+    const url = `${BASE_URL}/${this.PREDICTION_ROUTE}/${groupId}/races/${raceId}/predictions`;
+    return this.http.get<Map<number, Prediction[]>>(url);
+  }
+
 }

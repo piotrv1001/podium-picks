@@ -43,6 +43,11 @@ export class GroupController {
     return this.groupService.getAll();
   }
 
+  @Get(':id/users')
+  async getUserIdsByGroupId(@Param('id') id: number): Promise<number[]> {
+    return this.groupService.getUserIdsByGroupId(id);
+  }
+
   @Get(':id')
   getById(@Param('id') id: number): Promise<Group> {
     return this.groupService.getById(id);

@@ -9,7 +9,7 @@
         id="groupName"
         name="groupName">
     </mat-form-field>
-    <button mat-raised-button (click)="createGroup()" class="create-group-btn">Create group</button>
+    <button mat-raised-button (click)="createGroup()" class="create-group-btn" [disabled]="groupName === ''">Create group</button>
   </form>
   <ng-template #groupCodeTemplate>
     <h2>{{ group?.code }}</h2>

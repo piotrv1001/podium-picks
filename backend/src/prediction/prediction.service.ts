@@ -49,6 +49,30 @@ export class PredictionService {
     return this.predictionRepository.findOneBy({ id: id });
   }
 
+  async getPredictionsByGroupAndRace(
+    groupId: number,
+    raceId: number,
+  ): Promise<Map<number, Prediction[]>> {
+    const predictions = await this.predictionRepository.find({
+      where: { groupId, raceId },
+      relations: ['user'],
+    });
+
+    const groupedPredictions = new Map<number, Prediction[]>();
+    predictions.forEach((prediction) => {
+      const userId = prediction.user.id;
+      if (groupedPredictions.has(userId)) {
+        const userPredictions = groupedPredictions.get(userId);
+        userPredictions.push(prediction);
+        groupedPredictions.set(userId, userPredictions);
+      } else {
+        groupedPredictions.set(userId, [prediction]);
+      }
+    });
+
+    return groupedPredictions;
+  }
+
   async getByUserAndRaceAndGroup(
     userId: number,
     raceId: number,
