@@ -7,6 +7,7 @@ export class User {
     public id?: number,
     public username?: string,
     public password?: string,
+    public isAdmin?: number,
     public predictions?: Prediction[],
     public scores?: Score[],
     public groups?: Group[],

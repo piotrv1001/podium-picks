@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Driver } from 'src/app/model/entities/driver.model';
@@ -22,7 +22,7 @@ import { RaceTimeService } from 'src/app/services/race-time.service';
   templateUrl: './group-predictions.component.html',
   styleUrls: ['./group-predictions.component.scss']
 })
-export class GroupPredictionsComponent implements OnInit {
+export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
   drivers: Driver[] = [];
   driverObj: { [id: number]: Driver } = {};
@@ -36,6 +36,7 @@ export class GroupPredictionsComponent implements OnInit {
   timeLeft?: CustomDate;
   raceFinished: boolean = false;
   madeChanges: boolean = false;
+  raceIntervalId?: any;
 
   constructor(
     private driverService: DriverService,
@@ -55,6 +56,10 @@ export class GroupPredictionsComponent implements OnInit {
       this.getUserId();
       this.getRace();
       this.getUserId2Predictions();
+    }
+
+    ngOnDestroy(): void {
+      clearInterval(this.raceIntervalId);
     }
 
     handlePredictionSaveBtnClick(drivers: Driver[]): void {
@@ -184,13 +189,13 @@ export class GroupPredictionsComponent implements OnInit {
       }
       let timeLeftSeconds = timeDiff;
 
-      const intervalId = setInterval(() => {
+      this.raceIntervalId = setInterval(() => {
         timeLeftSeconds -= 1000;
         this.timeLeft = this.dateUtilService.getTimeLeft(timeLeftSeconds);
         this.raceTimeService.notifyAboutRaceTime(this.timeLeft);
 
         if (timeLeftSeconds <= 0) {
-          clearInterval(intervalId);
+          clearInterval(this.raceIntervalId);
         }
       }, 1000);
     }

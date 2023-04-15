@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateGroupDialogComponent } from "src/app/components/create-group-dialog/create-group-dialog.component";
 import { JoinGroupDialogComponent } from "src/app/components/join-group-dialog/join-group-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -21,9 +22,14 @@ export class HomeComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private groupService: GroupService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar) {}
+    private snackBar: MatSnackBar,
+    private router: Router) {}
 
   ngOnInit(): void {
+    const isAdmin = this.localStorageService.getIsAdmin();
+    if(isAdmin && isAdmin === 1) {
+      this.router.navigate(['/seasons']);
+    }
     this.getGroupsForUser();
   }
 
