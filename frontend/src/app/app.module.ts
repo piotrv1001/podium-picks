@@ -34,6 +34,7 @@ import { JoinGroupDialogComponent } from './components/join-group-dialog/join-gr
 import { CopyCodeComponent } from './components/copy-code/copy-code.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.compnent';
 import { GroupPredictionsComponent } from './pages/group-predictions/group-predictions.component';
+import { ConfirmStatusComponent } from './components/confirm-status/confirm-status.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { GroupPredictionsComponent } from './pages/group-predictions/group-predi
     JoinGroupDialogComponent,
     CopyCodeComponent,
     ConfirmationDialogComponent,
-    GroupPredictionsComponent
+    GroupPredictionsComponent,
+    ConfirmStatusComponent
   ],
   imports: [
     BrowserModule,

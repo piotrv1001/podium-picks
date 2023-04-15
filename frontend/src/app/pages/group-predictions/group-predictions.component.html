@@ -1,10 +1,14 @@
 <span>{{ timer }}</span>
-<div *ngFor="let data of dataArray">
-  <span>{{ data[1].confirmed }}</span>
-  <app-driver-drag-drop
-    [drivers]="data[1].drivers"
-    [isEditable]="data[0] === userId && !raceFinished"
-    [madeChanges]="madeChanges"
-    (saved)="handlePredictionSaveBtnClick($event)"
-    (dropped)="handleDriverDragDrop($event)"></app-driver-drag-drop>
+<div class="row">
+  <div *ngFor="let data of dataArray" class="prediction-container">
+    <app-confirm-status
+      [confirmed]="data[1].confirmed"
+      [confirmText]="data[1].confirmed ? 'Confirmed' : 'Unconfirmed'"></app-confirm-status>
+    <app-driver-drag-drop
+      [drivers]="data[1].drivers"
+      [isEditable]="data[0] === userId && !raceFinished"
+      [madeChanges]="madeChanges"
+      (saved)="handlePredictionSaveBtnClick($event)"
+      (dropped)="handleDriverDragDrop($event)"></app-driver-drag-drop>
+  </div>
 </div>
