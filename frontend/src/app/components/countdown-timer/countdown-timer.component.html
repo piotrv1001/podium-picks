@@ -1,5 +1,5 @@
 <div class="row" *ngIf="!loading; else spinner">
-  <div class="col">
+  <div class="col" *ngIf="formattedTime?.days !== 0">
     <span class="big-text">{{ formattedTime?.days }}</span>
     <span class="small-text">Days</span>
   </div>

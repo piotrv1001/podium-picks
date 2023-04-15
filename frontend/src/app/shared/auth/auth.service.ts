@@ -9,6 +9,7 @@ import { User } from 'src/app/model/entities/user.model';
 type JwtToken = {
   access_token: string;
   id: number;
+  isAdmin: number;
 };
 
 @Injectable({
@@ -52,13 +53,15 @@ export class AuthService {
     return new Promise(resolve => {
       localStorage.removeItem('token');
       localStorage.removeItem('id');
+      localStorage.removeItem('isAdmin');
       resolve();
     });
   }
 
   private authenticateSuccess(response: JwtToken): void {
-    const { access_token, id } = response;
+    const { access_token, id, isAdmin } = response;
     localStorage.setItem('token', access_token);
     localStorage.setItem('id', id.toString());
+    localStorage.setItem('isAdmin', isAdmin.toString());
   }
 }

@@ -21,6 +21,9 @@ export class User {
   @Column({ nullable: true })
   password?: string;
 
+  @Column({ nullable: true, default: 0 })
+  isAdmin?: number;
+
   @OneToMany(() => Prediction, (prediction) => prediction.user, {
     nullable: true,
   })
