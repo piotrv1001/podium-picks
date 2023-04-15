@@ -3,12 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Prediction } from './prediction.entity';
 import { Repository } from 'typeorm';
 import { PredictionDTO } from './prediction.dto';
+import { Group } from 'src/group/group.entity';
 
 @Injectable()
 export class PredictionService {
   constructor(
     @InjectRepository(Prediction)
     private readonly predictionRepository: Repository<Prediction>,
+    @InjectRepository(Group)
+    private readonly groupRepository: Repository<Group>,
   ) {}
 
   async createMany(predictionDtoArray: PredictionDTO[]): Promise<Prediction[]> {
@@ -55,8 +58,24 @@ export class PredictionService {
   ): Promise<Map<number, Prediction[]>> {
     const predictions = await this.predictionRepository.find({
       where: { groupId, raceId },
-      relations: ['user'],
+      order: {
+        predictedPosition: 'ASC',
+      },
+      relations: ['user', 'driver'],
     });
+
+    const group = await this.groupRepository.findOne({
+      relations: {
+        users: true,
+      },
+      where: {
+        id: groupId,
+      },
+    });
+    if (!group) {
+      throw new Error(`Group with ID ${groupId} not found`);
+    }
+    const userIds = group.users.map((user) => user.id);
 
     const groupedPredictions = new Map<number, Prediction[]>();
     predictions.forEach((prediction) => {
@@ -67,6 +86,12 @@ export class PredictionService {
         groupedPredictions.set(userId, userPredictions);
       } else {
         groupedPredictions.set(userId, [prediction]);
+      }
+    });
+
+    userIds.forEach((userId) => {
+      if (!groupedPredictions.has(userId)) {
+        groupedPredictions.set(userId, []);
       }
     });
 

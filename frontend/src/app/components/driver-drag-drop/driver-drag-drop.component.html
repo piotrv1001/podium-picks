@@ -1,5 +1,4 @@
 <div class="drop-row">
-  <span>{{ timer }}</span>
   <div class="index-list">
     <span *ngFor="let driver of drivers; let i = index" class="index">{{ i + 1 }}</span>
   </div>
@@ -7,17 +6,22 @@
     cdkDropList
     class="driver-list"
     (cdkDropListDropped)="drop($event)">
-    <div
+    <div *ngFor="let driver of drivers"
       class="driver-box"
-      *ngFor="let driver of drivers"
-      cdkDrag [cdkDragDisabled]="raceFinished"
-      [ngStyle]="{'cursor': raceFinished ? 'default' : 'move'}">
+      cdkDrag
+      [cdkDragDisabled]="!isEditable"
+      [ngStyle]="{'cursor': isEditable ? 'move' : 'default'}">
       <app-driver-name
         [driver]="driver"
-        [showDragIcon]="!raceFinished">
+        [showDragIcon]="isEditable">
       </app-driver-name>
     </div>
   </div>
-  <button mat-raised-button color="primary" (click)="savePredictions()" class="save-predictions-btn" [disabled]="!madeChanges">Save</button>
+  <button *ngIf="isEditable"
+    mat-raised-button
+    color="primary"
+    (click)="saveBtnClicked()"
+    class="save-predictions-btn"
+    [disabled]="!madeChanges">Save</button>
 </div>
 
