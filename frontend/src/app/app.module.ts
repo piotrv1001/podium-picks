@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -35,6 +36,7 @@ import { CopyCodeComponent } from './components/copy-code/copy-code.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.compnent';
 import { GroupPredictionsComponent } from './pages/group-predictions/group-predictions.component';
 import { ConfirmStatusComponent } from './components/confirm-status/confirm-status.component';
+import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { ConfirmStatusComponent } from './components/confirm-status/confirm-stat
     CopyCodeComponent,
     ConfirmationDialogComponent,
     GroupPredictionsComponent,
-    ConfirmStatusComponent
+    ConfirmStatusComponent,
+    CountdownTimerComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +74,8 @@ import { ConfirmStatusComponent } from './components/confirm-status/confirm-stat
     MatDialogModule,
     MatSnackBarModule,
     ClipboardModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressSpinnerModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

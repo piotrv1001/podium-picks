@@ -1,0 +1,36 @@
+.row {
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  padding: 0 2rem;
+  align-items: center;
+}
+
+.col:not(:last-child) {
+  border-right: 1px solid #ccc;
+}
+
+.big-text {
+  font-weight: bold;
+  font-size: 1.6rem;
+  margin-bottom: .25rem;
+}
+
+.small-text {
+  font-size: .8rem;
+  color: gray;
+  margin-top: .25rem;
+}
+
+.spinner-container {
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

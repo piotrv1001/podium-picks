@@ -15,6 +15,7 @@ import { ConfirmedDrivers } from 'src/app/model/types/confirmed-drivers';
 import { DragDropEvent } from 'src/app/model/types/drag-drop-event';
 import { ERROR_MSG } from 'src/app/app.constants';
 import { PredictionDTO } from 'src/app/model/dto/prediction.dto';
+import { RaceTimeService } from 'src/app/services/race-time.service';
 
 @Component({
   selector: 'app-group-predictions',
@@ -43,7 +44,8 @@ export class GroupPredictionsComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private dateUtilService: DateUtilService) {
+    private dateUtilService: DateUtilService,
+    private raceTimeService: RaceTimeService) {
       const navState = this.router.getCurrentNavigation()?.extras?.state
       this.raceId = navState?.["raceId"];
       this.groupId = navState?.["groupId"];
@@ -53,19 +55,6 @@ export class GroupPredictionsComponent implements OnInit {
       this.getUserId();
       this.getRace();
       this.getUserId2Predictions();
-    }
-
-    get timer(): string {
-      if(this.raceFinished) {
-        return 'Race finished';
-      }
-      if(this.timeLeft) {
-        const minutes = this.timeLeft.minutes.toString().padStart(2, '0');
-        const seconds = this.timeLeft.seconds.toString().padStart(2, '0');
-        const days = this.timeLeft.days > 0 ? `${this.timeLeft.days} Days, ` : '';
-        return `${days}${this.timeLeft.hours}:${minutes}:${seconds}`;
-      }
-      return '0 Days, 00:00:00';
     }
 
     handlePredictionSaveBtnClick(drivers: Driver[]): void {
@@ -198,6 +187,7 @@ export class GroupPredictionsComponent implements OnInit {
       const intervalId = setInterval(() => {
         timeLeftSeconds -= 1000;
         this.timeLeft = this.dateUtilService.getTimeLeft(timeLeftSeconds);
+        this.raceTimeService.notifyAboutRaceTime(this.timeLeft);
 
         if (timeLeftSeconds <= 0) {
           clearInterval(intervalId);

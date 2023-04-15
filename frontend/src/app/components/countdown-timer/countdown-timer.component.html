@@ -1,0 +1,23 @@
+<div class="row" *ngIf="!loading; else spinner">
+  <div class="col">
+    <span class="big-text">{{ formattedTime?.days }}</span>
+    <span class="small-text">Days</span>
+  </div>
+  <div class="col">
+    <span class="big-text">{{ formattedTime?.hours}}</span>
+    <span class="small-text">Hours</span>
+  </div>
+  <div class="col">
+    <span class="big-text">{{ formattedTime?.minutes }}</span>
+    <span class="small-text">Minutes</span>
+  </div>
+  <div class="col">
+    <span class="big-text">{{ formattedTime?.seconds }}</span>
+    <span class="small-text">Seconds</span>
+  </div>
+</div>
+<ng-template #spinner>
+  <div class="spinner-container">
+    <mat-spinner [diameter]="28"></mat-spinner>
+  </div>
+</ng-template>
