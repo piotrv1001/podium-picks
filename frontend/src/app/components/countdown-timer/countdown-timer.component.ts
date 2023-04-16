@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { CustomDate } from "src/app/model/types/custom-date";
-import { RaceTimeService } from "src/app/services/race-time.service";
+import { RaceEventService } from "src/app/services/race-event.service";
 
 @Component({
   selector: 'app-countdown-timer',
@@ -13,11 +13,11 @@ export class CountdownTimerComponent implements OnInit {
   loading: boolean = true;
 
   constructor(
-    private raceTimeService: RaceTimeService
+    private raceEventService: RaceEventService
   ) { }
 
   ngOnInit(): void {
-    this.raceTimeService.getRaceTimeObservable().subscribe(time => {
+    this.raceEventService.getRaceTimeObservable().subscribe(time => {
       this.formattedTime = this.getFormattedTime(time);
       this.loading = false;
     });

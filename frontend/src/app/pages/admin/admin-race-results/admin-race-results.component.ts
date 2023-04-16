@@ -9,6 +9,7 @@ import { DragDropEvent } from 'src/app/model/types/drag-drop-event';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ResultDTO } from 'src/app/model/dto/result.dto';
 import { ERROR_MSG } from 'src/app/app.constants';
+import { RaceEventService } from 'src/app/services/race-event.service';
 
 @Component({
   selector:'app-admin-race-results',
@@ -25,7 +26,8 @@ export class AdminRaceResultsComponent implements OnInit  {
     private router: Router,
     private driverService: DriverService,
     private resultService: ResultService,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private raceEventService: RaceEventService) {
     this.raceId = this.router.getCurrentNavigation()?.extras?.state?.['raceId'];
   }
 
@@ -75,6 +77,7 @@ export class AdminRaceResultsComponent implements OnInit  {
         this.results = newResults;
         this.drivers = drivers;
         this.showSnackBar('Created results!');
+        this.notifyAboutMadeChanges(false);
       },
       error: (error: Error) => {
         this.showSnackBar(error.message);
@@ -87,6 +90,7 @@ export class AdminRaceResultsComponent implements OnInit  {
       next: (updatedResults: Result[]) => {
         this.results = updatedResults;
         this.showSnackBar('Updated results!');
+        this.notifyAboutMadeChanges(false);
       },
       error: (error: Error) => {
         this.showSnackBar(error.message);
@@ -110,6 +114,8 @@ export class AdminRaceResultsComponent implements OnInit  {
             }
           }
           this.drivers = resultDrivers;
+        } else {
+          this.notifyAboutMadeChanges(true);
         }
       })
     }
@@ -119,6 +125,10 @@ export class AdminRaceResultsComponent implements OnInit  {
     this.snackBar.open(msg, 'OK', {
       duration: 3000
     });
+  }
+
+  private notifyAboutMadeChanges(madeChanges: boolean): void {
+    this.raceEventService.notifyAboutMadeChanges(madeChanges);
   }
 
 }

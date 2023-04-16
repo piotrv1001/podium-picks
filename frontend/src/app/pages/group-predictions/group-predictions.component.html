@@ -10,7 +10,6 @@
     <app-driver-drag-drop
       [drivers]="data[1].drivers"
       [isEditable]="data[0] === userId && !raceFinished"
-      [madeChanges]="madeChanges"
       (saved)="handlePredictionSaveBtnClick($event)"
       (dropped)="handleDriverDragDrop($event)"></app-driver-drag-drop>
   </div>

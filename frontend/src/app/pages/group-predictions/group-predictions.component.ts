@@ -15,7 +15,7 @@ import { ConfirmedDrivers } from 'src/app/model/types/confirmed-drivers';
 import { DragDropEvent } from 'src/app/model/types/drag-drop-event';
 import { ERROR_MSG } from 'src/app/app.constants';
 import { PredictionDTO } from 'src/app/model/dto/prediction.dto';
-import { RaceTimeService } from 'src/app/services/race-time.service';
+import { RaceEventService } from 'src/app/services/race-event.service';
 
 @Component({
   selector: 'app-group-predictions',
@@ -46,7 +46,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     private router: Router,
     private snackBar: MatSnackBar,
     private dateUtilService: DateUtilService,
-    private raceTimeService: RaceTimeService) {
+    private raceEventService: RaceEventService) {
       const navState = this.router.getCurrentNavigation()?.extras?.state
       this.raceId = navState?.["raceId"];
       this.groupId = navState?.["groupId"];
@@ -104,7 +104,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
                 this.updateDataArray();
               }
               this.showSnackBar('Updated predictions!');
-              this.madeChanges = false;
+              this.notifyAboutMadeChanges(false);
             },
             error: () => {
               this.showSnackBar(ERROR_MSG);
@@ -138,7 +138,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             this.userId2Drivers.set(this.userId!, { drivers, confirmed: true });
             this.updateDataArray();
             this.showSnackBar('Created predictions!');
-            this.madeChanges = false;
+            this.notifyAboutMadeChanges(false);
           },
           error: () => {
             this.showSnackBar(ERROR_MSG);
@@ -157,7 +157,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           this.userId2Predictions = predictionMap;
           for(const [userId, predictions] of predictionMap) {
             if(userId === this.userId && predictions.length === 0) {
-              this.madeChanges = true; // if we want to have a default order
+              this.notifyAboutMadeChanges(true); // if we want to have a default order
             }
             let drivers: Driver[] = [];
             let confirmed: boolean = false;
@@ -207,7 +207,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       this.raceIntervalId = setInterval(() => {
         timeLeftSeconds -= 1000;
         this.timeLeft = this.dateUtilService.getTimeLeft(timeLeftSeconds);
-        this.raceTimeService.notifyAboutRaceTime(this.timeLeft);
+        this.raceEventService.notifyAboutRaceTime(this.timeLeft);
 
         if (timeLeftSeconds <= 0) {
           clearInterval(this.raceIntervalId);
@@ -238,6 +238,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
     private updateDataArray(): void {
       this.dataArray = Array.from(this.userId2Drivers);
+    }
+
+    private notifyAboutMadeChanges(madeChanges: boolean): void {
+      this.raceEventService.notifyAboutMadeChanges(madeChanges);
     }
 
 }
