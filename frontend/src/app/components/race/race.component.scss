@@ -25,3 +25,19 @@
 .fi {
   background-position: 0%;
 }
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.edit-icon {
+  padding: .5rem;
+  border-radius: 50%;
+}
+
+.edit-icon:hover {
+  cursor: pointer;
+  background-color: #d3d3d3;
+}

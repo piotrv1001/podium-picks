@@ -20,4 +20,8 @@ export class RaceService {
   getAllRacesForSeason(seasonId: number): Observable<Race[]> {
     return this.http.get<Race[]>(`${BASE_URL}/${this.RACE_ROUTE}?seasonId=${seasonId}`);
   }
+
+  update(race: Race): Observable<Race> {
+    return this.http.put<Race>(`${BASE_URL}/${this.RACE_ROUTE}`, race);
+  }
 }

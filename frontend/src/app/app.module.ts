@@ -38,6 +38,7 @@ import { GroupPredictionsComponent } from './pages/group-predictions/group-predi
 import { ConfirmStatusComponent } from './components/confirm-status/confirm-status.component';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { AdminRaceResultsComponent } from './pages/admin/admin-race-results/admin-race-results.component';
+import { UpdateRaceDialogComponent } from './pages/admin/update-race-dialog/update-race-dialog.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { AdminRaceResultsComponent } from './pages/admin/admin-race-results/admi
     GroupPredictionsComponent,
     ConfirmStatusComponent,
     CountdownTimerComponent,
-    AdminRaceResultsComponent
+    AdminRaceResultsComponent,
+    UpdateRaceDialogComponent
   ],
   imports: [
     BrowserModule,

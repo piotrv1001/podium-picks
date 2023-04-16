@@ -32,6 +32,10 @@ export class RaceService {
     await this.raceRepository.delete(id);
   }
 
+  async update(race: Race): Promise<Race> {
+    return this.raceRepository.save(race);
+  }
+
   async getAllBySeasonId(seasonId: number): Promise<Race[]> {
     return this.raceRepository.find({
       where: { seasonId: seasonId },
