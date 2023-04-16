@@ -8,6 +8,7 @@ import {
   Param,
   Delete,
   Query,
+  Put,
 } from '@nestjs/common';
 
 @Controller('races')
@@ -37,6 +38,11 @@ export class RaceController {
   @Get(':id')
   getById(@Param('id') id: number): Promise<Race> {
     return this.raceService.getById(id);
+  }
+
+  @Put()
+  update(@Request() req): Promise<Race> {
+    return this.raceService.update(req.body);
   }
 
   @Delete(':id')

@@ -1,0 +1,26 @@
+.container {
+  padding: 1rem;
+  width: 40vw;
+}
+
+.update-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.action-btn-row {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.cancel-btn {
+  margin-right: .5rem;
+}
+
+.update-btn {
+  margin-left: .5rem;
+}

@@ -9,11 +9,20 @@ import { Race } from "src/app/model/entities/race.model";
 export class RaceComponent {
 
   @Input() race?: Race;
+  @Input() isAdmin: boolean = false;
   @Output() raceClick: EventEmitter<number> = new EventEmitter<number>();
+  @Output() editRaceClick: EventEmitter<number> = new EventEmitter<number>();
 
   raceClicked(): void {
     if(this.race?.id) {
       this.raceClick.emit(this.race.id);
+    }
+  }
+
+  editRaceClicked(event: Event): void {
+    event.stopPropagation();
+    if(this.race?.id) {
+      this.editRaceClick.emit(this.race.id);
     }
   }
 }

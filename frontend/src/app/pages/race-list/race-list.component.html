@@ -1,3 +1,8 @@
 <div class="race-list">
-  <app-race *ngFor="let race of races" [race]="race" (raceClick)="handleRaceClick($event)"></app-race>
+  <app-race *ngFor="let race of races"
+    [race]="race"
+    [isAdmin]="isAdmin === 1"
+    (raceClick)="handleRaceClick($event)"
+    (editRaceClick)="openEditRaceDialog($event)"
+    ></app-race>
 </div>
