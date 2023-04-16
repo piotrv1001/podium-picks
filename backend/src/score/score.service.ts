@@ -14,6 +14,7 @@ export class ScoreService {
   async create(scoreDto: ScoreDTO): Promise<Score> {
     const score = new Score();
     score.points = scoreDto.points;
+    score.position = scoreDto.position;
     score.userId = scoreDto.userId;
     score.raceId = scoreDto.raceId;
     return this.scoreRepository.save(score);

@@ -15,8 +15,8 @@ export class LocalStorageService {
   }
 
   getIsAdmin(): number | null {
-    const userIdStr =  localStorage.getItem('isAdmin');
-    return userIdStr ? parseInt(userIdStr) : null;
+    const isAdminStr =  localStorage.getItem('isAdmin');
+    return isAdminStr ? parseInt(isAdminStr) : null;
   }
 
   saveIsAdmin(isAdmin: number): void {

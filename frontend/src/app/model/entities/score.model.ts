@@ -5,6 +5,7 @@ export class Score {
   constructor(
     public id?: number,
     public points?: number,
+    public position?: number,
     public user?: User,
     public race?: Race,
     public userId?: number,
