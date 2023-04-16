@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Delete, Request, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Request,
+  Param,
+  Put,
+} from '@nestjs/common';
 import { ResultService } from './result.service';
 import { Result } from './result.entity';
 
@@ -6,9 +14,24 @@ import { Result } from './result.entity';
 export class ResultController {
   constructor(private readonly resultService: ResultService) {}
 
+  @Post('createMany')
+  createMany(@Request() req): Promise<Result[]> {
+    return this.resultService.createMany(req.body);
+  }
+
   @Post()
   create(@Request() req): Promise<Result> {
     return this.resultService.create(req.body);
+  }
+
+  @Put('updateMany')
+  updateMany(@Request() req): Promise<Result[]> {
+    return this.resultService.updateMany(req.body);
+  }
+
+  @Get()
+  getByRaceId(@Param('raceId') raceId: number): Promise<Result[]> {
+    return this.resultService.getByRaceId(raceId);
   }
 
   @Get()

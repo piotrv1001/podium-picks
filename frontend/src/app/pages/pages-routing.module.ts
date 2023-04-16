@@ -2,9 +2,9 @@ import { NgModule } from "@angular/core";
 import { HomeComponent } from "./home/home.component";
 import { RouterModule } from '@angular/router';
 import { RaceListComponent } from "./race-list/race-list.component";
-import { DriverDragDropComponent } from "../components/driver-drag-drop/driver-drag-drop.component";
 import { SeasonListComponent } from "./season-list/season-list.component";
 import { GroupPredictionsComponent } from "./group-predictions/group-predictions.component";
+import { AdminRaceResultsComponent } from "./admin/admin-race-results/admin-race-results.component";
 
 @NgModule({
   imports: [
@@ -24,6 +24,10 @@ import { GroupPredictionsComponent } from "./group-predictions/group-predictions
     {
       path: 'drivers',
       component: GroupPredictionsComponent
+    },
+    {
+      path: 'results',
+      component: AdminRaceResultsComponent
     }
   ])
 ]})

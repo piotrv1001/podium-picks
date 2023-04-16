@@ -78,7 +78,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     handleDriverDragDrop(dragDropEvent: DragDropEvent): void {
       if(this.userId) {
         const predictions = this.userId2Predictions.get(this.userId);
-        if(predictions) {
+        if(predictions && predictions.length > 0) {
           const lower = Math.min(dragDropEvent.previousIndex, dragDropEvent.currentIndex);
           const upper = Math.max(dragDropEvent.previousIndex, dragDropEvent.currentIndex);
           for(let i = lower; i <= upper; i++) {
@@ -98,13 +98,18 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           this.predictionService.updateMany(predictions).subscribe({
             next: (updatedPredictions) => {
               this.userId2Predictions.set(this.userId!, updatedPredictions);
+              const confirmedDrivers = this.userId2Drivers.get(this.userId!);
+              if(confirmedDrivers) {
+                this.userId2Drivers.set(this.userId!, { drivers: confirmedDrivers.drivers, confirmed: true });
+                this.updateDataArray();
+              }
               this.showSnackBar('Updated predictions!');
               this.madeChanges = false;
             },
             error: () => {
               this.showSnackBar(ERROR_MSG);
             }
-          })
+          });
         }
       }
     }
@@ -127,10 +132,17 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
         }
       });
       if(this.userId) {
-        this.predictionService.createMany(newPredictionArray).subscribe((newPredictions) => {
-          this.userId2Predictions.set(this.userId!, newPredictions);
-          this.showSnackBar('Created predictions!');
-          this.madeChanges = false;
+        this.predictionService.createMany(newPredictionArray).subscribe({
+          next: (newPredictions: Prediction[]) => {
+            this.userId2Predictions.set(this.userId!, newPredictions);
+            this.userId2Drivers.set(this.userId!, { drivers, confirmed: true });
+            this.updateDataArray();
+            this.showSnackBar('Created predictions!');
+            this.madeChanges = false;
+          },
+          error: () => {
+            this.showSnackBar(ERROR_MSG);
+          }
         });
       }
     }
@@ -144,6 +156,9 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           const predictionMap = new Map<number, Prediction[]>(Object.entries(predictionJSON).map(([key, value]) => [parseInt(key), value]));
           this.userId2Predictions = predictionMap;
           for(const [userId, predictions] of predictionMap) {
+            if(userId === this.userId && predictions.length === 0) {
+              this.madeChanges = true; // if we want to have a default order
+            }
             let drivers: Driver[] = [];
             let confirmed: boolean = false;
             if(predictions.length > 0) {
@@ -161,7 +176,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             }
             this.userId2Drivers.set(userId, { drivers, confirmed });
           }
-          this.dataArray = Array.from(this.userId2Drivers);
+          this.updateDataArray();
         }
       )}
     }
@@ -219,6 +234,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       this.snackBar.open(msg, 'OK', {
         duration: 3000
       });
+    }
+
+    private updateDataArray(): void {
+      this.dataArray = Array.from(this.userId2Drivers);
     }
 
 }

@@ -16,6 +16,9 @@ export class Score {
   @Column({ nullable: true })
   points?: number;
 
+  @Column({ nullable: true })
+  position?: number;
+
   @ManyToOne(() => User, (user) => user.scores, { nullable: true })
   user?: Relation<User>;
 

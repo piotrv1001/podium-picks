@@ -19,18 +19,19 @@ export class HomeComponent implements OnInit {
   userId?: number;
 
   constructor(
+    public dialog: MatDialog,
     private localStorageService: LocalStorageService,
     private groupService: GroupService,
-    public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router) {}
 
   ngOnInit(): void {
     const isAdmin = this.localStorageService.getIsAdmin();
     if(isAdmin && isAdmin === 1) {
-      this.router.navigate(['/seasons']);
+      this.router.navigate(['seasons']);
+    } else {
+      this.getGroupsForUser();
     }
-    this.getGroupsForUser();
   }
 
   handleLeaveGroupClick(groupId: number): void {

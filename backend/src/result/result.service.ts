@@ -11,6 +11,24 @@ export class ResultService {
     private readonly resultRepository: Repository<Result>,
   ) {}
 
+  async createMany(resultDtoArray: ResultDTO[]): Promise<Result[]> {
+    const newResultArray: Result[] = [];
+    for (const resultDto of resultDtoArray) {
+      const newResult = await this.resultRepository.save(resultDto);
+      newResultArray.push(newResult);
+    }
+    return newResultArray;
+  }
+
+  async updateMany(resultArray: Result[]): Promise<Result[]> {
+    const updatedResultArray: Result[] = [];
+    for (const result of resultArray) {
+      const updatedResult = await this.resultRepository.save(result);
+      updatedResultArray.push(updatedResult);
+    }
+    return updatedResultArray;
+  }
+
   async create(resultDto: ResultDTO): Promise<Result> {
     const result = new Result();
     result.position = resultDto.position;
@@ -25,6 +43,22 @@ export class ResultService {
 
   async getById(id: number): Promise<Result> {
     return this.resultRepository.findOneBy({ id: id });
+  }
+
+  async getByRaceId(raceId: number): Promise<Result[]> {
+    return this.resultRepository.find({
+      where: {
+        raceId: raceId,
+      },
+      order: {
+        position: 'ASC',
+      },
+      relations: {
+        driver: {
+          team: true,
+        },
+      },
+    });
   }
 
   async delete(id: number): Promise<void> {
