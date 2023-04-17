@@ -6,6 +6,7 @@ import {
   Request,
   Param,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ResultService } from './result.service';
 import { Result } from './result.entity';
@@ -30,7 +31,7 @@ export class ResultController {
   }
 
   @Get()
-  getByRaceId(@Param('raceId') raceId: number): Promise<Result[]> {
+  getByRaceId(@Query('raceId') raceId: number): Promise<Result[]> {
     return this.resultService.getByRaceId(raceId);
   }
 
