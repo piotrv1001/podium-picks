@@ -13,7 +13,7 @@ export class Score {
   @PrimaryGeneratedColumn()
   id?: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'decimal', precision: 3, scale: 1 })
   points?: number;
 
   @Column({ nullable: true })

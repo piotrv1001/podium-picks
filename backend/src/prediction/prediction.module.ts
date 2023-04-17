@@ -12,5 +12,6 @@ import { Group } from 'src/group/group.entity';
   ],
   providers: [PredictionService],
   controllers: [PredictionController],
+  exports: [PredictionService],
 })
 export class PredictionModule {}
