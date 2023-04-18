@@ -3,4 +3,5 @@ export class ScoreDTO {
   position: number;
   userId: number;
   raceId: number;
+  groupId: number;
 }

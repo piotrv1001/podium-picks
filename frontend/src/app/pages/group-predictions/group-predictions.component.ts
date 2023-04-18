@@ -16,6 +16,8 @@ import { DragDropEvent } from 'src/app/model/types/drag-drop-event';
 import { ERROR_MSG } from 'src/app/app.constants';
 import { PredictionDTO } from 'src/app/model/dto/prediction.dto';
 import { RaceEventService } from 'src/app/services/race-event.service';
+import { ScoreService } from 'src/app/services/score.service';
+import { Score } from 'src/app/model/entities/score.model';
 
 @Component({
   selector: 'app-group-predictions',
@@ -31,6 +33,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   groupId?: number;
   userId2Predictions: Map<number, Prediction[]> = new Map<number, Prediction[]>();
   userId2Drivers: Map<number, ConfirmedDrivers> = new Map<number, ConfirmedDrivers>();
+  userId2Scores: Map<number, Score[]> = new Map<number, Score[]>();
   dataArray: [number, ConfirmedDrivers][] = [];
   race?: Race;
   timeLeft?: CustomDate;
@@ -46,7 +49,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     private router: Router,
     private snackBar: MatSnackBar,
     private dateUtilService: DateUtilService,
-    private raceEventService: RaceEventService) {
+    private raceEventService: RaceEventService,
+    private scoreService: ScoreService) {
       const navState = this.router.getCurrentNavigation()?.extras?.state
       this.raceId = navState?.["raceId"];
       this.groupId = navState?.["groupId"];
@@ -56,6 +60,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       this.getUserId();
       this.getRace();
       this.getUserId2Predictions();
+      this.getScores();
     }
 
     ngOnDestroy(): void {
@@ -148,10 +153,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private async getUserId2Predictions(): Promise<void> {
-      const driverArray = await firstValueFrom(this.driverService.getAllDrivers());
-      this.drivers = driverArray;
-      this.driverArrayToObj();
       if(this.groupId && this.raceId) {
+        const driverArray = await firstValueFrom(this.driverService.getAllDrivers());
+        this.drivers = driverArray;
+        this.driverArrayToObj();
         this.predictionService.getGroupedPredictions(this.groupId, this.raceId).subscribe(predictionJSON => {
           const predictionMap = new Map<number, Prediction[]>(Object.entries(predictionJSON).map(([key, value]) => [parseInt(key), value]));
           this.userId2Predictions = predictionMap;
@@ -179,6 +184,15 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           this.updateDataArray();
         }
       )}
+    }
+
+    private getScores(): void {
+      if(this.groupId && this.raceId) {
+        this.scoreService.getGroupedScores(this.groupId, this.raceId).subscribe(scoreJSON => {
+          const scoreMap = new Map<number, Score[]>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
+          this.userId2Scores = scoreMap;
+        });
+      }
     }
 
     private getRace(): void {

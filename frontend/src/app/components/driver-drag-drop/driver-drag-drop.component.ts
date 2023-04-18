@@ -3,6 +3,7 @@ import { Driver } from "src/app/model/entities/driver.model";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DragDropEvent } from "src/app/model/types/drag-drop-event";
 import { RaceEventService } from "src/app/services/race-event.service";
+import { Score } from "src/app/model/entities/score.model";
 
 @Component({
   selector: 'app-driver-drag-drop',
@@ -13,13 +14,18 @@ export class DriverDragDropComponent implements OnInit {
 
   @Input() drivers: Driver[] = [];
   @Input() isEditable: boolean = false;
+  @Input() scoreArray?: Score[] = [];
   @Output() dropped: EventEmitter<DragDropEvent> = new EventEmitter();
   @Output() saved: EventEmitter<Driver[]> = new EventEmitter();
   madeChanges: boolean = false;
+  pointArray: number[] = [];
 
   constructor(private raceEventService: RaceEventService) { }
 
   ngOnInit(): void {
+    if(this.scoreArray && this.scoreArray.length > 0) {
+      this.pointArray = this.scoreArray.map(s => s.points ?? 0);
+    }
     this.subscribeToMadeChanges();
   }
 

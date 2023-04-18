@@ -1,3 +1,4 @@
+import { Group } from 'src/group/group.entity';
 import { Race } from 'src/race/race.entity';
 import { User } from 'src/user/user.entity';
 import {
@@ -25,9 +26,15 @@ export class Score {
   @ManyToOne(() => Race, (race) => race.scores, { nullable: true })
   race?: Relation<Race>;
 
+  @ManyToOne(() => Group, (group) => group.scores, { nullable: true })
+  group?: Relation<Group>;
+
   @Column({ nullable: true })
   userId?: number;
 
   @Column({ nullable: true })
   raceId?: number;
+
+  @Column({ nullable: true })
+  groupId?: number;
 }
