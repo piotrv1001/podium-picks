@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { ScoreDTO } from './score.dto';
 import { Result } from 'src/result/result.entity';
 import { PredictionService } from 'src/prediction/prediction.service';
+import { Group } from 'src/group/group.entity';
 
 @Injectable()
 export class ScoreService {
@@ -13,6 +14,8 @@ export class ScoreService {
     private readonly scoreRepository: Repository<Score>,
     @InjectRepository(Result)
     private readonly resultRepository: Repository<Result>,
+    @InjectRepository(Group)
+    private readonly groupRepository: Repository<Group>,
     private readonly predictionService: PredictionService,
   ) {}
 
@@ -22,6 +25,7 @@ export class ScoreService {
     score.position = scoreDto.position;
     score.userId = scoreDto.userId;
     score.raceId = scoreDto.raceId;
+    score.groupId = scoreDto.groupId;
     return this.scoreRepository.save(score);
   }
 
@@ -35,6 +39,47 @@ export class ScoreService {
 
   async delete(id: number): Promise<void> {
     await this.scoreRepository.delete(id);
+  }
+
+  async getScoresByGroupAndRace(
+    groupId: number,
+    raceId: number,
+  ): Promise<Map<number, Score[]>> {
+    const scores = await this.scoreRepository.find({
+      where: { groupId, raceId },
+      order: { position: 'ASC' },
+    });
+    const group = await this.groupRepository.findOne({
+      relations: {
+        users: true,
+      },
+      where: {
+        id: groupId,
+      },
+    });
+    if (!group) {
+      throw new Error(`Group with ID ${groupId} not found`);
+    }
+    const userIds = group.users.map((user) => user.id);
+    const grouppedScores = new Map<number, Score[]>();
+    scores.forEach((score) => {
+      const userId = score.userId;
+      if (grouppedScores.has(userId)) {
+        const userScores = grouppedScores.get(userId);
+        userScores.push(score);
+        grouppedScores.set(userId, userScores);
+      } else {
+        grouppedScores.set(userId, [score]);
+      }
+    });
+
+    userIds.forEach((userId) => {
+      if (!grouppedScores.has(userId)) {
+        grouppedScores.set(userId, []);
+      }
+    });
+
+    return grouppedScores;
   }
 
   async calculateScoresForRaceForGroup(
@@ -71,6 +116,7 @@ export class ScoreService {
           newScoreDto.position = results[i].position;
           newScoreDto.userId = userId;
           newScoreDto.raceId = raceId;
+          newScoreDto.groupId = groupId;
           scores.push(await this.scoreRepository.save(newScoreDto));
         } else if (!fullGuess) {
           const predictedDriverIndex = predictions.findIndex(
@@ -93,6 +139,7 @@ export class ScoreService {
           newScoreDto.position = results[i].position;
           newScoreDto.userId = userId;
           newScoreDto.raceId = raceId;
+          newScoreDto.groupId = groupId;
           scores.push(await this.scoreRepository.save(newScoreDto));
         }
       }

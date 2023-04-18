@@ -1,4 +1,5 @@
 import { Prediction } from 'src/prediction/prediction.entity';
+import { Score } from 'src/score/score.entity';
 import { User } from 'src/user/user.entity';
 import {
   Column,
@@ -25,6 +26,11 @@ export class Group {
     nullable: true,
   })
   predictions?: Relation<Prediction[]>;
+
+  @OneToMany(() => Score, (score) => score.group, {
+    nullable: true,
+  })
+  scores?: Relation<Prediction[]>;
 
   @ManyToMany(() => User, (user) => user.groups, {
     nullable: true,

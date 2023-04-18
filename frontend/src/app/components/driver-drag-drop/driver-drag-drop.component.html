@@ -6,13 +6,14 @@
     cdkDropList
     class="driver-list"
     (cdkDropListDropped)="drop($event)">
-    <div *ngFor="let driver of drivers"
+    <div *ngFor="let driver of drivers; let i = index"
       class="driver-box"
       cdkDrag
       [cdkDragDisabled]="!isEditable"
       [ngStyle]="{'cursor': isEditable ? 'move' : 'default'}">
       <app-driver-name
         [driver]="driver"
+        [points]="pointArray[i]"
         [showDragIcon]="isEditable">
       </app-driver-name>
     </div>

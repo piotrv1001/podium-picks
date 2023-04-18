@@ -39,6 +39,8 @@ import { ConfirmStatusComponent } from './components/confirm-status/confirm-stat
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { AdminRaceResultsComponent } from './pages/admin/admin-race-results/admin-race-results.component';
 import { UpdateRaceDialogComponent } from './pages/admin/update-race-dialog/update-race-dialog.component';
+import { DriverLastNamePipe } from './pipes/driver-last-name.pipe';
+import { DriverFirstNamePipe } from './pipes/driver-first-name.pipe';
 
 @NgModule({
   declarations: [
@@ -62,7 +64,9 @@ import { UpdateRaceDialogComponent } from './pages/admin/update-race-dialog/upda
     ConfirmStatusComponent,
     CountdownTimerComponent,
     AdminRaceResultsComponent,
-    UpdateRaceDialogComponent
+    UpdateRaceDialogComponent,
+    DriverFirstNamePipe,
+    DriverLastNamePipe,
   ],
   imports: [
     BrowserModule,
