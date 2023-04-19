@@ -16,8 +16,14 @@ export class ResultController {
   constructor(private readonly resultService: ResultService) {}
 
   @Post('createMany')
-  createMany(@Request() req): Promise<Result[]> {
-    return this.resultService.createMany(req.body);
+  async createMany(@Request() req): Promise<Result[]> {
+    const results = await this.resultService.createMany(req.body);
+    const raceId = results[0].raceId;
+    await this.resultService.updateScores(
+      raceId,
+      results.sort((r1, r2) => r1.position - r2.position),
+    );
+    return results;
   }
 
   @Post()
@@ -26,8 +32,14 @@ export class ResultController {
   }
 
   @Put('updateMany')
-  updateMany(@Request() req): Promise<Result[]> {
-    return this.resultService.updateMany(req.body);
+  async updateMany(@Request() req): Promise<Result[]> {
+    const results = await this.resultService.updateMany(req.body);
+    const raceId = results[0].raceId;
+    await this.resultService.updateScores(
+      raceId,
+      results.sort((r1, r2) => r1.position - r2.position),
+    );
+    return results;
   }
 
   @Get()

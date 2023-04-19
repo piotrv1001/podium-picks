@@ -16,5 +16,6 @@ import { Group } from 'src/group/group.entity';
   ],
   providers: [ScoreService],
   controllers: [ScoreController],
+  exports: [ScoreService],
 })
 export class ScoreModule {}
