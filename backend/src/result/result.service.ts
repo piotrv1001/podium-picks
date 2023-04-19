@@ -3,12 +3,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Result } from './result.entity';
 import { Repository } from 'typeorm';
 import { ResultDTO } from './result.dto';
+import { ScoreService } from 'src/score/score.service';
+import { GroupService } from 'src/group/group.service';
 
 @Injectable()
 export class ResultService {
   constructor(
     @InjectRepository(Result)
     private readonly resultRepository: Repository<Result>,
+    private readonly groupService: GroupService,
+    private readonly scoreService: ScoreService,
   ) {}
 
   async createMany(resultDtoArray: ResultDTO[]): Promise<Result[]> {
@@ -63,5 +67,13 @@ export class ResultService {
 
   async delete(id: number): Promise<void> {
     await this.resultRepository.delete(id);
+  }
+
+  async updateScores(raceId: number, results: Result[]): Promise<void> {
+    const groups = await this.groupService.getAll();
+    for (const group of groups) {
+      const groupId = group.id;
+      await this.scoreService.calculateScoresForRaceForGroup(raceId, groupId);
+    }
   }
 }

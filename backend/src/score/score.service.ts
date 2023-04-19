@@ -107,17 +107,32 @@ export class ScoreService {
       const fullPointArray: number[] = [];
       let halfPointArray: number[] = [];
       for (const [userId, predictions] of grouppedPredictions) {
+        if (predictions.length === 0) {
+          continue;
+        }
         if (results[i].driverId === predictions[i].driverId) {
           fullGuess = true;
           fullPointArray.push(userId);
           halfPointArray = [];
-          const newScoreDto = new ScoreDTO();
-          newScoreDto.points = 1;
-          newScoreDto.position = results[i].position;
-          newScoreDto.userId = userId;
-          newScoreDto.raceId = raceId;
-          newScoreDto.groupId = groupId;
-          scores.push(await this.scoreRepository.save(newScoreDto));
+          const existingScore = await this.scoreRepository.findOne({
+            where: {
+              userId,
+              raceId,
+              groupId,
+            },
+          });
+          if (existingScore) {
+            existingScore.points = 1;
+            scores.push(await this.scoreRepository.save(existingScore));
+          } else {
+            const newScoreDto = new ScoreDTO();
+            newScoreDto.points = 1;
+            newScoreDto.position = results[i].position;
+            newScoreDto.userId = userId;
+            newScoreDto.raceId = raceId;
+            newScoreDto.groupId = groupId;
+            scores.push(await this.scoreRepository.save(newScoreDto));
+          }
         } else if (!fullGuess) {
           const predictedDriverIndex = predictions.findIndex(
             (prediction) => prediction.driverId === results[i].driverId,
@@ -134,13 +149,25 @@ export class ScoreService {
       }
       for (const [userId] of grouppedPredictions) {
         if (!fullPointArray.includes(userId)) {
-          const newScoreDto = new ScoreDTO();
-          newScoreDto.points = halfPointArray.includes(userId) ? 0.5 : 0;
-          newScoreDto.position = results[i].position;
-          newScoreDto.userId = userId;
-          newScoreDto.raceId = raceId;
-          newScoreDto.groupId = groupId;
-          scores.push(await this.scoreRepository.save(newScoreDto));
+          const existingScore = await this.scoreRepository.findOne({
+            where: {
+              userId,
+              raceId,
+              groupId,
+            },
+          });
+          if (existingScore) {
+            existingScore.points = halfPointArray.includes(userId) ? 0.5 : 0;
+            scores.push(await this.scoreRepository.save(existingScore));
+          } else {
+            const newScoreDto = new ScoreDTO();
+            newScoreDto.points = halfPointArray.includes(userId) ? 0.5 : 0;
+            newScoreDto.position = results[i].position;
+            newScoreDto.userId = userId;
+            newScoreDto.raceId = raceId;
+            newScoreDto.groupId = groupId;
+            scores.push(await this.scoreRepository.save(newScoreDto));
+          }
         }
       }
     }

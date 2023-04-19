@@ -37,8 +37,8 @@ export class DriverDragDropComponent implements OnInit {
       this.madeChanges = true;
       moveItemInArray(this.drivers, prevIndex, currIndex);
       this.dropped.emit({ previousIndex: prevIndex, currentIndex: currIndex, drivers: this.drivers });
-      this.lastMovedItemIndex = currIndex;
     }
+    this.lastMovedItemIndex = currIndex;
   }
 
   saveBtnClicked(): void {
