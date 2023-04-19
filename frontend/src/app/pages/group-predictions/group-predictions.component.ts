@@ -40,6 +40,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   raceFinished: boolean = false;
   madeChanges: boolean = false;
   raceIntervalId?: any;
+  scoreAvailable: boolean = false;
 
   constructor(
     private driverService: DriverService,
@@ -191,6 +192,12 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
         this.scoreService.getGroupedScores(this.groupId, this.raceId).subscribe(scoreJSON => {
           const scoreMap = new Map<number, Score[]>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
           this.userId2Scores = scoreMap;
+          for(const scores of scoreMap.values()) {
+            if(scores.length > 0) {
+              this.scoreAvailable = true;
+              break;
+            }
+          }
         });
       }
     }

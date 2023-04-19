@@ -10,7 +10,7 @@
     <app-driver-drag-drop
       [drivers]="data[1].drivers"
       [scoreArray]="userId2Scores.get(data[0])"
-      [isEditable]="data[0] === userId && !raceFinished && !userId2Scores.get(data[0])"
+      [isEditable]="data[0] === userId && !raceFinished && !scoreAvailable"
       (saved)="handlePredictionSaveBtnClick($event)"
       (dropped)="handleDriverDragDrop($event)"></app-driver-drag-drop>
   </div>
