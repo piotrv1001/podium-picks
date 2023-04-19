@@ -10,11 +10,12 @@
       class="driver-box"
       cdkDrag
       [cdkDragDisabled]="!isEditable"
-      [ngStyle]="{'cursor': isEditable ? 'move' : 'default'}">
+      [ngStyle]="{'cursor': isEditable ? 'move' : 'default'}"
+      [ngClass]="lastMovedItemIndex === i ? 'gray-bg' : 'white-bg'">
       <app-driver-name
         [driver]="driver"
         [points]="pointArray[i]"
-        [showDragIcon]="isEditable">
+        [showDragIcon]="isEditable"        >
       </app-driver-name>
     </div>
   </div>

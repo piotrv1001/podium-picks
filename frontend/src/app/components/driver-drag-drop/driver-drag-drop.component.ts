@@ -19,6 +19,7 @@ export class DriverDragDropComponent implements OnInit {
   @Output() saved: EventEmitter<Driver[]> = new EventEmitter();
   madeChanges: boolean = false;
   pointArray: number[] = [];
+  lastMovedItemIndex: number = -1;
 
   constructor(private raceEventService: RaceEventService) { }
 
@@ -36,6 +37,7 @@ export class DriverDragDropComponent implements OnInit {
       this.madeChanges = true;
       moveItemInArray(this.drivers, prevIndex, currIndex);
       this.dropped.emit({ previousIndex: prevIndex, currentIndex: currIndex, drivers: this.drivers });
+      this.lastMovedItemIndex = currIndex;
     }
   }
 
