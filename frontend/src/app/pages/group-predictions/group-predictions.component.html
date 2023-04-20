@@ -1,11 +1,17 @@
 <app-countdown-timer *ngIf="!raceFinished && timeLeft"></app-countdown-timer>
 <div class="row">
   <div *ngFor="let data of dataArray" class="prediction-container">
-    <div class="confirm-status-container">
-      <app-confirm-status
-        *ngIf="!raceFinished"
-        [confirmed]="data[1].confirmed"
-        [confirmText]="data[1].confirmed ? 'Confirmed' : 'Unconfirmed'"></app-confirm-status>
+    <div class="space-between">
+      <div class="prediction-header">
+        <span class="username">{{ userId2Users.get(data[0])?.username }}</span>
+        <div *ngIf="!scoreAvailable" class="confirm-status-container">
+          <app-confirm-status
+          *ngIf="!raceFinished"
+          [confirmed]="data[1].confirmed"
+          [confirmText]="data[1].confirmed ? 'Confirmed' : 'Unconfirmed'"></app-confirm-status>
+        </div>
+      </div>
+      <span *ngIf="scoreAvailable" class="total-points">{{ userId2Total.get(data[0]) }}</span>
     </div>
     <app-driver-drag-drop
       [drivers]="data[1].drivers"

@@ -115,7 +115,7 @@ export class GroupService {
     return updatedGroup;
   }
 
-  async getUserIdsByGroupId(groupId: number): Promise<number[]> {
+  async getUsersByGroupId(groupId: number): Promise<User[]> {
     const group = await this.groupRepository.findOne({
       relations: {
         users: true,
@@ -127,7 +127,7 @@ export class GroupService {
     if (!group) {
       throw new Error(`Group with ID ${groupId} not found`);
     }
-    return group.users.map((user) => user.id);
+    return group.users.map((user) => ({ ...user, password: undefined }));
   }
 
   async delete(id: number): Promise<void> {

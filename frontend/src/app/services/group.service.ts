@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Group } from "../model/entities/group.model";
 import { BASE_URL } from "../app.constants";
 import { GroupDTO } from "../model/dto/group.dto";
+import { User } from "../model/entities/user.model";
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +32,10 @@ export class GroupService {
 
   removeUserFromGroup(groupId: number, userId: number): Observable<Group> {
     return this.http.delete(`${BASE_URL}/${this.GROUP_ROTE}/${groupId}/users/${userId}`);
+  }
+
+  getUsersByGroup(groupId: number): Observable<User[]> {
+    return this.http.get<User[]>(`${BASE_URL}/${this.GROUP_ROTE}/${groupId}/users`);
   }
 
 }

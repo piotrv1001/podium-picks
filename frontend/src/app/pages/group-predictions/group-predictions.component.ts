@@ -18,6 +18,8 @@ import { PredictionDTO } from 'src/app/model/dto/prediction.dto';
 import { RaceEventService } from 'src/app/services/race-event.service';
 import { ScoreService } from 'src/app/services/score.service';
 import { Score } from 'src/app/model/entities/score.model';
+import { GroupService } from 'src/app/services/group.service';
+import { User } from 'src/app/model/entities/user.model';
 
 @Component({
   selector: 'app-group-predictions',
@@ -34,6 +36,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   userId2Predictions: Map<number, Prediction[]> = new Map<number, Prediction[]>();
   userId2Drivers: Map<number, ConfirmedDrivers> = new Map<number, ConfirmedDrivers>();
   userId2Scores: Map<number, Score[]> = new Map<number, Score[]>();
+  userId2Total: Map<number, number> = new Map<number, number>();
+  userId2Users: Map<number, User> = new Map<number, User>();
   dataArray: [number, ConfirmedDrivers][] = [];
   race?: Race;
   timeLeft?: CustomDate;
@@ -51,7 +55,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private dateUtilService: DateUtilService,
     private raceEventService: RaceEventService,
-    private scoreService: ScoreService) {
+    private scoreService: ScoreService,
+    private groupService: GroupService) {
       const navState = this.router.getCurrentNavigation()?.extras?.state
       this.raceId = navState?.["raceId"];
       this.groupId = navState?.["groupId"];
@@ -59,6 +64,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
       this.getUserId();
+      this.getUsersByGroup();
       this.getRace();
       this.getUserId2Predictions();
       this.getScores();
@@ -192,10 +198,16 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
         this.scoreService.getGroupedScores(this.groupId, this.raceId).subscribe(scoreJSON => {
           const scoreMap = new Map<number, Score[]>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
           this.userId2Scores = scoreMap;
-          for(const scores of scoreMap.values()) {
+          for(const [userId, scores] of scoreMap) {
             if(scores.length > 0) {
               this.scoreAvailable = true;
-              break;
+              let sum = 0;
+              for(const score of scores) {
+                if(score.points) {
+                  sum += Number(score.points);
+                }
+              }
+              this.userId2Total.set(userId, sum);
             }
           }
         });
@@ -213,6 +225,20 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             this.updateTimeLeft(this.race.date);
           }
         });
+      }
+    }
+
+    private getUsersByGroup(): void {
+      if(this.groupId) {
+        this.groupService.getUsersByGroup(this.groupId).subscribe({
+          next: (users: User[]) => {
+            users.forEach(user => {
+              if(user.id !== undefined) {
+                this.userId2Users.set(user.id, user);
+              }
+            });
+          }
+        })
       }
     }
 

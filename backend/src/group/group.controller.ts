@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { GroupService } from './group.service';
 import { Group } from './group.entity';
+import { User } from 'src/user/user.entity';
 
 @Controller('groups')
 export class GroupController {
@@ -44,8 +45,8 @@ export class GroupController {
   }
 
   @Get(':id/users')
-  async getUserIdsByGroupId(@Param('id') id: number): Promise<number[]> {
-    return this.groupService.getUserIdsByGroupId(id);
+  async getUsersByGroupId(@Param('id') id: number): Promise<User[]> {
+    return this.groupService.getUsersByGroupId(id);
   }
 
   @Get(':id')
