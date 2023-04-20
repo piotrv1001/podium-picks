@@ -11,6 +11,7 @@ import { RaceService } from "src/app/services/race.service";
 export class UpdateRaceDialogComponent implements OnInit {
 
   race?: Race;
+  raceDate: Date | null = null;
 
   constructor(
     private raceService: RaceService,
@@ -23,7 +24,8 @@ export class UpdateRaceDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if(this.race) {
+    if(this.race && this.raceDate) {
+      this.race.date = this.raceDate;
       this.raceService.update(this.race).subscribe({
         next: (updatedRace: Race) => {
           this.dialogRef.close(updatedRace);
@@ -39,6 +41,12 @@ export class UpdateRaceDialogComponent implements OnInit {
   private getRaceById(id: number): void {
     this.raceService.getById(id).subscribe(race => {
       this.race = race;
+      if(this.race.date) {
+        if(typeof this.race.date === 'string') {
+          this.race.date = new Date(this.race.date);
+        }
+        this.raceDate = this.race.date;
+      }
     });
   }
 
