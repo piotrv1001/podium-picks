@@ -6,6 +6,31 @@
   margin: 1rem;
 }
 
-.confirm-status-container {
+.prediction-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   margin-bottom: 1rem;
+  align-items: center;
+}
+
+.confirm-status-container {
+  margin-left: 1rem;
+}
+
+.username {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-right: 1rem;
+  margin-left: 2.5rem;
+}
+
+.total-points {
+  font-size: 1.2rem;
+  margin-right: 1rem;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
 }
