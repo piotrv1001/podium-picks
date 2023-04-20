@@ -20,6 +20,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatCardModule } from '@angular/material/card';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -41,6 +43,7 @@ import { AdminRaceResultsComponent } from './pages/admin/admin-race-results/admi
 import { UpdateRaceDialogComponent } from './pages/admin/update-race-dialog/update-race-dialog.component';
 import { DriverLastNamePipe } from './pipes/driver-last-name.pipe';
 import { DriverFirstNamePipe } from './pipes/driver-first-name.pipe';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -83,9 +86,12 @@ import { DriverFirstNamePipe } from './pipes/driver-first-name.pipe';
     MatSnackBarModule,
     ClipboardModule,
     MatMenuModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatCardModule,
+    MatNativeDateModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, MatDatepickerModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

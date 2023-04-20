@@ -1,8 +1,8 @@
 <div class="container">
   <h1>Edit race</h1>
   <hr style="margin-bottom: 1rem;">
-  <form (ngSubmit)="onSubmit()" #updateRaceForm="ngForm" class="update-form">
-    <mat-form-field *ngIf="race?.name !== undefined">
+  <form *ngIf="race && race?.name !== undefined && raceDate; else loading" (ngSubmit)="onSubmit()" #updateRaceForm="ngForm" class="update-form">
+    <mat-form-field>
       <input
         matInput
         placeholder="Race name"
@@ -11,9 +11,15 @@
         [(ngModel)]="race!.name"
         required>
     </mat-form-field>
+    <mat-card class="inline-calendar-card">
+      <mat-calendar [(selected)]="raceDate"></mat-calendar>
+    </mat-card>
     <div class="action-btn-row">
       <button mat-button (click)="onCancelBtnClick()" class="cancel-btn" type="button">Cancel</button>
       <button mat-raised-button color="primary" type="submit" [disabled]="!updateRaceForm.form.valid" class="update-btn">Update</button>
     </div>
   </form>
+  <ng-template #loading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
 </div>
