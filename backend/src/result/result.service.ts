@@ -73,7 +73,11 @@ export class ResultService {
     const groups = await this.groupService.getAll();
     for (const group of groups) {
       const groupId = group.id;
-      await this.scoreService.calculateScoresForRaceForGroup(raceId, groupId);
+      await this.scoreService.calculateScoresForRaceForGroup(
+        raceId,
+        groupId,
+        results,
+      );
     }
   }
 }
