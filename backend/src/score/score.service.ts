@@ -12,8 +12,6 @@ export class ScoreService {
   constructor(
     @InjectRepository(Score)
     private readonly scoreRepository: Repository<Score>,
-    @InjectRepository(Result)
-    private readonly resultRepository: Repository<Result>,
     @InjectRepository(Group)
     private readonly groupRepository: Repository<Group>,
     private readonly predictionService: PredictionService,
@@ -85,22 +83,14 @@ export class ScoreService {
   async calculateScoresForRaceForGroup(
     raceId: number,
     groupId: number,
+    results: Result[],
   ): Promise<Score[]> {
     const scores: Score[] = [];
-    const results = await this.resultRepository.find({
-      where: {
-        raceId: raceId,
-      },
-      order: {
-        position: 'ASC',
-      },
-    });
     const grouppedPredictions =
       await this.predictionService.getPredictionsByGroupAndRace(
         groupId,
         raceId,
       );
-
     for (let i = 0; i < results.length; i++) {
       let fullGuess = false;
       let smallestDiff: number | null = null;
@@ -116,9 +106,10 @@ export class ScoreService {
           halfPointArray = [];
           const existingScore = await this.scoreRepository.findOne({
             where: {
-              userId,
-              raceId,
-              groupId,
+              userId: userId,
+              raceId: raceId,
+              groupId: groupId,
+              position: results[i].position,
             },
           });
           if (existingScore) {
@@ -151,9 +142,10 @@ export class ScoreService {
         if (!fullPointArray.includes(userId)) {
           const existingScore = await this.scoreRepository.findOne({
             where: {
-              userId,
-              raceId,
-              groupId,
+              userId: userId,
+              raceId: raceId,
+              groupId: groupId,
+              position: results[i].position,
             },
           });
           if (existingScore) {
