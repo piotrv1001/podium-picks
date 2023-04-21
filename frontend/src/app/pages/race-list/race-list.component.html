@@ -8,6 +8,7 @@
   <app-race *ngFor="let race of races"
     [race]="race"
     [isAdmin]="isAdmin === 1"
+    [isNextRace]="race === nextRace"
     (raceClick)="handleRaceClick($event)"
     (editRaceClick)="openEditRaceDialog($event)"
     ></app-race>

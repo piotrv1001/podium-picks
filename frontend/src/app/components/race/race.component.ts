@@ -10,6 +10,7 @@ export class RaceComponent {
 
   @Input() race?: Race;
   @Input() isAdmin: boolean = false;
+  @Input() isNextRace?: boolean = false;
   @Output() raceClick: EventEmitter<number> = new EventEmitter<number>();
   @Output() editRaceClick: EventEmitter<number> = new EventEmitter<number>();
 

@@ -24,6 +24,7 @@ export class RaceListComponent implements OnInit {
   userId2Scores: Map<number, number> = new Map<number, number>();
   dataArray: [number, number][] = [];
   userId2Users: Map<number, User> = new Map<number, User>();
+  nextRace?: Race;
 
   constructor(
     private raceService: RaceService,
@@ -69,7 +70,10 @@ export class RaceListComponent implements OnInit {
 
   private getRaces(): void {
     if(this.seasonId) {
-      this.raceService.getAllRacesForSeason(this.seasonId).subscribe(races => this.races = races);
+      this.raceService.getAllRacesForSeason(this.seasonId).subscribe(races => {
+        this.races = races;
+        this.nextRace = this.getNextRaceByDate(this.races);
+      });
     }
   }
 
@@ -100,6 +104,28 @@ export class RaceListComponent implements OnInit {
         }
       })
     }
+  }
+
+  private getNextRaceByDate(races: Race[]): Race | undefined {
+    const now = new Date();
+    let closestRace: Race | undefined;
+    let closestDiff = Infinity;
+
+    for (const race of races) {
+      let raceDate = race?.date;
+      if(raceDate) {
+        if(typeof raceDate === 'string') {
+          raceDate = new Date(raceDate);
+        }
+        const diff = raceDate.getTime() - now.getTime();
+        if (diff > 0 && diff < closestDiff) {
+          closestDiff = diff;
+          closestRace = race;
+        }
+      }
+    }
+
+    return closestRace;
   }
 
 }
