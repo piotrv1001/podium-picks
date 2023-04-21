@@ -6,6 +6,9 @@ import { LocalStorageService } from "src/app/services/local-storage.service";
 import { RaceService } from "src/app/services/race.service";
 import { UpdateRaceDialogComponent } from "../admin/update-race-dialog/update-race-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { ScoreService } from "src/app/services/score.service";
+import { User } from "src/app/model/entities/user.model";
+import { GroupService } from "src/app/services/group.service";
 
 @Component({
   selector: 'app-race-list',
@@ -18,9 +21,14 @@ export class RaceListComponent implements OnInit {
   groupId?: number;
   seasonId?: number;
   isAdmin?: number | null;
+  userId2Scores: Map<number, number> = new Map<number, number>();
+  dataArray: [number, number][] = [];
+  userId2Users: Map<number, User> = new Map<number, User>();
 
   constructor(
     private raceService: RaceService,
+    private scoreService: ScoreService,
+    private groupService: GroupService,
     private router: Router,
     private localStorageServie: LocalStorageService,
     public dialog: MatDialog,
@@ -33,6 +41,10 @@ export class RaceListComponent implements OnInit {
     const isAdmin = this.localStorageServie.getIsAdmin();
     this.isAdmin = isAdmin;
     this.getRaces();
+    if(!this.isAdmin) {
+      this.getUsersByGroup();
+      this.getGrouppedScores();
+    }
   }
 
   handleRaceClick(raceId: number) {
@@ -65,6 +77,29 @@ export class RaceListComponent implements OnInit {
     this.snackBar.open(msg, 'OK', {
       duration: 3000
     });
+  }
+
+  private getGrouppedScores(): void {
+    if(this.groupId && this.seasonId) {
+      this.scoreService.getGrouppedTotalScores(this.groupId, this.seasonId).subscribe(scoreJSON => {
+        this.userId2Scores = new Map<number, number>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
+        this.dataArray = Array.from(this.userId2Scores);
+      })
+    }
+  }
+
+  private getUsersByGroup(): void {
+    if(this.groupId) {
+      this.groupService.getUsersByGroup(this.groupId).subscribe({
+        next: (users: User[]) => {
+          users.forEach(user => {
+            if(user.id !== undefined) {
+              this.userId2Users.set(user.id, user);
+            }
+          });
+        }
+      })
+    }
   }
 
 }
