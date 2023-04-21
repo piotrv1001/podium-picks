@@ -1,4 +1,4 @@
-<div class="race-card" (click)="raceClicked()">
+<div class="race-card" (click)="raceClicked()" [ngClass]="isNextRace ? 'next-race' : 'race'">
   <div class="row">
     <div class="race-name">{{ race?.name }}</div>
     <mat-icon *ngIf="isAdmin" (click)="editRaceClicked($event)" class="edit-icon">edit</mat-icon>
