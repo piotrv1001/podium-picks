@@ -1,3 +1,9 @@
+<div *ngIf="!isAdmin">
+  <div *ngFor="let data of dataArray">
+    <span class="username item">{{ userId2Users.get(data[0])?.username }}</span>
+    <span class="points item">{{ data[1] }}</span>
+  </div>
+</div>
 <div class="race-list">
   <app-race *ngFor="let race of races"
     [race]="race"

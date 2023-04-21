@@ -18,4 +18,9 @@ export class ScoreService {
     return this.http.get<Record<string, Score[]>>(url);
   }
 
+  getGrouppedTotalScores(groupId: number, seasonId: number): Observable<Record<string, number>> {
+    const url = `${BASE_URL}/${this.SCORE_ROUTE}/${groupId}/${seasonId}/sum-points-by-user`;
+    return this.http.get<Record<string, number>>(url);
+  }
+
 }

@@ -165,4 +165,53 @@ export class ScoreService {
     }
     return scores;
   }
+
+  async sumPointsByUserIdAndGroupIdAndSeasonId(
+    userId: number,
+    groupId: number,
+    seasonId: number,
+  ): Promise<number> {
+    const queryBuilder = this.scoreRepository
+      .createQueryBuilder('s')
+      .select('SUM(s.points)', 'sum_points')
+      .innerJoin('s.race', 'r')
+      .where('s.userId = :userId', { userId })
+      .andWhere('s.groupId = :groupId', { groupId })
+      .andWhere('r.seasonId = :seasonId', { seasonId });
+
+    const result = await queryBuilder.getRawOne();
+    return parseFloat(result.sum_points);
+  }
+
+  async getSumPointsByGroupIdAndSeasonId(
+    groupId: number,
+    seasonId: number,
+  ): Promise<Map<number, number>> {
+    const users = await this.scoreRepository.query(
+      `
+    SELECT DISTINCT userId
+    FROM score
+    WHERE groupId = ?`,
+      [groupId],
+    );
+
+    const userIds = users.map((user) => user.userId);
+    const resultMap = new Map<number, number>(
+      userIds.map((userId) => [userId, 0]),
+    );
+    const scores = await this.scoreRepository
+      .createQueryBuilder('s')
+      .select(['s.userId as userId', 'SUM(s.points) as sum_points'])
+      .innerJoin('s.race', 'r')
+      .where('s.groupId = :groupId', { groupId })
+      .andWhere('r.seasonId = :seasonId', { seasonId })
+      .groupBy('s.userId')
+      .getRawMany();
+
+    scores.forEach((score) => {
+      resultMap.set(score.userId, parseFloat(score.sum_points));
+    });
+
+    return resultMap;
+  }
 }
