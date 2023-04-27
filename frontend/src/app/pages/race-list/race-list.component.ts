@@ -49,10 +49,20 @@ export class RaceListComponent implements OnInit {
   }
 
   handleRaceClick(raceId: number) {
+    if(this.isAdmin == null || this.isAdmin !== 1) {
+      this.router.navigate(['drivers'], { state: { raceId: raceId, groupId: this.groupId } });
+    }
+  }
+
+  handleResultsBtnClick(raceId: number): void {
     if(this.isAdmin && this.isAdmin === 1) {
       this.router.navigate(['results'], { state: { raceId: raceId } });
-    } else {
-      this.router.navigate(['drivers'], { state: { raceId: raceId, groupId: this.groupId } });
+    }
+  }
+
+  handlePointsBtnClick(raceId: number): void {
+    if(this.isAdmin && this.isAdmin === 1) {
+      this.router.navigate(['groups'], { state: { raceId: raceId } });
     }
   }
 

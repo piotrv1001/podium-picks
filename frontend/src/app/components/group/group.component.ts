@@ -11,6 +11,7 @@ import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation
 export class GroupComponent {
 
   @Input() group?: Group;
+  @Input() isAdmin?: boolean = false;
   @Output() groupClick: EventEmitter<number> = new EventEmitter<number>();
   @Output() leaveGroupClick: EventEmitter<number> = new EventEmitter<number>();
 

@@ -17,6 +17,11 @@ import { User } from 'src/user/user.entity';
 export class GroupController {
   constructor(private readonly groupService: GroupService) {}
 
+  @Get()
+  getAll(): Promise<Group[]> {
+    return this.groupService.getAll();
+  }
+
   @Post()
   create(@Request() req, @Query('userId') userId?: number): Promise<Group> {
     return this.groupService.create(req.body, userId);
@@ -37,11 +42,6 @@ export class GroupController {
   @Get()
   getByUserId(@Query('userId') userId: number) {
     return this.groupService.getGroupsByUserId(userId);
-  }
-
-  @Get()
-  getAll(): Promise<Group[]> {
-    return this.groupService.getAll();
   }
 
   @Get(':id/users')

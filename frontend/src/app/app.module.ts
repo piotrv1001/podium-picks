@@ -44,6 +44,9 @@ import { UpdateRaceDialogComponent } from './pages/admin/update-race-dialog/upda
 import { DriverLastNamePipe } from './pipes/driver-last-name.pipe';
 import { DriverFirstNamePipe } from './pipes/driver-first-name.pipe';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AdminGroupsComponent } from './pages/admin/admin-groups/admin-groups.component';
+import { AdminUsersComponent } from './pages/admin/admin-users/admin-users.component';
+import { UserComponent } from './components/user/user.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +73,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     UpdateRaceDialogComponent,
     DriverFirstNamePipe,
     DriverLastNamePipe,
+    AdminGroupsComponent,
+    AdminUsersComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

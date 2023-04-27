@@ -1,0 +1,12 @@
+.user {
+  padding: 1rem 4rem;
+  background-color: lightgray;
+  border-radius: .2rem;
+  margin: 1rem 0;
+}
+
+.user:hover {
+  cursor: pointer;
+  background-color: gray;
+  color: white;
+}
