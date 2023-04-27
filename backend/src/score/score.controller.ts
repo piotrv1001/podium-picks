@@ -1,4 +1,12 @@
-import { Controller, Get, Delete, Param, Request, Post } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Delete,
+  Param,
+  Request,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ScoreService } from './score.service';
 import { Score } from './score.entity';
 
@@ -9,6 +17,11 @@ export class ScoreController {
   @Post()
   create(@Request() req): Promise<Score> {
     return this.scoreService.create(req.body);
+  }
+
+  @Put('updateMany')
+  updateMany(@Request() req): Promise<Score[]> {
+    return this.scoreService.updateMany(req.body);
   }
 
   @Get(':groupId/:seasonId/sum-points-by-user')

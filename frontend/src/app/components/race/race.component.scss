@@ -16,12 +16,18 @@
 }
 
 .race-flag {
-  width: 200px;
+  display: inline-block;
+  width: 150px;
   height: 100px;
+  border-radius: .2rem;
+  border: .5px solid gray;
+  overflow: hidden;
 }
 
 .fi {
-  background-position: 0%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .row {
@@ -54,4 +60,12 @@
 
 .next-race:hover {
   background-color: #c2c2c2;
+}
+
+.race-buttons {
+  margin-top: 2rem;
+}
+
+.results-btn {
+  margin-right: 1rem;
 }

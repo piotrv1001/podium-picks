@@ -1,0 +1,9 @@
+<div class="groups">
+  <div class="group-container" *ngFor="let group of groups">
+    <app-group
+      [group]="group"
+      [isAdmin]="true"
+      (groupClick)="handleGroupClick($event)">
+    </app-group>
+  </div>
+</div>

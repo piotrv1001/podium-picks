@@ -27,6 +27,15 @@ export class ScoreService {
     return this.scoreRepository.save(score);
   }
 
+  async updateMany(scoreDtoArray: ScoreDTO[]): Promise<Score[]> {
+    const updatedScoreArray: Score[] = [];
+    for (const score of scoreDtoArray) {
+      const updatedScore = await this.scoreRepository.save(score);
+      updatedScoreArray.push(updatedScore);
+    }
+    return updatedScoreArray;
+  }
+
   async getAll(): Promise<Score[]> {
     return this.scoreRepository.find();
   }

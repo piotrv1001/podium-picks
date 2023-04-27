@@ -1,7 +1,7 @@
 <div class="group-card" (click)="groupClicked()">
   <div class="header-row">
     <div class="group-name">{{ group?.name }}</div>
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
+    <button *ngIf="!isAdmin" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>

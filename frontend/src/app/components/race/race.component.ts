@@ -13,16 +13,32 @@ export class RaceComponent {
   @Input() isNextRace?: boolean = false;
   @Output() raceClick: EventEmitter<number> = new EventEmitter<number>();
   @Output() editRaceClick: EventEmitter<number> = new EventEmitter<number>();
+  @Output() resultsBtnClick: EventEmitter<number> = new EventEmitter<number>();
+  @Output() pointsBtnClick: EventEmitter<number> = new EventEmitter<number>();
 
   raceClicked(): void {
-    if(this.race?.id) {
+    if(this.race?.id != null) {
       this.raceClick.emit(this.race.id);
+    }
+  }
+
+  resultsBtnClicked(event: Event): void {
+    event.stopPropagation();
+    if(this.race?.id != null) {
+      this.resultsBtnClick.emit(this.race.id);
+    }
+  }
+
+  pointsBtnClicked(event: Event): void {
+    event.stopPropagation();
+    if(this.race?.id != null) {
+      this.pointsBtnClick.emit(this.race.id);
     }
   }
 
   editRaceClicked(event: Event): void {
     event.stopPropagation();
-    if(this.race?.id) {
+    if(this.race?.id != null) {
       this.editRaceClick.emit(this.race.id);
     }
   }

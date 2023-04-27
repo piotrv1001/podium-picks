@@ -15,6 +15,10 @@ export class GroupService {
 
   constructor(private http: HttpClient) {}
 
+  getAll(): Observable<Group[]> {
+    return this.http.get<Group[]>(`${BASE_URL}/${this.GROUP_ROTE}`);
+  }
+
   create(groupDto: GroupDTO, userId?: number): Observable<Group> {
     if(userId) {
       return this.http.post<Group>(`${BASE_URL}/${this.GROUP_ROTE}?userId=${userId}`, groupDto);

@@ -5,6 +5,8 @@ import { RaceListComponent } from "./race-list/race-list.component";
 import { SeasonListComponent } from "./season-list/season-list.component";
 import { GroupPredictionsComponent } from "./group-predictions/group-predictions.component";
 import { AdminRaceResultsComponent } from "./admin/admin-race-results/admin-race-results.component";
+import { AdminGroupsComponent } from "./admin/admin-groups/admin-groups.component";
+import { AdminUsersComponent } from "./admin/admin-users/admin-users.component";
 
 @NgModule({
   imports: [
@@ -28,6 +30,14 @@ import { AdminRaceResultsComponent } from "./admin/admin-race-results/admin-race
     {
       path: 'results',
       component: AdminRaceResultsComponent
+    },
+    {
+      path: 'groups',
+      component: AdminGroupsComponent
+    },
+    {
+      path: 'users',
+      component: AdminUsersComponent
     }
   ])
 ]})
