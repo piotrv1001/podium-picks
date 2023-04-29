@@ -1,0 +1,8 @@
+<app-driver-drag-drop
+  [drivers]="drivers"
+  [scoreArray]="scores"
+  [isEditable]="false"
+  [isPointsUpdate]="true"
+  (scoresChanged)="handleScoreUpdate($event)"
+  (saved)="handleSavePointsBtnClick()">
+</app-driver-drag-drop>

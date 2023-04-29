@@ -41,7 +41,10 @@ export class GroupService {
     return this.groupRepository.findOneBy({ id: id });
   }
 
-  async getGroupsByUserId(userId: number): Promise<Group[]> {
+  async getGroupsByUserId(userId?: number): Promise<Group[]> {
+    if (userId == null) {
+      return this.getAll();
+    }
     const queryBuilder = this.groupRepository
       .createQueryBuilder('group')
       .innerJoin('group.users', 'user')

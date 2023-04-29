@@ -47,6 +47,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AdminGroupsComponent } from './pages/admin/admin-groups/admin-groups.component';
 import { AdminUsersComponent } from './pages/admin/admin-users/admin-users.component';
 import { UserComponent } from './components/user/user.component';
+import { AdminPointsComponent } from './pages/admin/admin-points/admin-points.component';
+import { ToFixedStringPipe } from './pipes/to-fixed-string.pipe';
 
 @NgModule({
   declarations: [
@@ -73,9 +75,11 @@ import { UserComponent } from './components/user/user.component';
     UpdateRaceDialogComponent,
     DriverFirstNamePipe,
     DriverLastNamePipe,
+    ToFixedStringPipe,
     AdminGroupsComponent,
     AdminUsersComponent,
-    UserComponent
+    UserComponent,
+    AdminPointsComponent
   ],
   imports: [
     BrowserModule,

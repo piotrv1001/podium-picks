@@ -6,6 +6,7 @@ import {
   Request,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ScoreService } from './score.service';
 import { Score } from './score.entity';
@@ -74,6 +75,15 @@ export class ScoreController {
     });
 
     return response;
+  }
+
+  @Get()
+  async getByUserGroupRace(
+    @Query('userId') userId: number,
+    @Query('groupId') groupId: number,
+    @Query('raceId') raceId: number,
+  ): Promise<Score[]> {
+    return this.scoreService.getByUserGroupRace(userId, groupId, raceId);
   }
 
   @Get()

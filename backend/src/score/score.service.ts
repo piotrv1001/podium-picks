@@ -27,7 +27,7 @@ export class ScoreService {
     return this.scoreRepository.save(score);
   }
 
-  async updateMany(scoreDtoArray: ScoreDTO[]): Promise<Score[]> {
+  async updateMany(scoreDtoArray: Score[]): Promise<Score[]> {
     const updatedScoreArray: Score[] = [];
     for (const score of scoreDtoArray) {
       const updatedScore = await this.scoreRepository.save(score);
@@ -42,6 +42,20 @@ export class ScoreService {
 
   async getById(id: number): Promise<Score> {
     return this.scoreRepository.findOneBy({ id: id });
+  }
+
+  async getByUserGroupRace(
+    userId: number,
+    groupId: number,
+    raceId: number,
+  ): Promise<Score[]> {
+    return this.scoreRepository.find({
+      where: {
+        userId,
+        raceId,
+        groupId,
+      },
+    });
   }
 
   async delete(id: number): Promise<void> {
