@@ -6,5 +6,5 @@
     <span class="team-name">{{ driver?.team?.name }}</span>
   </div>
   <mat-icon *ngIf="showDragIcon" class="drag-icon">drag_indicator</mat-icon>
-  <span *ngIf="points">{{ points }}</span>
+  <span *ngIf="points != null">{{ points | toFixedString }}</span>
 </div>

@@ -15,11 +15,17 @@
       <app-driver-name
         [driver]="driver"
         [points]="pointArray[i]"
-        [showDragIcon]="isEditable"        >
+        [showDragIcon]="isEditable">
       </app-driver-name>
     </div>
   </div>
-  <button *ngIf="isEditable"
+  <div class="index-list">
+    <div *ngFor="let driver of drivers; let i = index" class="point-btn-col">
+      <button class="point-btn" [disabled]="pointArray[i] > 0.5" (click)="pointsChanged(i, true)">+</button>
+      <button class="point-btn" [disabled]="pointArray[i] < 0.5" (click)="pointsChanged(i, false)">-</button>
+    </div>
+  </div>
+  <button *ngIf="isEditable || isPointsUpdate"
     mat-raised-button
     color="primary"
     (click)="saveBtnClicked()"

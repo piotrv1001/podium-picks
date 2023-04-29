@@ -9,6 +9,7 @@ export class Score {
     public user?: User,
     public race?: Race,
     public userId?: number,
-    public raceId?: number
+    public raceId?: number,
+    public groupId?: number,
   ) {}
 }

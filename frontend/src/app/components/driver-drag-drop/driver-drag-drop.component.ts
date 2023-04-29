@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, Output, OnInit, OnChanges } from "@angular/core";
 import { Driver } from "src/app/model/entities/driver.model";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { DragDropEvent } from "src/app/model/types/drag-drop-event";
@@ -10,13 +10,15 @@ import { Score } from "src/app/model/entities/score.model";
   templateUrl: './driver-drag-drop.component.html',
   styleUrls: ['./driver-drag-drop.component.scss']
 })
-export class DriverDragDropComponent implements OnInit {
+export class DriverDragDropComponent implements OnInit, OnChanges {
 
   @Input() drivers: Driver[] = [];
   @Input() isEditable: boolean = false;
+  @Input() isPointsUpdate: boolean = false;
   @Input() scoreArray?: Score[] = [];
   @Output() dropped: EventEmitter<DragDropEvent> = new EventEmitter();
   @Output() saved: EventEmitter<Driver[]> = new EventEmitter();
+  @Output() scoresChanged: EventEmitter<Score> = new EventEmitter();
   madeChanges: boolean = false;
   pointArray: number[] = [];
   lastMovedItemIndex: number = -1;
@@ -24,10 +26,11 @@ export class DriverDragDropComponent implements OnInit {
   constructor(private raceEventService: RaceEventService) { }
 
   ngOnInit(): void {
-    if(this.scoreArray && this.scoreArray.length > 0) {
-      this.pointArray = this.scoreArray.map(s => s.points ?? 0);
-    }
     this.subscribeToMadeChanges();
+  }
+
+  ngOnChanges(): void {
+    this.updatePointArray();
   }
 
   drop(event: CdkDragDrop<Driver[]>) {
@@ -45,8 +48,30 @@ export class DriverDragDropComponent implements OnInit {
     this.saved.emit(this.drivers);
   }
 
+  pointsChanged(index: number, increment: boolean): void {
+    if(this.scoreArray) {
+      const score = this.scoreArray[index];
+      if(score && score.points != null) {
+        this.madeChanges = true;
+        if(increment) {
+          score.points = Number(score.points) + 0.5;
+        } else {
+          score.points = Number(score.points) - 0.5;
+        }
+        this.updatePointArray();
+        this.scoresChanged.emit(score);
+      }
+    }
+  }
+
   private subscribeToMadeChanges(): void {
     this.raceEventService.getMadeChangesObservable().subscribe(madeChanges => this.madeChanges = madeChanges);
+  }
+
+  private updatePointArray(): void {
+    if(this.scoreArray && this.scoreArray.length > 0) {
+      this.pointArray = this.scoreArray.map(s => s.points ?? 0);
+    }
   }
 
 }

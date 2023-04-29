@@ -27,7 +27,7 @@ export class AdminUsersComponent implements OnInit {
   }
 
   handleUserClick(userId: number): void {
-    console.log('userId', userId);
+    this.router.navigate(['points'], { state: { raceId: this.raceId, groupId: this.groupId, userId: userId } });
   }
 
   private getUsers(): void {

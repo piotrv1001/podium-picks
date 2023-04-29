@@ -7,6 +7,7 @@ import { GroupPredictionsComponent } from "./group-predictions/group-predictions
 import { AdminRaceResultsComponent } from "./admin/admin-race-results/admin-race-results.component";
 import { AdminGroupsComponent } from "./admin/admin-groups/admin-groups.component";
 import { AdminUsersComponent } from "./admin/admin-users/admin-users.component";
+import { AdminPointsComponent } from "./admin/admin-points/admin-points.component";
 
 @NgModule({
   imports: [
@@ -38,6 +39,10 @@ import { AdminUsersComponent } from "./admin/admin-users/admin-users.component";
     {
       path: 'users',
       component: AdminUsersComponent
+    },
+    {
+      path: 'points',
+      component: AdminPointsComponent
     }
   ])
 ]})
