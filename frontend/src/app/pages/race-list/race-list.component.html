@@ -1,7 +1,10 @@
 <div *ngIf="!isAdmin">
   <div *ngFor="let data of dataArray">
     <span class="username item">{{ userId2Users.get(data[0])?.username }}</span>
-    <span class="points item">{{ data[1] }}</span>
+    <span class="points item">{{ data[1].min }}</span>
+    <span class="points item">{{ data[1].max }}</span>
+    <span class="points item">{{ data[1].avg }}</span>
+    <span class="points item">{{ data[1].total }}</span>
   </div>
 </div>
 <div class="race-list">

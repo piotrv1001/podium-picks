@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_URL } from "../app.constants";
 import { Score } from "../model/entities/score.model";
-import { ScoreDTO } from "../model/dto/score.dto";
+import { Stats } from "../model/types/stats";
 
 @Injectable({
   providedIn: "root"
@@ -20,9 +20,9 @@ export class ScoreService {
     return this.http.get<Record<string, Score[]>>(url);
   }
 
-  getGrouppedTotalScores(groupId: number, seasonId: number): Observable<Record<string, number>> {
-    const url = `${BASE_URL}/${this.SCORE_ROUTE}/${groupId}/${seasonId}/sum-points-by-user`;
-    return this.http.get<Record<string, number>>(url);
+  getGrouppedTotalScores(groupId: number, seasonId: number): Observable<Record<string, Stats>> {
+    const url = `${BASE_URL}/${this.SCORE_ROUTE}/${groupId}/${seasonId}/stats-by-user`;
+    return this.http.get<Record<string, Stats>>(url);
   }
 
   getByUserGroupRace(userId: number, groupI: number, raceId: number): Observable<Score[]> {
