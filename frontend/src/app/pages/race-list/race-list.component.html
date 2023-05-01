@@ -12,10 +12,10 @@
     <tbody>
       <tr *ngFor="let data of dataArray">
         <td>{{ userId2Users.get(data[0])?.username }}</td>
-        <td>{{ data[1].min }}</td>
-        <td>{{ data[1].max }}</td>
-        <td>{{ data[1].avg }}</td>
-        <td>{{ data[1].total }}</td>
+        <td>{{ data[1].min | toFixedString:2}}</td>
+        <td>{{ data[1].max | toFixedString:2}}</td>
+        <td>{{ data[1].avg | toFixedString:2}}</td>
+        <td>{{ data[1].total | toFixedString:2}}</td>
       </tr>
     </tbody>
   </table>

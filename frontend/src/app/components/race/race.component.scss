@@ -10,7 +10,7 @@
   cursor: pointer;
 }
 
-.race-name {
+.race-country {
   font-size: 1.2rem;
   font-weight: bold;
 }
@@ -54,12 +54,46 @@
   background-color: #e4e4e4;
 }
 
-.next-race {
-  background-color: #d3d3d3;
+@keyframes rotate {
+	100% {
+		transform: rotate(1turn);
+	}
 }
 
-.next-race:hover {
-  background-color: #c2c2c2;
+.next-race {
+	position: relative;
+	z-index: 0;
+	border-radius: 10px;
+  border: 2px solid rgba(69, 255, 69, 0.5);
+  box-shadow: 0 0 .8rem green;
+	overflow: hidden;
+
+	&::before {
+		content: '';
+		position: absolute;
+		z-index: -2;
+		left: -50%;
+		top: -50%;
+		width: 200%;
+		height: 200%;
+		background-color: #fff;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+		background-image: conic-gradient(transparent, rgb(69, 255, 69), transparent 30%);
+		animation: rotate 2s linear infinite;
+	}
+
+	&::after {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		left: 6px;
+		top: 6px;
+		width: calc(100% - 12px);
+		height: calc(100% - 12px);
+		background: #fff;
+		border-radius: 5px;
+	}
 }
 
 .race-buttons {
@@ -68,4 +102,19 @@
 
 .results-btn {
   margin-right: 1rem;
+}
+
+.race-name {
+  margin-bottom: 1rem;
+}
+
+.race-date-row {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.race-date {
+  margin-left: .5rem;
 }
