@@ -25,7 +25,7 @@ export class ScoreController {
     return this.scoreService.updateMany(req.body);
   }
 
-  @Get(':groupId/:seasonId/sum-points-by-user')
+  @Get(':groupId/:seasonId/stats-by-user')
   async getSumPointsByGroupIdAndSeasonId(
     @Param('groupId') groupId: number,
     @Param('seasonId') seasonId: number,
@@ -37,8 +37,8 @@ export class ScoreController {
       );
 
     const response = {};
-    grouppedPoints.forEach((points, userId) => {
-      response[userId] = points;
+    grouppedPoints.forEach((stats, userId) => {
+      response[userId] = stats;
     });
 
     return response;

@@ -9,6 +9,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ScoreService } from "src/app/services/score.service";
 import { User } from "src/app/model/entities/user.model";
 import { GroupService } from "src/app/services/group.service";
+import { Stats } from "src/app/model/types/stats";
 
 @Component({
   selector: 'app-race-list',
@@ -21,8 +22,8 @@ export class RaceListComponent implements OnInit {
   groupId?: number;
   seasonId?: number;
   isAdmin?: number | null;
-  userId2Scores: Map<number, number> = new Map<number, number>();
-  dataArray: [number, number][] = [];
+  userId2Stats: Map<number, Stats> = new Map<number, Stats>();
+  dataArray: [number, Stats][] = [];
   userId2Users: Map<number, User> = new Map<number, User>();
   nextRace?: Race;
 
@@ -96,8 +97,8 @@ export class RaceListComponent implements OnInit {
   private getGrouppedScores(): void {
     if(this.groupId && this.seasonId) {
       this.scoreService.getGrouppedTotalScores(this.groupId, this.seasonId).subscribe(scoreJSON => {
-        this.userId2Scores = new Map<number, number>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
-        this.dataArray = Array.from(this.userId2Scores);
+        this.userId2Stats = new Map<number, Stats>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
+        this.dataArray = Array.from(this.userId2Stats);
       })
     }
   }

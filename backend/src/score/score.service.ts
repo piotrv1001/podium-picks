@@ -7,6 +7,13 @@ import { Result } from 'src/result/result.entity';
 import { PredictionService } from 'src/prediction/prediction.service';
 import { Group } from 'src/group/group.entity';
 
+export interface Stats {
+  total: number;
+  avg: number;
+  min: number;
+  max: number;
+}
+
 @Injectable()
 export class ScoreService {
   constructor(
@@ -209,7 +216,7 @@ export class ScoreService {
   async getSumPointsByGroupIdAndSeasonId(
     groupId: number,
     seasonId: number,
-  ): Promise<Map<number, number>> {
+  ): Promise<Map<number, Stats>> {
     const users = await this.scoreRepository.query(
       `
     SELECT DISTINCT userId
@@ -219,20 +226,46 @@ export class ScoreService {
     );
 
     const userIds = users.map((user) => user.userId);
-    const resultMap = new Map<number, number>(
-      userIds.map((userId) => [userId, 0]),
+    const resultMap = new Map<number, Stats>(
+      userIds.map((userId) => [userId, {}]),
     );
     const scores = await this.scoreRepository
       .createQueryBuilder('s')
-      .select(['s.userId as userId', 'SUM(s.points) as sum_points'])
+      .select([
+        's.userId as userId',
+        's.raceId as raceId',
+        'SUM(s.points) as sum_points',
+      ])
       .innerJoin('s.race', 'r')
       .where('s.groupId = :groupId', { groupId })
       .andWhere('r.seasonId = :seasonId', { seasonId })
-      .groupBy('s.userId')
+      .groupBy('s.userId, s.raceId')
+      .orderBy('s.userId', 'ASC')
       .getRawMany();
 
-    scores.forEach((score) => {
-      resultMap.set(score.userId, parseFloat(score.sum_points));
+    let raceCount = 0;
+    scores.forEach((score: any) => {
+      const points = parseFloat(score.sum_points);
+      const stats: Stats = resultMap.get(score.userId);
+      if (Object.keys(stats).length !== 0) {
+        raceCount++;
+        stats.total += points;
+        stats.avg = stats.total / raceCount;
+        if (points > stats.max) {
+          stats.max = points;
+        } else if (points < stats.min) {
+          stats.min = points;
+        }
+      } else {
+        raceCount = 1;
+        const newStats: Stats = {
+          max: points,
+          min: points,
+          total: points,
+          avg: points,
+        };
+        resultMap.set(score.userId, newStats);
+      }
     });
 
     return resultMap;
