@@ -22,6 +22,9 @@ export class Race {
   @Column({ nullable: true, type: 'datetime' })
   date?: Date;
 
+  @Column({ nullable: true, type: 'datetime' })
+  predictionDeadline?: Date;
+
   @Column({ nullable: true })
   country?: string;
 

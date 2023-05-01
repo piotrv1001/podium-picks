@@ -15,6 +15,7 @@ export class RaceService {
     const race = new Race();
     race.name = raceDto.name;
     race.date = raceDto.date;
+    race.predictionDeadline = raceDto.predictionDeadline;
     race.country = raceDto.country;
     race.countryCode = raceDto.countryCode;
     return this.raceRepository.save(race);
@@ -54,6 +55,7 @@ export class RaceService {
     bahrain.country = 'Bahrain';
     bahrain.countryCode = 'BH';
     bahrain.date = new Date(2023, 2, 5);
+    bahrain.predictionDeadline = this.getTwoDaysPrior(bahrain.date);
     bahrain.seasonId = 1;
     newRaces.push(await this.raceRepository.save(bahrain));
     const saudi = new Race();
@@ -61,6 +63,7 @@ export class RaceService {
     saudi.country = 'Saudi Arabia';
     saudi.countryCode = 'SA';
     saudi.date = new Date(2023, 2, 19);
+    saudi.predictionDeadline = this.getTwoDaysPrior(saudi.date);
     saudi.seasonId = 1;
     newRaces.push(await this.raceRepository.save(saudi));
     const australia = new Race();
@@ -68,6 +71,7 @@ export class RaceService {
     australia.country = 'Australia';
     australia.countryCode = 'AU';
     australia.date = new Date(2023, 3, 2);
+    australia.predictionDeadline = this.getTwoDaysPrior(australia.date);
     australia.seasonId = 1;
     newRaces.push(await this.raceRepository.save(australia));
     const azerbaijan = new Race();
@@ -75,6 +79,7 @@ export class RaceService {
     azerbaijan.country = 'Azerbaijan';
     azerbaijan.countryCode = 'AZ';
     azerbaijan.date = new Date(2023, 3, 30);
+    azerbaijan.predictionDeadline = this.getTwoDaysPrior(azerbaijan.date);
     azerbaijan.seasonId = 1;
     newRaces.push(await this.raceRepository.save(azerbaijan));
     const usa = new Race();
@@ -82,6 +87,7 @@ export class RaceService {
     usa.country = 'United States';
     usa.countryCode = 'US';
     usa.date = new Date(2023, 4, 7);
+    usa.predictionDeadline = this.getTwoDaysPrior(usa.date);
     usa.seasonId = 1;
     newRaces.push(await this.raceRepository.save(usa));
     const italy = new Race();
@@ -90,6 +96,7 @@ export class RaceService {
     italy.country = 'Italy';
     italy.countryCode = 'IT';
     italy.date = new Date(2023, 4, 21);
+    italy.predictionDeadline = this.getTwoDaysPrior(italy.date);
     italy.seasonId = 1;
     newRaces.push(await this.raceRepository.save(italy));
     const monaco = new Race();
@@ -97,6 +104,7 @@ export class RaceService {
     monaco.country = 'Monaco';
     monaco.countryCode = 'MC';
     monaco.date = new Date(2023, 4, 28);
+    monaco.predictionDeadline = this.getTwoDaysPrior(monaco.date);
     monaco.seasonId = 1;
     newRaces.push(await this.raceRepository.save(monaco));
     const spain = new Race();
@@ -104,6 +112,7 @@ export class RaceService {
     spain.country = 'Spain';
     spain.countryCode = 'ES';
     spain.date = new Date(2023, 5, 4);
+    spain.predictionDeadline = this.getTwoDaysPrior(spain.date);
     spain.seasonId = 1;
     newRaces.push(await this.raceRepository.save(spain));
     const canada = new Race();
@@ -111,6 +120,7 @@ export class RaceService {
     canada.country = 'Canada';
     canada.countryCode = 'CA';
     canada.date = new Date(2023, 5, 18);
+    canada.predictionDeadline = this.getTwoDaysPrior(canada.date);
     canada.seasonId = 1;
     newRaces.push(await this.raceRepository.save(canada));
     const austria = new Race();
@@ -118,6 +128,7 @@ export class RaceService {
     austria.country = 'Austria';
     austria.countryCode = 'AT';
     austria.date = new Date(2023, 6, 2);
+    austria.predictionDeadline = this.getTwoDaysPrior(austria.date);
     austria.seasonId = 1;
     newRaces.push(await this.raceRepository.save(austria));
     const britain = new Race();
@@ -125,6 +136,7 @@ export class RaceService {
     britain.country = 'Great Britain';
     britain.countryCode = 'GB';
     britain.date = new Date(2023, 6, 9);
+    britain.predictionDeadline = this.getTwoDaysPrior(britain.date);
     britain.seasonId = 1;
     newRaces.push(await this.raceRepository.save(britain));
     const hungary = new Race();
@@ -132,6 +144,7 @@ export class RaceService {
     hungary.country = 'Hungary';
     hungary.countryCode = 'HU';
     hungary.date = new Date(2023, 6, 23);
+    hungary.predictionDeadline = this.getTwoDaysPrior(hungary.date);
     hungary.seasonId = 1;
     newRaces.push(await this.raceRepository.save(hungary));
     const belgium = new Race();
@@ -139,6 +152,7 @@ export class RaceService {
     belgium.country = 'Belgium';
     belgium.countryCode = 'BE';
     belgium.date = new Date(2023, 6, 30);
+    belgium.predictionDeadline = this.getTwoDaysPrior(belgium.date);
     belgium.seasonId = 1;
     newRaces.push(await this.raceRepository.save(belgium));
     const holland = new Race();
@@ -146,6 +160,7 @@ export class RaceService {
     holland.country = 'Netherlands';
     holland.countryCode = 'NL';
     holland.date = new Date(2023, 7, 27);
+    holland.predictionDeadline = this.getTwoDaysPrior(holland.date);
     holland.seasonId = 1;
     newRaces.push(await this.raceRepository.save(holland));
     const italy2 = new Race();
@@ -153,6 +168,7 @@ export class RaceService {
     italy2.country = 'Italy';
     italy2.countryCode = 'IT';
     italy2.date = new Date(2023, 8, 3);
+    italy2.predictionDeadline = this.getTwoDaysPrior(italy2.date);
     italy2.seasonId = 1;
     newRaces.push(await this.raceRepository.save(italy2));
     const singapore = new Race();
@@ -160,6 +176,7 @@ export class RaceService {
     singapore.country = 'Singapore';
     singapore.countryCode = 'SG';
     singapore.date = new Date(2023, 8, 17);
+    singapore.predictionDeadline = this.getTwoDaysPrior(singapore.date);
     singapore.seasonId = 1;
     newRaces.push(await this.raceRepository.save(singapore));
     const japan = new Race();
@@ -167,6 +184,7 @@ export class RaceService {
     japan.country = 'Japan';
     japan.countryCode = 'JP';
     japan.date = new Date(2023, 8, 24);
+    japan.predictionDeadline = this.getTwoDaysPrior(japan.date);
     japan.seasonId = 1;
     newRaces.push(await this.raceRepository.save(japan));
     const qatar = new Race();
@@ -174,6 +192,7 @@ export class RaceService {
     qatar.country = 'Qatar';
     qatar.countryCode = 'QA';
     qatar.date = new Date(2023, 9, 8);
+    qatar.predictionDeadline = this.getTwoDaysPrior(qatar.date);
     qatar.seasonId = 1;
     newRaces.push(await this.raceRepository.save(qatar));
     const usa2 = new Race();
@@ -181,6 +200,7 @@ export class RaceService {
     usa2.country = 'United States';
     usa2.countryCode = 'US';
     usa2.date = new Date(2023, 9, 22);
+    usa2.predictionDeadline = this.getTwoDaysPrior(usa2.date);
     usa2.seasonId = 1;
     newRaces.push(await this.raceRepository.save(usa2));
     const mexico = new Race();
@@ -188,6 +208,7 @@ export class RaceService {
     mexico.country = 'Mexico';
     mexico.countryCode = 'MX';
     mexico.date = new Date(2023, 9, 29);
+    mexico.predictionDeadline = this.getTwoDaysPrior(mexico.date);
     mexico.seasonId = 1;
     newRaces.push(await this.raceRepository.save(mexico));
     const brazil = new Race();
@@ -195,6 +216,7 @@ export class RaceService {
     brazil.country = 'Brazil';
     brazil.countryCode = 'BR';
     brazil.date = new Date(2023, 10, 5);
+    brazil.predictionDeadline = this.getTwoDaysPrior(brazil.date);
     brazil.seasonId = 1;
     newRaces.push(await this.raceRepository.save(brazil));
     const usa3 = new Race();
@@ -202,6 +224,7 @@ export class RaceService {
     usa3.country = 'United States';
     usa3.countryCode = 'US';
     usa3.date = new Date(2023, 10, 19);
+    usa3.predictionDeadline = this.getTwoDaysPrior(usa3.date);
     usa3.seasonId = 1;
     newRaces.push(await this.raceRepository.save(usa3));
     const abuDhabi = new Race();
@@ -209,9 +232,21 @@ export class RaceService {
     abuDhabi.country = 'Abu Dhabi';
     abuDhabi.countryCode = 'AE';
     abuDhabi.date = new Date(2023, 10, 26);
+    abuDhabi.predictionDeadline = this.getTwoDaysPrior(abuDhabi.date);
     abuDhabi.seasonId = 1;
     newRaces.push(await this.raceRepository.save(abuDhabi));
 
     return newRaces;
+  }
+
+  private getTwoDaysPrior(date: Date): Date {
+    const newDate = new Date(date);
+    newDate.setDate(date.getDate() - 2);
+
+    if (newDate.getMonth() !== date.getMonth()) {
+      newDate.setMonth(date.getMonth());
+    }
+
+    return newDate;
   }
 }

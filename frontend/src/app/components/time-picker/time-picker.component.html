@@ -1,0 +1,21 @@
+<div class="flex-row">
+  <div class="flex-col">
+    <button type="button" mat-icon-button (mousedown)="onHoursMouseDown($event, true)" (mouseup)="onHoursMouseUp($event)" (click)="changeHours($event, true)">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <span>{{ hours | timeString }}</span>
+    <button type="button" mat-icon-button (mousedown)="onHoursMouseDown($event, false)" (mouseup)="onHoursMouseUp($event)" (click)="changeHours($event, false)">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
+  <span>:</span>
+  <div class="flex-col">
+    <button type="button" mat-icon-button (mousedown)="onMinutesMouseDown($event, true)" (mouseup)="onMinutesMouseUp($event)" (click)="changeMinutes($event, true)">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <span>{{ minutes | timeString }}</span>
+    <button type="button" mat-icon-button (mousedown)="onMinutesMouseDown($event, false)" (mouseup)="onMinutesMouseUp($event)" (click)="changeMinutes($event, false)">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
+</div>

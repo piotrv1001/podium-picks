@@ -49,6 +49,8 @@ import { AdminUsersComponent } from './pages/admin/admin-users/admin-users.compo
 import { UserComponent } from './components/user/user.component';
 import { AdminPointsComponent } from './pages/admin/admin-points/admin-points.component';
 import { ToFixedStringPipe } from './pipes/to-fixed-string.pipe';
+import { TimePickerComponent } from './components/time-picker/time-picker.component';
+import { TimeStringPipe } from './pipes/time-string.pipe';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { ToFixedStringPipe } from './pipes/to-fixed-string.pipe';
     AdminGroupsComponent,
     AdminUsersComponent,
     UserComponent,
-    AdminPointsComponent
+    AdminPointsComponent,
+    TimePickerComponent,
+    TimeStringPipe
   ],
   imports: [
     BrowserModule,
