@@ -15,8 +15,11 @@
           placeholder="Your password"
           formControlName="password">
       </mat-form-field>
-      <button class="login-btn" (click)="login()">Login</button>
-      <span *ngIf="!areCredentialsCorrect" style="color: red; margin-top: 1rem;">Invalid username or password</span>
+      <button class="login-btn" (click)="login()" [disabled]="loginForm.invalid">Login</button>
+      <span *ngIf="!areCredentialsCorrect; else emptySpace" style="color: red; margin-top: 1rem;">Invalid username or password</span>
+      <ng-template #emptySpace>
+        <span style="margin-top: 2rem;"></span>
+      </ng-template>
       <button class="no-account-btn" mat-button (click)="registerBtnClicked()">Don't have an account?</button>
     </form>
   </div>

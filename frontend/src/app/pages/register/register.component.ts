@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { switchMap } from "rxjs";
 import { UserDTO } from "src/app/model/dto/user.dto";
 import { AuthService } from "src/app/shared/auth/auth.service";
@@ -33,9 +33,9 @@ export class RegisterComponent {
 
     ngOnInit(): void {
       this.registerForm = this.fb.group({
-        username: '',
-        password: '',
-        confirmPassword: ''
+        username: ['', Validators.required],
+        password: ['', Validators.required],
+        confirmPassword: ['', Validators.required]
       });
     }
 

@@ -50,7 +50,12 @@
   background-image: linear-gradient(to right, #FF057C 0%, #8D0B93 50%, #321575 100%);
 }
 
-.login-btn:hover {
+.login-btn:disabled {
+  background-image: none;
+  background-color: darkgrey;
+}
+
+.login-btn:not(:disabled):hover {
   cursor: pointer;
   background-image: linear-gradient(to right, #c3005c 0%, #69086e 50%, #250f57 100%);
 }
