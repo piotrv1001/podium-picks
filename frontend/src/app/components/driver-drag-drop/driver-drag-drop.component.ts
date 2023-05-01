@@ -71,6 +71,8 @@ export class DriverDragDropComponent implements OnInit, OnChanges {
   private updatePointArray(): void {
     if(this.scoreArray && this.scoreArray.length > 0) {
       this.pointArray = this.scoreArray.map(s => s.points ?? 0);
+    } else if(this.isPointsUpdate) {
+      this.pointArray = new Array(20).fill(0);
     }
   }
 

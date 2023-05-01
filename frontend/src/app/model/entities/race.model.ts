@@ -8,6 +8,7 @@ export class Race {
     public id?: number,
     public name?: string,
     public date?: Date,
+    public predictionDeadline?: Date,
     public country?: string,
     public countryCode?: string,
     public predictions?: Prediction[],

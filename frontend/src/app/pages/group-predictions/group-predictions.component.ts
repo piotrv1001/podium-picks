@@ -218,7 +218,12 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       if(this.raceId) {
         this.raceService.getById(this.raceId).subscribe(race => {
           this.race = race;
-          if(this.race.date) {
+          if(this.race.predictionDeadline) {
+            if(typeof this.race.predictionDeadline === 'string') {
+              this.race.predictionDeadline = new Date(this.race.predictionDeadline);
+            }
+            this.updateTimeLeft(this.race.predictionDeadline);
+          } else if(this.race.date) {
             if(typeof this.race.date === 'string') {
               this.race.date = new Date(this.race.date);
             }

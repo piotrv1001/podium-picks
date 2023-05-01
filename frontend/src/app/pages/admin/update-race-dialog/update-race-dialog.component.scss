@@ -25,6 +25,28 @@
   margin-left: .5rem;
 }
 
+.calendars {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .inline-calendar-card {
-  width: 400px;
+  width: 100%;
+}
+
+.flex-col {
+  display: flex;
+  width: 45%;
+  flex-direction: column;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.divider {
+  height: 1px;
+  background-color: rgb(224, 224, 224);
 }
