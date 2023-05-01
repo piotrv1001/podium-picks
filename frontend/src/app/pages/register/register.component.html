@@ -22,8 +22,11 @@
           placeholder="Confirm password"
           formControlName="confirmPassword">
       </mat-form-field>
-      <button class="login-btn" (click)="register()">Register</button>
-      <span *ngIf="!doPasswordsMatch" style="color: red; margin-top: 1rem;">Passwords need to match</span>
+      <button class="login-btn" (click)="register()" [disabled]="registerForm.invalid">Register</button>
+      <span *ngIf="!doPasswordsMatch; else emptySpace" style="color: red; margin-top: 1rem;">Passwords need to match</span>
+      <ng-template #emptySpace>
+        <span style="margin-top: 2rem;"></span>
+      </ng-template>
       <button class="no-account-btn" mat-button (click)="loginBtnClicked()">Already have an account? Sign in</button>
     </form>
   </div>
