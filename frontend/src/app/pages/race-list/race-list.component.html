@@ -1,11 +1,25 @@
 <div *ngIf="!isAdmin">
-  <div *ngFor="let data of dataArray">
-    <span class="username item">{{ userId2Users.get(data[0])?.username }}</span>
-    <span class="points item">{{ data[1].min }}</span>
-    <span class="points item">{{ data[1].max }}</span>
-    <span class="points item">{{ data[1].avg }}</span>
-    <span class="points item">{{ data[1].total }}</span>
-  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Min</th>
+        <th>Max</th>
+        <th>Average</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of dataArray">
+        <td>{{ userId2Users.get(data[0])?.username }}</td>
+        <td>{{ data[1].min }}</td>
+        <td>{{ data[1].max }}</td>
+        <td>{{ data[1].avg }}</td>
+        <td>{{ data[1].total }}</td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
 <div class="race-list">
   <app-race *ngFor="let race of races"

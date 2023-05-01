@@ -98,7 +98,7 @@ export class RaceListComponent implements OnInit {
     if(this.groupId && this.seasonId) {
       this.scoreService.getGrouppedTotalScores(this.groupId, this.seasonId).subscribe(scoreJSON => {
         this.userId2Stats = new Map<number, Stats>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
-        this.dataArray = Array.from(this.userId2Stats);
+        this.dataArray = Array.from(this.userId2Stats).sort((a, b) => b[1].total - a[1].total);
       })
     }
   }
