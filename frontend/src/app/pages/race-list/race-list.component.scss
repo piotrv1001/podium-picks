@@ -30,9 +30,14 @@ table {
 }
 
 th, td {
+  width: 19%;
   padding: 1rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
+}
+
+.lp {
+  width: 5%;
 }
 
 th {

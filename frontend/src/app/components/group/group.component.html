@@ -5,6 +5,7 @@
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
+  <div class="user-count">{{ group?.count | userCount }}</div>
 </div>
 <mat-menu #menu="matMenu" class="group-menu" (closed)="codeCopy.resetState()">
   <app-copy-code #codeCopy [code]="group?.code" (click)="$event.stopPropagation()"></app-copy-code>

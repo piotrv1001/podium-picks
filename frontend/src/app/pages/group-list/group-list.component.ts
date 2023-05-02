@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Router } from "@angular/router";
 import { Group } from "src/app/model/entities/group.model";
+import { GroupWithUserCount } from "src/app/model/types/group-with-user-count";
 
 @Component({
   selector: 'app-group-list',
@@ -9,7 +10,7 @@ import { Group } from "src/app/model/entities/group.model";
 })
 export class GroupListComponent {
 
-  @Input() groups?: Group[];
+  @Input() groups?: GroupWithUserCount[];
   @Output() leaveGroupClick: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private router: Router) {}

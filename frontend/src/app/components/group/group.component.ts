@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { Group } from "src/app/model/entities/group.model";
 import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.compnent";
+import { GroupWithUserCount } from "src/app/model/types/group-with-user-count";
 
 @Component({
   selector: 'app-group',
@@ -10,7 +10,7 @@ import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation
 })
 export class GroupComponent {
 
-  @Input() group?: Group;
+  @Input() group?: GroupWithUserCount;
   @Input() isAdmin?: boolean = false;
   @Output() groupClick: EventEmitter<number> = new EventEmitter<number>();
   @Output() leaveGroupClick: EventEmitter<number> = new EventEmitter<number>();

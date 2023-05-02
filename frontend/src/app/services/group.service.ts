@@ -5,6 +5,7 @@ import { Group } from "../model/entities/group.model";
 import { BASE_URL } from "../app.constants";
 import { GroupDTO } from "../model/dto/group.dto";
 import { User } from "../model/entities/user.model";
+import { GroupWithUserCount } from "../model/types/group-with-user-count";
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,8 @@ export class GroupService {
     return this.http.post<Group>(`${BASE_URL}/${this.GROUP_ROTE}`, groupDto);
   }
 
-  getGroupsForUser(userId: number): Observable<Group[]> {
-    return this.http.get<Group[]>(`${BASE_URL}/${this.GROUP_ROTE}?userId=${userId}`);
+  getGroupsForUser(userId: number): Observable<GroupWithUserCount[]> {
+    return this.http.get<GroupWithUserCount[]>(`${BASE_URL}/${this.GROUP_ROTE}?userId=${userId}`);
   }
 
   getGroupByCode(code: string, userId: number): Observable<Group> {
