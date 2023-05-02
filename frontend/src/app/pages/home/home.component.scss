@@ -6,5 +6,51 @@
 .create-join-row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  border: 1px dashed gray;
+  border-radius: 5px;
+}
+
+.your-groups {
+  margin-top: 4rem;
+}
+
+.group-btn {
+  padding: 1rem;
+  min-width: 200px;
+  border-radius: 5px;
+  font-size: 1.1rem;
+}
+
+.group-btn:hover {
+  cursor: pointer;
+}
+
+.create-btn {
+  background-color: rgb(69, 255, 69);
+  margin-right: 1rem;
+  border: none;
+  color: black;
+}
+
+.create-btn:hover {
+  background-color: #00e200;
+}
+
+.join-btn {
+  margin-left: 1rem;
+  background-color: white;
+  border: 2px solid rgb(69, 255, 69);
+}
+
+.join-btn:hover {
+  background-color: rgba(69, 255, 69, 0.2);
+}
+
+.no-groups {
+  color: gray;
+  margin-top: 1rem;
+  width: 880px;
 }

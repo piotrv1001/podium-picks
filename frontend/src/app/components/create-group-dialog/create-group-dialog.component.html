@@ -7,13 +7,13 @@
         placeholder="Group name"
         [(ngModel)]="groupName"
         id="groupName"
-        name="groupName">
+        name="groupName"
+        required>
     </mat-form-field>
     <button mat-raised-button (click)="createGroup()" class="create-group-btn" [disabled]="groupName === ''">Create group</button>
   </form>
   <ng-template #groupCodeTemplate>
-    <h2>{{ group?.code }}</h2>
-    <button [cdkCopyToClipboard]="group?.code ?? ''" mat-raised-button (click)="copyToClipBoard()">Copy</button>
+    <app-copy-code #codeCopy [code]="group?.code" (click)="$event.stopPropagation()"></app-copy-code>
     <button mat-raised-button (click)="closeDialog()" class="create-group-btn">Finish</button>
   </ng-template>
 </div>

@@ -1,8 +1,12 @@
 .wrapper {
-  padding: 4rem 8rem;
+  padding: 2rem 4rem;
 }
 
 .join-group-form {
   display: flex;
   flex-direction: column;
+}
+
+.join-group-heading {
+  margin-bottom: 2rem;
 }
