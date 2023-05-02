@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { Group } from "src/app/model/entities/group.model";
 import { GroupService } from "src/app/services/group.service";
 import { LocalStorageService } from "src/app/services/local-storage.service";
 import { MatDialog } from '@angular/material/dialog';
@@ -7,6 +6,7 @@ import { CreateGroupDialogComponent } from "src/app/components/create-group-dial
 import { JoinGroupDialogComponent } from "src/app/components/join-group-dialog/join-group-dialog.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
+import { GroupWithUserCount } from "src/app/model/types/group-with-user-count";
 
 @Component({
   selector: 'app-home',
@@ -15,7 +15,7 @@ import { Router } from "@angular/router";
 })
 export class HomeComponent implements OnInit {
 
-  groups: Group[] = [];
+  groups: GroupWithUserCount[] = [];
   userId?: number;
 
   constructor(

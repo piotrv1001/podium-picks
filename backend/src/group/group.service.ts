@@ -6,6 +6,13 @@ import { GroupDTO } from './group.dto';
 import { getRandomString } from 'src/util/util';
 import { User } from 'src/user/user.entity';
 
+export interface GroupWithUserCount {
+  id: number;
+  name: string;
+  code: string;
+  count: number;
+}
+
 @Injectable()
 export class GroupService {
   constructor(
@@ -41,17 +48,29 @@ export class GroupService {
     return this.groupRepository.findOneBy({ id: id });
   }
 
-  async getGroupsByUserId(userId?: number): Promise<Group[]> {
+  async getGroupsByUserId(
+    userId?: number,
+  ): Promise<Group[] | GroupWithUserCount[]> {
     if (userId == null) {
       return this.getAll();
     }
-    const queryBuilder = this.groupRepository
+    const query = this.groupRepository
       .createQueryBuilder('group')
       .innerJoin('group.users', 'user')
-      .where('user.id = :userId', { userId })
-      .getMany();
+      .where('user.id = :userId', { userId });
 
-    return queryBuilder;
+    const results = await query.getMany();
+    const groups: GroupWithUserCount[] = [];
+    for (const result of results) {
+      const count = (await this.getUsersByGroupId(result.id)).length;
+      groups.push({
+        id: result.id,
+        name: result.name,
+        code: result.code,
+        count: count,
+      });
+    }
+    return groups;
   }
 
   async getGroupByCode(code: string): Promise<Group> {

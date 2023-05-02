@@ -51,6 +51,7 @@ import { AdminPointsComponent } from './pages/admin/admin-points/admin-points.co
 import { ToFixedStringPipe } from './pipes/to-fixed-string.pipe';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { TimeStringPipe } from './pipes/time-string.pipe';
+import { UserCountPipe } from './pipes/user-count.pipe';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { TimeStringPipe } from './pipes/time-string.pipe';
     UserComponent,
     AdminPointsComponent,
     TimePickerComponent,
-    TimeStringPipe
+    TimeStringPipe,
+    UserCountPipe
   ],
   imports: [
     BrowserModule,
