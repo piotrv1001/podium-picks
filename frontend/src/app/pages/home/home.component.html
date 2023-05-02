@@ -1,9 +1,13 @@
 <div class="wrapper">
   <h1>Create or join a group</h1>
   <div class="create-join-row">
-    <button mat-raised-button color="primary" (click)="openCreateGroupDialog()">Create</button>
-    <button mat-raised-button color="accent" (click)="openJoinGroupDialog()">Join</button>
+    <button class="group-btn create-btn" (click)="openCreateGroupDialog()">Create</button>
+    <span style="color: gray;">or</span>
+    <button class="group-btn join-btn" (click)="openJoinGroupDialog()">Join</button>
   </div>
-  <h1>Your groups</h1>
-  <app-group-list [groups]="groups" (leaveGroupClick)="handleLeaveGroupClick($event)"></app-group-list>
+  <h1 class="your-groups">Your groups</h1>
+  <app-group-list *ngIf="groups.length > 0; else noGroups" [groups]="groups" (leaveGroupClick)="handleLeaveGroupClick($event)"></app-group-list>
+  <ng-template #noGroups>
+    <div class="no-groups"><h3>No groups yet, create or join your first group!</h3></div>
+  </ng-template>
 </div>
