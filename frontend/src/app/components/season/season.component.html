@@ -1,6 +1,6 @@
 <div class="season-card" (click)="seasonClicked()">
   <div class="season-name">{{ season?.name }}</div>
   <div class="season-progress">
-    <app-progress-circle [progress]="12" [total]="20"></app-progress-circle>
+    <app-progress-circle [progress]="season?.progress" [total]="season?.total"></app-progress-circle>
   </div>
 </div>

@@ -3,12 +3,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Season } from './season.entity';
 import { Repository } from 'typeorm';
 import { SeasonDTO } from './season.dto';
+import { Race } from 'src/race/race.entity';
+
+export interface SeasonWithProgress {
+  id?: number;
+  name?: string;
+  progress?: number;
+  total?: number;
+}
 
 @Injectable()
 export class SeasonService {
   constructor(
     @InjectRepository(Season)
     private readonly seasonRepository: Repository<Season>,
+    @InjectRepository(Race)
+    private readonly raceRepository: Repository<Race>,
   ) {}
 
   async create(seasonDto: SeasonDTO): Promise<Season> {
@@ -17,8 +27,32 @@ export class SeasonService {
     return this.seasonRepository.save(season);
   }
 
-  async getAll(): Promise<Season[]> {
-    return this.seasonRepository.find();
+  async getAll(): Promise<SeasonWithProgress[]> {
+    const result: SeasonWithProgress[] = [];
+    const today = new Date();
+    const seasons = await this.seasonRepository.find();
+    for (const season of seasons) {
+      const races = await this.raceRepository.find({
+        where: { seasonId: season.id },
+      });
+      let completed = 0;
+      for (const race of races) {
+        if (typeof race.date === 'string') {
+          race.date = new Date(race.date);
+        }
+        if (today > race.date) {
+          completed++;
+        } else {
+          break;
+        }
+      }
+      result.push({
+        ...season,
+        progress: completed,
+        total: races.length,
+      });
+    }
+    return result;
   }
 
   async getById(id: number): Promise<Season> {

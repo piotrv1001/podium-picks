@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { Season } from "src/app/model/entities/season.model";
+import { SeasonWithProgress } from "src/app/model/types/season-with-progress";
 import { SeasonService } from "src/app/services/season.service";
 
 @Component({
@@ -10,7 +10,7 @@ import { SeasonService } from "src/app/services/season.service";
 })
 export class SeasonListComponent implements OnInit {
 
-  seasons: Season[] = [];
+  seasons: SeasonWithProgress[] = [];
   groupId?: number;
 
   constructor(
@@ -23,7 +23,7 @@ export class SeasonListComponent implements OnInit {
     this.getAllSeasons();
   }
 
-  handleSeasonClick(season: Season): void {
+  handleSeasonClick(season: SeasonWithProgress): void {
     this.router.navigate(['races'], { state: { groupId: this.groupId, seasonId: season.id } });
   }
 
