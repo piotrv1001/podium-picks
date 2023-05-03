@@ -1,9 +1,11 @@
-<!-- <app-countdown-timer *ngIf="!raceFinished && timeLeft; else whiteSpace"></app-countdown-timer>
-<ng-template #whiteSpace>
-  <div class="white-space"></div>
-</ng-template> -->
 <div class="timer-container">
-  <app-countdown-timer *ngIf="!raceFinished && timeLeft"></app-countdown-timer>
+  <app-countdown-timer *ngIf="!raceFinished && timeLeft; else raceFinishedTemplate"></app-countdown-timer>
+  <ng-template #raceFinishedTemplate>
+    <div *ngIf="!timeLoading && raceFinished && !timeLeft">
+      <span class="race-over">Race finished!</span>
+      <img src="assets/img/flag.png" alt="Race flag" width="30" class="flag-img">
+    </div>
+  </ng-template>
 </div>
 <div class="row">
   <mat-tab-group class="tab-group">
@@ -29,23 +31,4 @@
       </div>
     </mat-tab>
   </mat-tab-group>
-  <!-- <div *ngFor="let data of dataArray" class="prediction-container">
-    <div class="space-between">
-      <div class="prediction-header">
-        <span class="username">{{ userId2Users.get(data[0])?.username }}</span>
-        <div *ngIf="!scoreAvailable && data[1].confirmed" class="confirm-status-container">
-          <span class="saved">Saved</span>
-          <mat-icon>check_circle_outline</mat-icon>
-        </div>
-      </div>
-      <span *ngIf="scoreAvailable" class="total-points">{{ userId2Total.get(data[0]) }}</span>
-    </div>
-    <app-driver-drag-drop
-      [drivers]="data[1].drivers"
-      [scoreArray]="userId2Scores.get(data[0])"
-      [isEditable]="data[0] === userId && !raceFinished && !scoreAvailable"
-      (saved)="handlePredictionSaveBtnClick($event)"
-      (dropped)="handleDriverDragDrop($event)">
-    </app-driver-drag-drop>
-  </div> -->
 </div>

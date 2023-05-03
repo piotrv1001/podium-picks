@@ -2,6 +2,16 @@
   display: flex;
 }
 
+.race-over {
+  font-size: 1.1rem;
+  color: #555;
+  margin-right: .5rem;
+}
+
+.flag-img {
+  margin-left: .5rem;
+}
+
 .timer-container {
   height: 90px;
   display: flex;

@@ -20,6 +20,7 @@ export class CountdownTimerComponent implements OnInit {
     this.raceEventService.getRaceTimeObservable().subscribe(time => {
       this.formattedTime = this.getFormattedTime(time);
       this.loading = false;
+      this.raceEventService.notifyAboutTimeLoading(false);
     });
   }
 
