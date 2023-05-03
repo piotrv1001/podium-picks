@@ -6,6 +6,10 @@
   grid-row-gap: 1rem;
 }
 
+.wrapper {
+  padding: 1rem;
+}
+
 .username {
   font-size: 1.2rem;
   margin-right: .5rem;
@@ -52,4 +56,19 @@ tr:hover {
 
 .min, .max, .average, .total {
   text-align: right;
+}
+
+@media (max-width: 1200px) {
+  .race-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .optional {
+    display: none;
+  }
+  .race-list {
+    grid-template-columns: 1fr;
+  }
 }

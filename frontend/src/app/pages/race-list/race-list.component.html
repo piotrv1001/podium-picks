@@ -1,36 +1,37 @@
-<div *ngIf="!isAdmin">
-  <table>
-    <thead>
-      <tr>
-        <th class="lp"></th>
-        <th>Username</th>
-        <th>Min</th>
-        <th>Max</th>
-        <th>Average</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of dataArray; let i = index">
-        <td class="lp">{{ i + 1 }}</td>
-        <td>{{ userId2Users.get(data[0])?.username }}</td>
-        <td>{{ data[1].min | toFixedString:2}}</td>
-        <td>{{ data[1].max | toFixedString:2}}</td>
-        <td>{{ data[1].avg | toFixedString:2}}</td>
-        <td>{{ data[1].total | toFixedString:2}}</td>
-      </tr>
-    </tbody>
-  </table>
-
-</div>
-<div class="race-list">
-  <app-race *ngFor="let race of races"
-    [race]="race"
-    [isAdmin]="isAdmin === 1"
-    [isNextRace]="race === nextRace"
-    (raceClick)="handleRaceClick($event)"
-    (editRaceClick)="openEditRaceDialog($event)"
-    (resultsBtnClick)="handleResultsBtnClick($event)"
-    (pointsBtnClick)="handlePointsBtnClick($event)"
-    ></app-race>
+<div class="wrapper">
+  <div *ngIf="!isAdmin">
+    <table>
+      <thead>
+        <tr>
+          <th class="lp"></th>
+          <th>Username</th>
+          <th class="optional">Min</th>
+          <th class="optional">Max</th>
+          <th class="optional">Average</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of dataArray; let i = index">
+          <td class="lp">{{ i + 1 }}</td>
+          <td>{{ userId2Users.get(data[0])?.username }}</td>
+          <td class="optional">{{ data[1].min | toFixedString:2}}</td>
+          <td class="optional">{{ data[1].max | toFixedString:2}}</td>
+          <td class="optional">{{ data[1].avg | toFixedString:2}}</td>
+          <td>{{ data[1].total | toFixedString:2}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="race-list">
+    <app-race *ngFor="let race of races"
+      [race]="race"
+      [isAdmin]="isAdmin === 1"
+      [isNextRace]="race === nextRace"
+      (raceClick)="handleRaceClick($event)"
+      (editRaceClick)="openEditRaceDialog($event)"
+      (resultsBtnClick)="handleResultsBtnClick($event)"
+      (pointsBtnClick)="handlePointsBtnClick($event)"
+      ></app-race>
+  </div>
 </div>

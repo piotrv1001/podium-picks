@@ -1,5 +1,5 @@
 .group-card {
-  width: 400px;
+  width: 20vw;
   background-color: white;
   border-radius: 0.5rem;
   padding: 1rem;
@@ -31,4 +31,10 @@
 .user-count {
   color: gray;
   margin-top: 3rem;
+}
+
+@media (max-width: 1200px) {
+  .group-card {
+    width: 80vw;
+  }
 }

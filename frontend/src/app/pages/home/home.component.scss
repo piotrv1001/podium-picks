@@ -52,5 +52,23 @@
 .no-groups {
   color: gray;
   margin-top: 1rem;
-  width: 880px;
+  width: 45vw;
+}
+
+@media (max-width: 1200px) {
+  .group-btn {
+    min-width: 150px;
+  }
+  .no-groups {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .group-btn {
+    min-width: 100px;
+  }
+  .no-groups {
+    width: 90vw;
+  }
 }
