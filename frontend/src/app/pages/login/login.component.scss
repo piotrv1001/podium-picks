@@ -46,8 +46,10 @@
   font-weight: bold;
   border-radius: 2em;
   border: none;
-  color: white;
-  background-image: linear-gradient(to right, #FF057C 0%, #8D0B93 50%, #321575 100%);
+  // color: white;
+  // background-image: linear-gradient(to right, #FF057C 0%, #8D0B93 50%, #321575 100%);
+  color: black;
+  background-color: rgb(69, 255, 69);
 }
 
 .login-btn:disabled {
@@ -57,7 +59,8 @@
 
 .login-btn:not(:disabled):hover {
   cursor: pointer;
-  background-image: linear-gradient(to right, #c3005c 0%, #69086e 50%, #250f57 100%);
+  background-color: #00e200;
+  // background-image: linear-gradient(to right, #c3005c 0%, #69086e 50%, #250f57 100%);
 }
 
 .no-account-btn {

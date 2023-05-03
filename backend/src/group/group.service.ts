@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from './group.entity';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { GroupDTO } from './group.dto';
 import { getRandomString } from 'src/util/util';
 import { User } from 'src/user/user.entity';
@@ -48,18 +48,20 @@ export class GroupService {
     return this.groupRepository.findOneBy({ id: id });
   }
 
-  async getGroupsByUserId(
-    userId?: number,
-  ): Promise<Group[] | GroupWithUserCount[]> {
+  async getGroupsByUserId(userId?: number): Promise<GroupWithUserCount[]> {
+    let query: SelectQueryBuilder<Group>;
     if (userId == null) {
-      return this.getAll();
+      query = this.groupRepository
+        .createQueryBuilder('group')
+        .innerJoin('group.users', 'user');
+    } else {
+      query = this.groupRepository
+        .createQueryBuilder('group')
+        .innerJoin('group.users', 'user')
+        .where('user.id = :userId', { userId });
     }
-    const query = this.groupRepository
-      .createQueryBuilder('group')
-      .innerJoin('group.users', 'user')
-      .where('user.id = :userId', { userId });
 
-    const results = await query.getMany();
+    const results = await query?.getMany();
     const groups: GroupWithUserCount[] = [];
     for (const result of results) {
       const count = (await this.getUsersByGroupId(result.id)).length;
