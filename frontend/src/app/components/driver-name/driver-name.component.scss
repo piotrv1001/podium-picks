@@ -1,9 +1,10 @@
 .wrapper {
+  font-size: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 1.2rem;
+  padding: 1.5em 1.2em;
 }
 
 .driver-info {
@@ -12,23 +13,23 @@
 }
 
 .team-color-icon {
-  width: 0.3rem;
-  margin-right: 1rem;
-  height: 1.2rem;
+  width: 0.3em;
+  margin-right: 1em;
+  height: 1.2em;
 }
 
 .driver-name {
-  font-size: 1.2rem;
+  font-size: 1.2em;
 }
 
 .team-name {
-  margin-left: 1rem;
-  font-size: 1rem;
+  margin-left: 1em;
+  font-size: 1em;
   color: gray;
 }
 
 .driver-last-name {
-  margin-left: .5rem;
+  margin-left: .5em;
   text-transform: uppercase;
   font-weight: bold;
 }
@@ -36,4 +37,10 @@
 .drag-icon {
   width: 20px;
   height: 20px;
+}
+
+@media (max-width: 800px) {
+  .wrapper {
+    font-size: 0.7rem;
+  }
 }

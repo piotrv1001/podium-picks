@@ -1,5 +1,4 @@
 .row {
-  margin: 1rem 0;
   display: flex;
   justify-content: center;
 }
@@ -7,7 +6,7 @@
 .col {
   display: flex;
   flex-direction: column;
-  padding: 0 2rem;
+  padding: 0 2em;
   align-items: center;
 }
 
@@ -17,20 +16,26 @@
 
 .big-text {
   font-weight: bold;
-  font-size: 1.6rem;
-  margin-bottom: .25rem;
+  font-size: 1.6em;
+  margin-bottom: .25em;
 }
 
 .small-text {
-  font-size: .8rem;
+  font-size: .8em;
   color: gray;
-  margin-top: .25rem;
+  margin-top: .25em;
 }
 
 .spinner-container {
   width: 100%;
-  margin: 1rem 0;
+  margin: 1em 0;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 768px) {
+  .row {
+    font-size: 0.8rem;
+  }
 }
