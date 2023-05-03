@@ -23,6 +23,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -38,7 +39,6 @@ import { JoinGroupDialogComponent } from './components/join-group-dialog/join-gr
 import { CopyCodeComponent } from './components/copy-code/copy-code.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.compnent';
 import { GroupPredictionsComponent } from './pages/group-predictions/group-predictions.component';
-import { ConfirmStatusComponent } from './components/confirm-status/confirm-status.component';
 import { CountdownTimerComponent } from './components/countdown-timer/countdown-timer.component';
 import { AdminRaceResultsComponent } from './pages/admin/admin-race-results/admin-race-results.component';
 import { UpdateRaceDialogComponent } from './pages/admin/update-race-dialog/update-race-dialog.component';
@@ -74,7 +74,6 @@ import { ProgressCircleComponent } from './components/progress-circle/progress-c
     CopyCodeComponent,
     ConfirmationDialogComponent,
     GroupPredictionsComponent,
-    ConfirmStatusComponent,
     CountdownTimerComponent,
     AdminRaceResultsComponent,
     UpdateRaceDialogComponent,
@@ -109,7 +108,8 @@ import { ProgressCircleComponent } from './components/progress-circle/progress-c
     MatDatepickerModule,
     MatCardModule,
     MatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTooltipModule
   ],
   providers: [httpInterceptorProviders, MatDatepickerModule],
   bootstrap: [AppComponent]
