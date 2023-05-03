@@ -15,8 +15,10 @@ export class UpdateRaceDialogComponent implements OnInit {
   raceDateDeadline: Date | null = null;
   startAt: Date = new Date();
   startAtDeadline: Date = new Date();
-  hours: number = 0;
-  minutes: number = 0;
+  deadlineHours: number = 0;
+  deadlineMinutes: number = 0;
+  raceHours: number = 0;
+  raceMinutes: number = 0;
 
   constructor(
     private raceService: RaceService,
@@ -40,12 +42,20 @@ export class UpdateRaceDialogComponent implements OnInit {
     }
   }
 
-  onHoursChange(hours: number): void {
+  onDeadlineHoursChange(hours: number): void {
     this.raceDateDeadline?.setHours(hours);
   }
 
-  onMinutesChange(minutes: number): void {
+  onDeadlineMinutesChange(minutes: number): void {
     this.raceDateDeadline?.setMinutes(minutes);
+  }
+
+  onRaceHoursChange(hours: number): void {
+    this.raceDate?.setHours(hours);
+  }
+
+  onRaceMinutesChange(minutes: number): void {
+    this.raceDate?.setMinutes(minutes);
   }
 
   onCancelBtnClick(): void {
@@ -58,13 +68,15 @@ export class UpdateRaceDialogComponent implements OnInit {
       const parsedDate = this.parseDate(this.race.date);
       if(parsedDate) {
         this.raceDate = parsedDate;
+        this.raceHours = this.raceDate.getHours();
+        this.raceMinutes = this.raceDate.getMinutes();
         this.startAt.setMonth(this.raceDate.getMonth());
       }
       const parsedDateDeadline = this.parseDate(this.race.predictionDeadline);
       if(parsedDateDeadline) {
         this.raceDateDeadline = parsedDateDeadline;
-        this.hours = this.raceDateDeadline.getHours();
-        this.minutes = this.raceDateDeadline.getMinutes();
+        this.deadlineHours = this.raceDateDeadline.getHours();
+        this.deadlineMinutes = this.raceDateDeadline.getMinutes();
         this.startAtDeadline.setMonth(this.raceDateDeadline.getMonth());
       }
     });

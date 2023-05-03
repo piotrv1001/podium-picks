@@ -19,20 +19,40 @@
         <h3>Race date</h3>
         <mat-card class="inline-calendar-card">
           <mat-calendar [(selected)]="raceDate" [startAt]="startAt"></mat-calendar>
+          <div class="divider"></div>
+            <app-time-picker [hours]="raceHours" [minutes]="raceMinutes" (hoursChange)="onRaceHoursChange($event)" (minutesChange)="onRaceMinutesChange($event)"></app-time-picker>
         </mat-card>
       </div>
-      <div class="flex-col">
+      <div class="flex-col deadline-calendar">
         <h3>Deadline</h3>
         <mat-card class="inline-calendar-card">
           <mat-calendar [(selected)]="raceDateDeadline" [startAt]="startAtDeadline"></mat-calendar>
           <div class="divider"></div>
-          <app-time-picker [hours]="hours" [minutes]="minutes" (hoursChange)="onHoursChange($event)" (minutesChange)="onMinutesChange($event)"></app-time-picker>
+          <app-time-picker [hours]="deadlineHours" [minutes]="deadlineMinutes" (hoursChange)="onDeadlineHoursChange($event)" (minutesChange)="onDeadlineMinutesChange($event)"></app-time-picker>
         </mat-card>
       </div>
     </div>
+    <div class="calendar-tabs">
+      <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
+        <mat-tab label="Race date">
+          <mat-card class="inline-calendar-card">
+            <mat-calendar [(selected)]="raceDate" [startAt]="startAt"></mat-calendar>
+            <div class="divider"></div>
+            <app-time-picker [hours]="raceHours" [minutes]="raceMinutes" (hoursChange)="onRaceHoursChange($event)" (minutesChange)="onRaceMinutesChange($event)"></app-time-picker>
+          </mat-card>
+        </mat-tab>
+        <mat-tab label="Deadline date">
+          <mat-card class="inline-calendar-card">
+            <mat-calendar [(selected)]="raceDateDeadline" [startAt]="startAtDeadline"></mat-calendar>
+            <div class="divider"></div>
+            <app-time-picker [hours]="deadlineHours" [minutes]="deadlineMinutes" (hoursChange)="onDeadlineHoursChange($event)" (minutesChange)="onDeadlineMinutesChange($event)"></app-time-picker>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
     <div class="action-btn-row">
-      <button mat-button (click)="onCancelBtnClick()" class="cancel-btn" type="button">Cancel</button>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!updateRaceForm.form.valid" class="update-btn">Update</button>
+      <button (click)="onCancelBtnClick()" class="action-btn cancel-btn" type="button">Cancel</button>
+      <button type="submit" [disabled]="!updateRaceForm.form.valid" class="action-btn update-btn">Update</button>
     </div>
   </form>
   <ng-template #loading>

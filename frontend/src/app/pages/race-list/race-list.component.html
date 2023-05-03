@@ -23,7 +23,7 @@
       </tbody>
     </table>
   </div>
-  <div class="race-list">
+  <div *ngIf="races.length > 0; else noRaces" class="race-list">
     <app-race *ngFor="let race of races"
       [race]="race"
       [isAdmin]="isAdmin === 1"
@@ -32,6 +32,9 @@
       (editRaceClick)="openEditRaceDialog($event)"
       (resultsBtnClick)="handleResultsBtnClick($event)"
       (pointsBtnClick)="handlePointsBtnClick($event)"
-      ></app-race>
+    ></app-race>
   </div>
+  <ng-template #noRaces>
+    <div class="no-races">Coming soon...</div>
+  </ng-template>
 </div>

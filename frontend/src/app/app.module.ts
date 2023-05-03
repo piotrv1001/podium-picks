@@ -22,6 +22,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -107,7 +108,8 @@ import { ProgressCircleComponent } from './components/progress-circle/progress-c
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatCardModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTabsModule
   ],
   providers: [httpInterceptorProviders, MatDatepickerModule],
   bootstrap: [AppComponent]
