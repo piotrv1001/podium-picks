@@ -1,12 +1,12 @@
 <div class="wrapper">
-  <div *ngIf="!isAdmin">
+  <div *ngIf="!isAdmin && races.length > 0">
     <table>
       <thead>
         <tr>
           <th class="lp"></th>
-          <th>Username</th>
-          <th class="optional">Min</th>
-          <th class="optional">Max</th>
+          <th>Player</th>
+          <th class="optional">Worst</th>
+          <th class="optional">Best</th>
           <th class="optional">Average</th>
           <th>Total</th>
         </tr>
