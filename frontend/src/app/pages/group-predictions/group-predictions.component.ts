@@ -254,14 +254,15 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
         this.raceFinished = true;
         return;
       }
-      let timeLeftSeconds = timeDiff;
+      let timeLeftMilis = timeDiff;
 
       this.raceIntervalId = setInterval(() => {
-        timeLeftSeconds -= 1000;
-        this.timeLeft = this.dateUtilService.getTimeLeft(timeLeftSeconds);
+        timeLeftMilis -= 1000;
+        this.timeLeft = this.dateUtilService.getTimeLeft(timeLeftMilis);
         this.raceEventService.notifyAboutRaceTime(this.timeLeft);
 
-        if (timeLeftSeconds <= 0) {
+        if (timeLeftMilis <= 0) {
+          this.raceFinished = true;
           clearInterval(this.raceIntervalId);
         }
       }, 1000);

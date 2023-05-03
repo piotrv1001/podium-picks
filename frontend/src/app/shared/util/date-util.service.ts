@@ -12,8 +12,24 @@ export class DateUtilService {
     const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-    return { days, hours, minutes, seconds };
+    return this.ensurePositiveValues({ days, hours, minutes, seconds });
   }
 
+  private ensurePositiveValues(customDate: CustomDate): CustomDate {
+    let { days, hours, minutes, seconds } = customDate;
+    return {
+      days: this.positive(days),
+      hours: this.positive(hours),
+      minutes: this.positive(minutes),
+      seconds: this.positive(seconds)
+    };
+  }
+
+  private positive(val: number | string): number {
+    if(typeof val === 'string') {
+      val = parseInt(val);
+    }
+    return val < 0 ? 0 : val;
+  }
 
 }
