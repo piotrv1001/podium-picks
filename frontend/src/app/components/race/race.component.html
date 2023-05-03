@@ -1,16 +1,18 @@
 <div class="race-card" (click)="raceClicked()" [ngClass]="isNextRace ? 'next-race' : 'race'">
-  <div class="row">
-    <div class="race-country">{{ race?.country }}</div>
-    <mat-icon *ngIf="isAdmin" (click)="editRaceClicked($event)" class="edit-icon">edit</mat-icon>
-  </div>
-  <div class="race-date-row">
-    <mat-icon>date_range</mat-icon>
-    <span class="race-date">{{ race?.date | date : 'longDate' }}</span>
-  </div>
-  <div class="race-name">{{ race?.name }}</div>
-  <span [class]="'fi fi-' + race?.countryCode?.toLowerCase() + ' race-flag'"></span>
-  <div *ngIf="isAdmin" class="race-buttons">
-    <button class="race-btn results-btn" (click)="resultsBtnClicked($event)">Results</button>
-    <button class="race-btn points-btn" (click)="pointsBtnClicked($event)">Points</button>
+  <div class="wrapper" [ngClass]="isNextRace ? 'next-race-wrapper' : 'race-wrapper'">
+    <div class="row">
+      <div class="race-country">{{ race?.country }}</div>
+      <mat-icon *ngIf="isAdmin" (click)="editRaceClicked($event)" class="edit-icon">edit</mat-icon>
+    </div>
+    <div class="race-date-row">
+      <mat-icon>date_range</mat-icon>
+      <span class="race-date">{{ race?.date | date : 'longDate' }}</span>
+    </div>
+    <div class="race-name">{{ race?.name }}</div>
+    <span [class]="'fi fi-' + race?.countryCode?.toLowerCase() + ' race-flag'"></span>
+    <div *ngIf="isAdmin" class="race-buttons">
+      <button class="race-btn results-btn" (click)="resultsBtnClicked($event)">Results</button>
+      <button class="race-btn points-btn" (click)="pointsBtnClicked($event)">Points</button>
+    </div>
   </div>
 </div>
