@@ -45,6 +45,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   madeChanges: boolean = false;
   raceIntervalId?: any;
   scoreAvailable: boolean = false;
+  timeLoading: boolean = true;
 
   constructor(
     private driverService: DriverService,
@@ -63,9 +64,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+      this.getTimeLoading();
+      this.getRace();
       this.getUserId();
       this.getUsersByGroup();
-      this.getRace();
       this.getUserId2Predictions();
       this.getScores();
     }
@@ -245,6 +247,12 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           }
         })
       }
+    }
+
+    private getTimeLoading(): void {
+      this.raceEventService.getTimeLoadingObservable().subscribe(timeLoading => {
+        this.timeLoading = timeLoading;
+      })
     }
 
     private updateTimeLeft(raceDate: Date): void {
