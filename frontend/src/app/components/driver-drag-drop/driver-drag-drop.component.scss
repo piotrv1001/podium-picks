@@ -46,6 +46,8 @@
 
 .drop-row {
   display: flex;
+  position: relative;
+  // margin-top: 50px;
 }
 
 .index-list {
@@ -93,8 +95,10 @@
   padding: 4.5px 10px;
 }
 
-.save-predictions-btn {
-  margin-left: 1rem;
+.save-btn {
+  position: absolute;
+  top: -50px;
+  right: 0px;
 }
 
 .white-bg {
@@ -105,4 +109,15 @@
 .gray-bg {
   background-color: #eee;
   transition: background-color 500ms;
+}
+
+@media (max-width: 768px) {
+  .driver-list {
+    width: 300px;
+  }
+  .index {
+    min-height: 45px;
+    font-size: 12px;
+    padding: 5px 5px 5px 0;
+  }
 }
