@@ -16,6 +16,15 @@
 
 .confirm-status-container {
   margin-left: 1rem;
+  font-size: 0.8rem;
+  color: darkgreen;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.saved {
+  margin-right: .5em;
 }
 
 .username {

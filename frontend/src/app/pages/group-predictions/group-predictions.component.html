@@ -4,11 +4,9 @@
     <div class="space-between">
       <div class="prediction-header">
         <span class="username">{{ userId2Users.get(data[0])?.username }}</span>
-        <div *ngIf="!scoreAvailable" class="confirm-status-container">
-          <app-confirm-status
-          *ngIf="!raceFinished"
-          [confirmed]="data[1].confirmed"
-          [confirmText]="data[1].confirmed ? 'Confirmed' : 'Unconfirmed'"></app-confirm-status>
+        <div *ngIf="!scoreAvailable && data[1].confirmed" class="confirm-status-container">
+          <span class="saved">Saved</span>
+          <mat-icon>check_circle_outline</mat-icon>
         </div>
       </div>
       <span *ngIf="scoreAvailable" class="total-points">{{ userId2Total.get(data[0]) }}</span>
