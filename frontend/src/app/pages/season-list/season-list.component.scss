@@ -1,0 +1,13 @@
+.season-list {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 1rem;
+  grid-row-gap: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .season-list {
+    grid-template-columns: 1fr;
+  }
+}

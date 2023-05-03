@@ -1,1 +1,6 @@
-<app-season *ngFor="let season of seasons" [season]="season" (seasonClick)="handleSeasonClick($event)"></app-season>
+<div class="wrapper">
+  <h1>Seasons</h1>
+  <div class="season-list">
+    <app-season *ngFor="let season of seasons" [season]="season" (seasonClick)="handleSeasonClick($event)"></app-season>
+  </div>
+</div>
