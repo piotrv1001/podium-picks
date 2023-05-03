@@ -1,26 +1,26 @@
 <div class="wrapper">
   <div class="login-card">
-    <div class="login-heading">Login</div>
+    <div class="login-heading">{{ 'login.login' | translate }}</div>
     <form *ngIf="loginForm !== undefined" [formGroup]="loginForm" class="login-form ">
       <mat-form-field class="login-form-field">
         <input
           matInput
-          placeholder="Your username"
+          placeholder="{{ 'login.username' | translate }}"
           formControlName="username">
       </mat-form-field>
       <mat-form-field class="login-form-field">
         <input
           type="password"
           matInput
-          placeholder="Your password"
+          placeholder="{{ 'login.password' | translate }}"
           formControlName="password">
       </mat-form-field>
-      <button class="login-btn" (click)="login()" [disabled]="loginForm.invalid">Login</button>
-      <span *ngIf="!areCredentialsCorrect; else emptySpace" style="color: red; margin-top: 1rem;">Invalid username or password</span>
+      <button class="login-btn" (click)="login()" [disabled]="loginForm.invalid">{{ 'login.login' | translate }}</button>
+      <span *ngIf="!areCredentialsCorrect; else emptySpace" style="color: red; margin-top: 1rem;">{{ 'login.invalid' | translate }}</span>
       <ng-template #emptySpace>
         <span style="margin-top: 2rem;"></span>
       </ng-template>
-      <button class="no-account-btn" mat-button (click)="registerBtnClicked()">Don't have an account?</button>
+      <button class="no-account-btn" mat-button (click)="registerBtnClicked()">{{ 'login.noAccount' | translate }}</button>
     </form>
   </div>
 </div>

@@ -1,0 +1,15 @@
+{
+  "login": {
+    "login": "Login",
+    "username": "Username",
+    "password": "Password",
+    "invalid": "Invalid username or password",
+    "noAccount": "Don't have an account?"
+  },
+  "register": {
+    "register": "Register",
+    "passwordsMatch": "Passwords need to match",
+    "signIn": "Already have an account? Sign in",
+    "confirmPassword": "Confirm password"
+  }
+}

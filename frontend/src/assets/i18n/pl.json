@@ -1,0 +1,15 @@
+{
+  "login": {
+    "login": "Zaloguj się",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "invalid": "Nieprawidłowy użytkownik lub hasło",
+    "noAccount": "Nie masz konta?"
+  },
+  "register": {
+    "register": "Zarejestruj się",
+    "passwordsMatch": "Hasła muszą się zgadzać",
+    "signIn": "Masz już konto? Zaloguj się",
+    "confirmPassword": "Potwierdź hasło"
+  }
+}

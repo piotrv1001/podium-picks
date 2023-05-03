@@ -1,33 +1,33 @@
 <div class="wrapper">
   <div class="login-card">
-    <div class="login-heading">Register</div>
+    <div class="login-heading">{{ 'register.register' | translate }}</div>
     <form *ngIf="registerForm !== undefined" [formGroup]="registerForm" class="login-form ">
       <mat-form-field class="login-form-field">
         <input
           matInput
-          placeholder="Your username"
+          placeholder="{{ 'login.username' | translate }}"
           formControlName="username">
       </mat-form-field>
       <mat-form-field class="login-form-field">
         <input
           type="password"
           matInput
-          placeholder="Your password"
+          placeholder="{{ 'login.password' | translate }}"
           formControlName="password">
       </mat-form-field>
       <mat-form-field class="login-form-field">
         <input
           type="password"
           matInput
-          placeholder="Confirm password"
+          placeholder="{{ 'register.confirmPassword' | translate }}"
           formControlName="confirmPassword">
       </mat-form-field>
-      <button class="login-btn" (click)="register()" [disabled]="registerForm.invalid">Register</button>
-      <span *ngIf="!doPasswordsMatch; else emptySpace" style="color: red; margin-top: 1rem;">Passwords need to match</span>
+      <button class="login-btn" (click)="register()" [disabled]="registerForm.invalid">{{ 'register.register' | translate }}</button>
+      <span *ngIf="!doPasswordsMatch; else emptySpace" style="color: red; margin-top: 1rem;">{{ 'register.passwordsMatch' | translate }}</span>
       <ng-template #emptySpace>
         <span style="margin-top: 2rem;"></span>
       </ng-template>
-      <button class="no-account-btn" mat-button (click)="loginBtnClicked()">Already have an account? Sign in</button>
+      <button class="no-account-btn" mat-button (click)="loginBtnClicked()">{{ 'register.signIn' | translate }}</button>
     </form>
   </div>
 </div>
