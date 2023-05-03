@@ -74,6 +74,9 @@ export class RaceListComponent implements OnInit {
     dialogRef.afterClosed().subscribe((race: Race) => {
       if(race) {
         this.races = this.races.map(r => r.id === race.id? race : r); // replace with updated race
+        if(this.nextRace?.id === race.id) {
+          this.nextRace = race;
+        }
         this.showSnackBar('Race updated!');
       }
     });

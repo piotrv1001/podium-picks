@@ -10,7 +10,7 @@
   <div class="race-name">{{ race?.name }}</div>
   <span [class]="'fi fi-' + race?.countryCode?.toLowerCase() + ' race-flag'"></span>
   <div *ngIf="isAdmin" class="race-buttons">
-    <button mat-raised-button color="primary" class="results-btn" (click)="resultsBtnClicked($event)">Results</button>
-    <button mat-raised-button (click)="pointsBtnClicked($event)">Points</button>
+    <button class="race-btn results-btn" (click)="resultsBtnClicked($event)">Results</button>
+    <button class="race-btn points-btn" (click)="pointsBtnClicked($event)">Points</button>
   </div>
 </div>
