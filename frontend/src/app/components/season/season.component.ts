@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { Season } from "src/app/model/entities/season.model";
+import { SeasonWithProgress } from "src/app/model/types/season-with-progress";
 
 @Component({
   selector: 'app-season',
@@ -8,8 +8,8 @@ import { Season } from "src/app/model/entities/season.model";
 })
 export class SeasonComponent {
 
-  @Input() season?: Season;
-  @Output() seasonClick: EventEmitter<Season> = new EventEmitter<Season>();
+  @Input() season?: SeasonWithProgress;
+  @Output() seasonClick: EventEmitter<SeasonWithProgress> = new EventEmitter<SeasonWithProgress>();
 
   seasonClicked(): void {
     this.seasonClick.emit(this.season);
