@@ -32,6 +32,35 @@
   "group": {
     "leave": "Leave group",
     "player": "{{ count }} player",
-    "players": "{{ count }} players"
+    "players": "{{ count }} players",
+    "join": "Join group",
+    "invalidCode": "Invalid code",
+    "create": "Create group",
+    "finish": "Finish",
+    "code": "Code",
+    "groupName": "Group name",
+    "created": "Successfully created group: {{ groupName }}",
+    "codeCopied": "Code copied to clipboard!",
+    "leftGroup": "Left group: {{ groupName }}",
+    "leaveDialog": {
+      "title": "Leave group",
+      "message": "Are you sure you want to leave the group: {{ groupName }}?",
+      "okText": "Leave",
+      "cancelText": "Cancel"
+    }
+  },
+  "season": {
+    "seasons": "Seasons"
+  },
+  "race": {
+    "comingSoon": "Coming soon",
+    "raceFinished": "Race finished",
+    "statTable": {
+      "player": "Player",
+      "worst": "Worst",
+      "average": "Average",
+      "best": "Best",
+      "total": "Total"
+    }
   }
 }

@@ -7,6 +7,7 @@ import { JoinGroupDialogComponent } from "src/app/components/join-group-dialog/j
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { GroupWithUserCount } from "src/app/model/types/group-with-user-count";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,8 @@ export class HomeComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private groupService: GroupService,
     private snackBar: MatSnackBar,
-    private router: Router) {}
+    private router: Router,
+    public translateService: TranslateService) {}
 
   ngOnInit(): void {
     const isAdmin = this.localStorageService.getIsAdmin();
@@ -40,7 +42,8 @@ export class HomeComponent implements OnInit {
         const groupIndex = this.groups.findIndex(mGroup => mGroup.id === group.id);
         if(groupIndex >= 0) {
           this.groups.splice(groupIndex, 1);
-          this.showSnackBar(`Left group: ${group.name}`);
+          const msg = this.translateService.instant('group.leftGroup', { groupName: group.name });
+          this.showSnackBar(msg);
         }
       });
     }
@@ -50,7 +53,7 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateGroupDialogComponent, {
       data: { userId: this.userId }
     });
-    dialogRef.afterClosed().subscribe((group) => {
+    dialogRef.afterClosed().subscribe((group: GroupWithUserCount) => {
       if(group) {
         this.groups.push(group);
       }

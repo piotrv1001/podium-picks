@@ -1,8 +1,8 @@
 <div class="timer-container">
   <app-countdown-timer *ngIf="!raceFinished && timeLeft; else raceFinishedTemplate"></app-countdown-timer>
   <ng-template #raceFinishedTemplate>
-    <div *ngIf="!timeLoading && raceFinished && !timeLeft">
-      <span class="race-over">Race finished!</span>
+    <div *ngIf="!timeLoading && raceFinished">
+      <span class="race-over">{{ 'race.raceFinished' | translate }}</span>
       <img src="assets/img/flag.png" alt="Race flag" width="30" class="flag-img">
     </div>
   </ng-template>
@@ -21,7 +21,7 @@
           </div>
           <span *ngIf="scoreAvailable" class="total-points">{{ userId2Total.get(data[0]) }}</span>
         </div>
-        <div class="space-between big-margin" *ngIf="data[0] === userId; else othersPredictions">
+        <div class="space-between big-margin" *ngIf="data[0] === userId && !raceFinished && timeLeft; else othersPredictions">
           <mat-form-field appearance="fill">
             <mat-label>Fastest lap</mat-label>
             <mat-select>
@@ -38,24 +38,14 @@
         <ng-template #othersPredictions>
           <div class="big-margin row">
             <div class="flex-col purple">
-              <p>Fastest lap</p>
+              <p class="gray-text">Fastest lap</p>
               <p>Max Verstappen</p>
             </div>
             <div class="flex-col gray">
-              <p>DNF</p>
+              <p class="gray-text">DNF</p>
               <p>Yuki Tsunoda</p>
             </div>
           </div>
-          <!-- <div class="space-between big-margin">
-            <div>
-              <p>Fastest lap</p>
-              <p>DNF</p>
-            </div>
-            <div>
-              <p>Max Verstappen</p>
-              <p>Yuki Tsunoda</p>
-            </div>
-          </div> -->
         </ng-template>
         <app-driver-drag-drop
           [drivers]="data[1].drivers"
