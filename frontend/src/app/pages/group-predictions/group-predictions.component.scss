@@ -65,9 +65,41 @@
   justify-content: space-between;
 }
 
+.big-margin {
+  margin-left: 2.5rem;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.purple {
+  width: 50%;
+  border-radius: 5px;
+  border: 2px solid #a624de;
+  margin-right: .5rem;
+}
+
+.gray {
+  width: 50%;
+  border-radius: 5px;
+  border: 2px solid #d3d3d3;
+  margin-left: .5rem;
+}
+
 @media (max-width: 768px) {
   .username {
     font-size: 1.3rem;
     margin-left: 1.5rem;
+  }
+  .big-margin {
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+  }
+  .flex-col {
+    padding: 0.8rem;
   }
 }

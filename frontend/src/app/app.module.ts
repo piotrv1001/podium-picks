@@ -26,6 +26,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -115,6 +116,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatNativeDateModule,
     MatTabsModule,
     MatTooltipModule,
+    MatSelectModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
