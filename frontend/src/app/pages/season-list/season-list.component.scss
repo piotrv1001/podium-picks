@@ -6,6 +6,10 @@
   grid-row-gap: 1rem;
 }
 
+.wrapper {
+  margin-top: 1rem;
+}
+
 @media (max-width: 1200px) {
   .season-list {
     grid-template-columns: 1fr;

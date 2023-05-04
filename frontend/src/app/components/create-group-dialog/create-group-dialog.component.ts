@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 import { Group } from 'src/app/model/entities/group.model';
 import { GroupService } from 'src/app/services/group.service';
 
@@ -19,12 +20,14 @@ export class CreateGroupDialogComponent {
     public dialogRef: MatDialogRef<CreateGroupDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { userId: number },
     private groupService: GroupService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public translateService: TranslateService
   ) {}
 
   createGroup(): void {
     this.groupService.create({name: this.groupName}, this.data.userId).subscribe((group) => {
-      this.snackBar.open(`Successfully created group: ${group.name}`, 'OK', {
+      const msg = this.translateService.instant('group.created', { groupName: group.name });
+      this.snackBar.open(msg, 'OK', {
         duration: 3000
       });
       this.group = group;
@@ -33,13 +36,7 @@ export class CreateGroupDialogComponent {
   }
 
   closeDialog(): void {
-    this.dialogRef.close(this.group);
-  }
-
-  copyToClipBoard(): void {
-    this.snackBar.open('Code copied!', undefined, {
-      duration: 3000
-    });
+    this.dialogRef.close({...this.group, count: 1});
   }
 
 }

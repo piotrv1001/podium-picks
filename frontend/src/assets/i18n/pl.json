@@ -30,8 +30,37 @@
     "noGroups": "Brak grup, utwórz lub dołącz do pierwszej grupy!"
   },
   "group": {
-    "leave": "Wyjdź z grupy",
+    "leave": "Opuść grupę",
     "player": "{{ count }} gracz",
-    "players": "{{ count }} graczy"
+    "players": "{{ count }} graczy",
+    "join": "Dołącz do grupy",
+    "invalidCode": "Niepoprawny kod",
+    "create": "Utwórz grupę",
+    "finish": "Zakończ",
+    "code": "Kod",
+    "groupName": "Nazwa grupy",
+    "created": "Pomyślnie utworzono grupę: {{ groupName }}",
+    "codeCopied": "Skopiowano kod do schowka!",
+    "leftGroup": "Opuszczono grupę: {{ groupName }}",
+    "leaveDialog": {
+      "title": "Opuść grupę",
+      "message": "Na pewno chcesz opuścić grupę: {{ groupName }}?",
+      "okText": "Opuść",
+      "cancelText": "Anuluj"
+    }
+  },
+  "season": {
+    "seasons": "Sezony"
+  },
+  "race": {
+    "comingSoon": "Coming soon",
+    "raceFinished": "Wyścig zakończony",
+    "statTable": {
+      "player": "Gracz",
+      "worst": "Najgorszy",
+      "average": "Średni",
+      "best": "Najlepszy",
+      "total": "Razem"
+    }
   }
 }

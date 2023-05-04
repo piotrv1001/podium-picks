@@ -1,19 +1,19 @@
 <div class="wrapper">
-  <h1 class="join-group-heading">Join group</h1>
+  <h1 class="join-group-heading">{{ 'group.join' | translate }}</h1>
   <form class="join-group-form">
     <mat-form-field>
       <input
         matInput
-        placeholder="Code"
+        placeholder="{{ 'group.code' | translate }}"
         [(ngModel)]="code"
         id="code"
         name="code"
         required>
     </mat-form-field>
-    <span *ngIf="!isCodeValid; else emptySpace" style="color: red; margin-bottom: 1rem;">Invalid code.</span>
+    <span *ngIf="!isCodeValid; else emptySpace" style="color: red; margin-bottom: 1rem;">{{ 'group.invalidCode' | translate }}</span>
     <ng-template #emptySpace>
       <span style="margin: 1rem 0;"></span>
     </ng-template>
-    <button mat-raised-button (click)="validateCode()" class="validate-code-btn" [disabled]="code === ''">Join group</button>
+    <button mat-raised-button (click)="validateCode()" class="validate-code-btn" [disabled]="code === ''">{{ 'group.join' | translate }}</button>
   </form>
 </div>

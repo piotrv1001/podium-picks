@@ -10,7 +10,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { PredictionService } from 'src/app/services/prediction.service';
 import { RaceService } from 'src/app/services/race.service';
 import { DateUtilService } from 'src/app/shared/util/date-util.service';
-import { firstValueFrom } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 import { ConfirmedDrivers } from 'src/app/model/types/confirmed-drivers';
 import { DragDropEvent } from 'src/app/model/types/drag-drop-event';
 import { ERROR_MSG } from 'src/app/app.constants';
@@ -46,6 +46,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   raceIntervalId?: any;
   scoreAvailable: boolean = false;
   timeLoading: boolean = true;
+  timeLoadingSub?: Subscription;
 
   constructor(
     private driverService: DriverService,
@@ -73,6 +74,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+      this.timeLoadingSub?.unsubscribe();
       clearInterval(this.raceIntervalId);
     }
 
@@ -250,9 +252,9 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getTimeLoading(): void {
-      this.raceEventService.getTimeLoadingObservable().subscribe(timeLoading => {
+      this.timeLoadingSub = this.raceEventService.getTimeLoadingObservable().subscribe(timeLoading => {
         this.timeLoading = timeLoading;
-      })
+      });
     }
 
     private updateTimeLeft(raceDate: Date): void {

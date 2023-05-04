@@ -1,20 +1,20 @@
 <div class="wrapper">
-  <h1 class="create-group-heading">Create group</h1>
+  <h1 class="create-group-heading">{{ 'group.create' | translate }}</h1>
   <form class="create-group-form" *ngIf="!groupCreated; else groupCodeTemplate">
     <mat-form-field>
       <input
         matInput
-        placeholder="Group name"
+        placeholder="{{ 'group.groupName' | translate }}"
         [(ngModel)]="groupName"
         id="groupName"
         name="groupName"
         required>
     </mat-form-field>
-    <button mat-raised-button (click)="createGroup()" class="create-group-btn" [disabled]="groupName === ''">Create group</button>
+    <button mat-raised-button (click)="createGroup()" class="create-group-btn" [disabled]="groupName === ''">{{ 'group.create' | translate }}</button>
   </form>
   <ng-template #groupCodeTemplate>
     <app-copy-code #codeCopy [code]="group?.code" (click)="$event.stopPropagation()"></app-copy-code>
-    <button mat-raised-button (click)="closeDialog()" class="create-group-btn">Finish</button>
+    <button mat-raised-button (click)="closeDialog()" class="create-group-btn">{{ 'group.finish' | translate }}</button>
   </ng-template>
 </div>
 
