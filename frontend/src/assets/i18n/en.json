@@ -11,5 +11,9 @@
     "passwordsMatch": "Passwords need to match",
     "signIn": "Already have an account? Sign in",
     "confirmPassword": "Confirm password"
+  },
+  "languages": {
+    "english": "English",
+    "polish": "Polish"
   }
 }

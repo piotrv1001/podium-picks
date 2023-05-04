@@ -22,4 +22,12 @@ export class LocalStorageService {
   saveIsAdmin(isAdmin: number): void {
     localStorage.setItem('isAdmin', isAdmin.toString());
   }
+
+  getLang(): string | null {
+    return localStorage.getItem('lang');
+  }
+
+  setLang(lang: string): void {
+    localStorage.setItem('lang', lang);
+  }
 }
