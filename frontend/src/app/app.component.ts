@@ -6,6 +6,12 @@ import { AuthService } from './shared/auth/auth.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
+interface Language {
+  langKey: string;
+  flagKey: string;
+  langName: string;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,6 +22,9 @@ export class AppComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
   createNewAccount = false;
   authSub?: Subscription;
+  languages: Language[] = [];
+  currentLangKey: string = 'pl';
+  currentFlagKey: string = 'pl';
 
   constructor(
     private authService: AuthService,
@@ -23,12 +32,25 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     public translateService: TranslateService
     ) {
-      translateService.addLangs(['en', 'pl']);
-      translateService.setDefaultLang('pl');
-
+    this.languages = [
+      { langKey: 'en', flagKey: 'us', langName: 'English' },
+      { langKey: 'pl', flagKey: 'pl', langName: 'Polish' }
+    ]
+    translateService.addLangs(['en', 'pl']);
+    translateService.setDefaultLang('pl');
+    const storageLang = this.localStorageService.getLang();
+    if(storageLang) {
+      this.currentLangKey = storageLang;
+      this.currentFlagKey = storageLang === 'en' ? 'us' : storageLang;
+      translateService.use(storageLang);
+    } else {
       const browserLang = translateService.getBrowserLang();
-      translateService.use(browserLang?.match(/en|pl/) ? browserLang : 'pl');
+      const useLang = browserLang?.match(/en|pl/) ? browserLang : 'pl';
+      this.currentLangKey = useLang;
+      this.currentFlagKey = useLang === 'en' ? 'us' : useLang;
+      translateService.use(useLang);
     }
+  }
 
   ngOnInit(): void {
     this.authService.isAuthenticated().subscribe({
@@ -44,6 +66,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authSub = this.authService.getAuthObs().subscribe(auth => {
       this.isAuthenticated = auth;
     });
+  }
+
+  changeLanguage(lang: Language): void {
+    this.currentLangKey = lang.langKey;
+    this.currentFlagKey = lang.flagKey;
+    this.translateService.use(lang.langKey);
+    this.localStorageService.setLang(lang.langKey);
   }
 
   navigateHome(): void {

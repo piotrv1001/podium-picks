@@ -11,5 +11,9 @@
     "passwordsMatch": "Hasła muszą się zgadzać",
     "signIn": "Masz już konto? Zaloguj się",
     "confirmPassword": "Potwierdź hasło"
+  },
+  "languages": {
+    "english": "Angielski",
+    "polish": "Polski"
   }
 }
