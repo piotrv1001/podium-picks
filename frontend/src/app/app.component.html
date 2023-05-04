@@ -1,10 +1,18 @@
 <div *ngIf="isAuthenticated; else loginPage">
   <nav class="top-nav">
     <div>
-      <mat-icon class="log-out-btn" (click)="navigateHome()" matTooltip="Home" aria-label="Go home">home</mat-icon>
-      <mat-icon class="log-out-btn" (click)="logOut()" matTooltip="Log out" aria-label="Log out">power_settings_new</mat-icon>
+      <mat-icon
+        class="log-out-btn"
+        (click)="navigateHome()"
+        matTooltip="{{ 'tooltips.goHome' | translate }}"
+        aria-label="Go home">home</mat-icon>
+      <mat-icon
+        class="log-out-btn"
+        (click)="logOut()"
+        matTooltip="{{ 'tooltips.logOut' | translate }}"
+        aria-label="Log out">power_settings_new</mat-icon>
     </div>
-    <div [matMenuTriggerFor]="menu" aria-label="Choose language" class="choose-lang">
+    <div [matMenuTriggerFor]="menu" aria-label="Choose language" class="choose-lang" matTooltip="{{ 'tooltips.chooseLang' | translate }}">
       <span [class]="'fi fi-' + currentFlagKey + ' lang-flag'"></span>
       <mat-icon class="lang-icon">keyboard_arrow_down</mat-icon>
     </div>

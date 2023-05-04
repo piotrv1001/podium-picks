@@ -1,16 +1,17 @@
 <div class="group-card" (click)="groupClicked()">
   <div class="header-row">
     <div class="group-name">{{ group?.name }}</div>
-    <button *ngIf="!isAdmin" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
+    <button *ngIf="!isAdmin" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Group options menu" (click)="$event.stopPropagation()">
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
-  <div class="user-count">{{ group?.count | userCount }}</div>
+  <div class="user-count" *ngIf="group?.count === 1">{{ 'group.player' | translate: {count: group?.count} }}</div>
+  <div class="user-count" *ngIf="group?.count !== 1">{{ 'group.players' | translate: {count: group?.count} }}</div>
 </div>
 <mat-menu #menu="matMenu" class="group-menu" (closed)="codeCopy.resetState()">
   <app-copy-code #codeCopy [code]="group?.code" (click)="$event.stopPropagation()"></app-copy-code>
   <button mat-menu-item (click)="leaveGroupBtnClicked()">
     <mat-icon>exit_to_app</mat-icon>
-    <span>Leave group</span>
+    <span>{{ 'group.leave' | translate }}</span>
   </button>
 </mat-menu>

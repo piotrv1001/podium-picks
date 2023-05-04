@@ -15,5 +15,23 @@
   "languages": {
     "english": "English",
     "polish": "Polish"
+  },
+  "tooltips": {
+    "goHome": "Go home",
+    "logOut": "Log out",
+    "chooseLang": "Choose language"
+  },
+  "home": {
+    "createOrJoin": "Create or join a group",
+    "create": "Create",
+    "join": "Join",
+    "or": "or",
+    "yourGroups": "Your groups",
+    "noGroups": "No groups yet, create or join your first group!"
+  },
+  "group": {
+    "leave": "Leave group",
+    "player": "{{ count }} player",
+    "players": "{{ count }} players"
   }
 }
