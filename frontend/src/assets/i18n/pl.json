@@ -15,5 +15,23 @@
   "languages": {
     "english": "Angielski",
     "polish": "Polski"
+  },
+  "tooltips": {
+    "goHome": "Strona główna",
+    "logOut": "Wyloguj się",
+    "chooseLang": "Wybierz język"
+  },
+  "home": {
+    "createOrJoin": "Utwórz lub dołącz do grupy",
+    "create": "Utwórz",
+    "join": "Dołącz",
+    "or": "lub",
+    "yourGroups": "Twoje grupy",
+    "noGroups": "Brak grup, utwórz lub dołącz do pierwszej grupy!"
+  },
+  "group": {
+    "leave": "Wyjdź z grupy",
+    "player": "{{ count }} gracz",
+    "players": "{{ count }} graczy"
   }
 }
