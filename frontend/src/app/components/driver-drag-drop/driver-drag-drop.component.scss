@@ -26,7 +26,11 @@
 }
 
 .new-index {
-  padding: 1rem;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
 }
 
 .cdk-drag-preview {
