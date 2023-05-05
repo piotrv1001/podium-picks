@@ -2,6 +2,10 @@
   display: flex;
 }
 
+.small-screen {
+  display: none;
+}
+
 .race-over {
   font-size: 1.1rem;
   color: #555;
@@ -52,7 +56,6 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-right: .5rem;
-  margin-left: 2.5rem;
 }
 
 .total-points {
@@ -63,10 +66,6 @@
 .space-between {
   display: flex;
   justify-content: space-between;
-}
-
-.big-margin {
-  margin-left: 2.5rem;
 }
 
 .flex-col {
@@ -100,11 +99,13 @@
     font-size: 1.3rem;
     margin-left: 1.5rem;
   }
-  .big-margin {
-    margin-left: 1rem;
-    margin-right: 0.5rem;
-  }
   .flex-col {
     padding: 0.8rem;
+  }
+  .small-screen {
+    display: block;
+  }
+  .big-screen {
+    display: none;
   }
 }

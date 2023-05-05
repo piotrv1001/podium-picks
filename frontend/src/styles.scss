@@ -10,3 +10,24 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
     -webkit-box-shadow: 0 0 0 30px whitesmoke inset !important;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 0.25rem;
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

@@ -14,16 +14,17 @@
         <div class="space-between">
           <div class="prediction-header">
             <span class="username">{{ userId2Users.get(data[0])?.username }}</span>
-            <div *ngIf="!scoreAvailable && data[1].confirmed" class="confirm-status-container">
+            <div *ngIf="data[1].confirmed" class="confirm-status-container">
               <span class="saved">Saved</span>
               <mat-icon>check_circle_outline</mat-icon>
             </div>
           </div>
           <span *ngIf="scoreAvailable" class="total-points">{{ userId2Total.get(data[0]) }}</span>
         </div>
-        <div class="space-between big-margin" *ngIf="data[0] === userId && !raceFinished && timeLeft; else othersPredictions">
+        <div class="space-between" *ngIf="data[0] === userId && !raceFinished && timeLeft && !scoreAvailable; else othersPredictions">
           <mat-form-field appearance="fill">
-            <mat-label>Fastest lap</mat-label>
+            <mat-label class="big-screen">Fastest lap</mat-label>
+            <mat-label class="small-screen">FL</mat-label>
             <mat-select>
               <mat-option *ngFor="let driver of drivers" [value]="driver">{{ driver.name }}</mat-option>
             </mat-select>
@@ -36,9 +37,10 @@
           </mat-form-field>
         </div>
         <ng-template #othersPredictions>
-          <div class="big-margin row">
+          <div class="row">
             <div class="flex-col purple">
-              <p class="gray-text">Fastest lap</p>
+              <p class="gray-text big-screen">Fastest lap</p>
+              <p class="gray-text small-screen">FL</p>
               <p>Max Verstappen</p>
             </div>
             <div class="flex-col gray">

@@ -10,6 +10,7 @@
 }
 
 .driver-box {
+  width: 100%;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   display: block;
@@ -17,6 +18,15 @@
   cursor: move;
   background: white;
   font-size: 14px;
+}
+
+.driver-row {
+  display: flex;
+  align-items: center;
+}
+
+.new-index {
+  padding: 1rem;
 }
 
 .cdk-drag-preview {
@@ -47,12 +57,6 @@
 .drop-row {
   display: flex;
   position: relative;
-  // margin-top: 50px;
-}
-
-.index-list {
-  display: flex;
-  flex-direction: column;
 }
 
 .point-btn-col {
@@ -86,15 +90,6 @@
   cursor: default;
 }
 
-.index {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 60px;
-  font-size: 14px;
-  padding: 4.5px 10px;
-}
-
 .save-btn {
   position: absolute;
   top: -120px;
@@ -113,11 +108,9 @@
 
 @media (max-width: 768px) {
   .driver-list {
-    width: 300px;
+    width: 350px;
   }
-  .index {
-    min-height: 45px;
+  .new-index {
     font-size: 12px;
-    padding: 5px 5px 5px 0;
   }
 }
