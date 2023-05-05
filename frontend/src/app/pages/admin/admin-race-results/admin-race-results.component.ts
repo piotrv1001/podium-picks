@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ResultDTO } from 'src/app/model/dto/result.dto';
 import { ERROR_MSG } from 'src/app/app.constants';
 import { RaceEventService } from 'src/app/services/race-event.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector:'app-admin-race-results',
@@ -27,7 +28,8 @@ export class AdminRaceResultsComponent implements OnInit  {
     private driverService: DriverService,
     private resultService: ResultService,
     private snackBar: MatSnackBar,
-    private raceEventService: RaceEventService) {
+    private raceEventService: RaceEventService,
+    public translateService: TranslateService) {
     this.raceId = this.router.getCurrentNavigation()?.extras?.state?.['raceId'];
   }
 
@@ -76,7 +78,8 @@ export class AdminRaceResultsComponent implements OnInit  {
       next: (newResults: Result[]) => {
         this.results = newResults;
         this.drivers = drivers;
-        this.showSnackBar('Created results!');
+        const msg = this.translateService.instant('race.results.created');
+        this.showSnackBar(msg);
         this.notifyAboutMadeChanges(false);
       },
       error: (error: Error) => {
@@ -89,7 +92,8 @@ export class AdminRaceResultsComponent implements OnInit  {
     this.resultService.updateMany(this.results).subscribe({
       next: (updatedResults: Result[]) => {
         this.results = updatedResults;
-        this.showSnackBar('Updated results!');
+        const msg = this.translateService.instant('race.results.updated');
+        this.showSnackBar(msg);
         this.notifyAboutMadeChanges(false);
       },
       error: (error: Error) => {
