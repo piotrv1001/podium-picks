@@ -61,6 +61,30 @@
       "average": "Average",
       "best": "Best",
       "total": "Total"
+    },
+    "update": {
+      "editRace": "Edit race",
+      "name": "Name",
+      "raceName": "Race name",
+      "raceDate": "Race date",
+      "deadline": "Deadline",
+      "deadlineDate": "Deadline date",
+      "cancel": "Cancel",
+      "update": "Update"
+    },
+    "points": {
+      "updated": "Updated points!"
+    },
+    "results": {
+      "created": "Created results!",
+      "updated": "Updated results!"
+    },
+    "predictions": {
+      "created": "Created predictions!",
+      "updated": "Updated predictions!"
     }
+  },
+  "error": {
+    "userNotFound": "Error! User not found. Try again later"
   }
 }

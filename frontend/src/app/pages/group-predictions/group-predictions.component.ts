@@ -20,6 +20,7 @@ import { ScoreService } from 'src/app/services/score.service';
 import { Score } from 'src/app/model/entities/score.model';
 import { GroupService } from 'src/app/services/group.service';
 import { User } from 'src/app/model/entities/user.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-group-predictions',
@@ -58,7 +59,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     private dateUtilService: DateUtilService,
     private raceEventService: RaceEventService,
     private scoreService: ScoreService,
-    private groupService: GroupService) {
+    private groupService: GroupService,
+    public translateService: TranslateService) {
       const navState = this.router.getCurrentNavigation()?.extras?.state
       this.raceId = navState?.["raceId"];
       this.groupId = navState?.["groupId"];
@@ -87,7 +89,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           this.createPredictions(drivers);
         }
       } else {
-        this.showSnackBar('Error: User not found! Try again later.');
+        const msg = this.translateService.instant('error.userNotFound');
+        this.showSnackBar(msg);
       }
     }
 
@@ -119,7 +122,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
                 this.userId2Drivers.set(this.userId!, { drivers: confirmedDrivers.drivers, confirmed: true });
                 this.updateDataArray();
               }
-              this.showSnackBar('Updated predictions!');
+              const msg = this.translateService.instant('race.predictions.updated');
+              this.showSnackBar(msg);
               this.notifyAboutMadeChanges(false);
             },
             error: () => {
@@ -153,7 +157,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             this.userId2Predictions.set(this.userId!, newPredictions);
             this.userId2Drivers.set(this.userId!, { drivers, confirmed: true });
             this.updateDataArray();
-            this.showSnackBar('Created predictions!');
+            const msg = this.translateService.instant('race.predictions.created');
+            this.showSnackBar(msg);
             this.notifyAboutMadeChanges(false);
           },
           error: () => {

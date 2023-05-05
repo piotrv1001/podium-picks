@@ -1,5 +1,5 @@
 <div class="container">
-  <h1>Edit race</h1>
+  <h1>{{ 'race.update.editRace' | translate }}</h1>
   <hr style="margin-bottom: 1rem;">
   <form *ngIf="race && race?.name !== undefined && raceDate; else loading" (ngSubmit)="onSubmit()" #updateRaceForm="ngForm" class="update-form">
     <div class="flex-col w-100">
@@ -7,7 +7,7 @@
       <mat-form-field>
         <input
           matInput
-          placeholder="Race name"
+          placeholder="{{ 'race.update.raceName' | translate }}"
           id="name"
           name="name"
           [(ngModel)]="race!.name"
@@ -16,7 +16,7 @@
     </div>
     <div class="calendars">
       <div class="flex-col">
-        <h3>Race date</h3>
+        <h3>{{ 'race.update.raceDate' | translate }}</h3>
         <mat-card class="inline-calendar-card">
           <mat-calendar [(selected)]="raceDate" [startAt]="startAt"></mat-calendar>
           <div class="divider"></div>
@@ -24,7 +24,7 @@
         </mat-card>
       </div>
       <div class="flex-col deadline-calendar">
-        <h3>Deadline</h3>
+        <h3>{{ 'race.update.deadline' | translate }}</h3>
         <mat-card class="inline-calendar-card">
           <mat-calendar [(selected)]="raceDateDeadline" [startAt]="startAtDeadline"></mat-calendar>
           <div class="divider"></div>
@@ -34,14 +34,14 @@
     </div>
     <div class="calendar-tabs">
       <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center">
-        <mat-tab label="Race date">
+        <mat-tab label="{{ 'race.update.raceDate' | translate }}">
           <mat-card class="inline-calendar-card">
             <mat-calendar [(selected)]="raceDate" [startAt]="startAt"></mat-calendar>
             <div class="divider"></div>
             <app-time-picker [hours]="raceHours" [minutes]="raceMinutes" (hoursChange)="onRaceHoursChange($event)" (minutesChange)="onRaceMinutesChange($event)"></app-time-picker>
           </mat-card>
         </mat-tab>
-        <mat-tab label="Deadline date">
+        <mat-tab label="{{ 'race.update.deadlineDate' | translate }}">
           <mat-card class="inline-calendar-card">
             <mat-calendar [(selected)]="raceDateDeadline" [startAt]="startAtDeadline"></mat-calendar>
             <div class="divider"></div>
@@ -51,8 +51,8 @@
       </mat-tab-group>
     </div>
     <div class="action-btn-row">
-      <button (click)="onCancelBtnClick()" class="action-btn cancel-btn" type="button">Cancel</button>
-      <button type="submit" [disabled]="!updateRaceForm.form.valid" class="action-btn update-btn">Update</button>
+      <button (click)="onCancelBtnClick()" class="action-btn cancel-btn" type="button">{{ 'race.update.cancel' | translate }}</button>
+      <button type="submit" [disabled]="!updateRaceForm.form.valid" class="action-btn update-btn">{{ 'race.update.update' | translate }}</button>
     </div>
   </form>
   <ng-template #loading>

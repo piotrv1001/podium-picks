@@ -61,6 +61,30 @@
       "average": "Średni",
       "best": "Najlepszy",
       "total": "Razem"
+    },
+    "update": {
+      "editRace": "Edytuj wyścig",
+      "name": "Nazwa",
+      "raceName": "Nazwa wyścigu",
+      "raceDate": "Data wyścigu",
+      "deadline": "Deadline",
+      "deadlineDate": "Data deadline'u",
+      "cancel": "Anuluj",
+      "update": "Zapisz"
+    },
+    "points": {
+      "updated": "Zapisano punkty!"
+    },
+    "results": {
+      "created": "Stworzono wyniki!",
+      "updated": "Zapisano wyniki!"
+    },
+    "predictions": {
+      "created": "Stworzono prognozy!",
+      "updated": "Zapisano prognozy!"
     }
+  },
+  "error": {
+    "userNotFound": "Błąd: Użytkownik nie znaleziony! Spróbuj ponownie później"
   }
 }

@@ -8,6 +8,7 @@ import { PredictionService } from "src/app/services/prediction.service";
 import { ScoreService } from "src/app/services/score.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { RaceEventService } from "src/app/services/race-event.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-admin-points',
@@ -30,7 +31,8 @@ export class AdminPointsComponent implements OnInit {
     private predictionService: PredictionService,
     private driverService: DriverService,
     private snackBar: MatSnackBar,
-    private raceEventService: RaceEventService
+    private raceEventService: RaceEventService,
+    public translateService: TranslateService
   ) {
     const navState = this.router.getCurrentNavigation()?.extras?.state
     this.raceId = navState?.["raceId"];
@@ -82,7 +84,8 @@ export class AdminPointsComponent implements OnInit {
   private updateScores(): void {
     this.scoreService.updateMany(this.updatedScores).subscribe({
       next: () => {
-        this.showSnackBar('Updated points!');
+        const msg = this.translateService.instant('race.points.updated');
+        this.showSnackBar(msg);
         this.raceEventService.notifyAboutMadeChanges(false);
       },
       error: (error: Error) => {
