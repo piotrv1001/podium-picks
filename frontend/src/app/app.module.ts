@@ -27,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -117,6 +118,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatTabsModule,
     MatTooltipModule,
     MatSelectModule,
+    MatCheckboxModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

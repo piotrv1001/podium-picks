@@ -1,4 +1,4 @@
-<div class="wrapper">
+<div class="wrapper" [ngClass]="{'scroll-offset' : filteredRaces.length < 6}">
   <div *ngIf="!isAdmin && races.length > 0">
     <table>
       <thead>
@@ -23,8 +23,22 @@
       </tbody>
     </table>
   </div>
+  <div class="filter-row" *ngIf="races.length > 0">
+    <mat-form-field class="search-field">
+      <input matInput type="text" placeholder="Search..." [(ngModel)]="query" (ngModelChange)="onSearchQueryChange($event)"/>
+      <button *ngIf="query; else emptySpace" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <ng-template #emptySpace>
+        <button matSuffix mat-icon-button aria-label="Search" disabled>
+          <mat-icon>search</mat-icon>
+        </button>
+      </ng-template>
+    </mat-form-field>
+    <mat-checkbox class="next-race-checkbox" color="primary" [(ngModel)]="showNextRaceOnly" (ngModelChange)="nextRaceOnly()">Next race</mat-checkbox>
+  </div>
   <div *ngIf="races.length > 0; else noRaces" class="race-list">
-    <app-race *ngFor="let race of races"
+    <app-race *ngFor="let race of filteredRaces"
       [race]="race"
       [isAdmin]="isAdmin === 1"
       [isNextRace]="race === nextRace"
@@ -35,6 +49,7 @@
     ></app-race>
   </div>
   <ng-template #noRaces>
-    <div class="no-races">Coming soon...</div>
+    <div class="no-races">{{ 'race.comingSoon' | translate }}</div>
   </ng-template>
+  <div *ngIf="races.length > 0 && filteredRaces.length === 0" class="no-races">{{ 'race.noRacesFound' | translate }}</div>
 </div>
