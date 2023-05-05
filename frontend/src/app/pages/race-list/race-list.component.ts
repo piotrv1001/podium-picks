@@ -19,6 +19,7 @@ import { Stats } from "src/app/model/types/stats";
 export class RaceListComponent implements OnInit {
 
   races: Race[] = [];
+  filteredRaces: Race[] = [];
   groupId?: number;
   seasonId?: number;
   isAdmin?: number | null;
@@ -26,6 +27,8 @@ export class RaceListComponent implements OnInit {
   dataArray: [number, Stats][] = [];
   userId2Users: Map<number, User> = new Map<number, User>();
   nextRace?: Race;
+  query: string = '';
+  showNextRaceOnly: boolean = false;
 
   constructor(
     private raceService: RaceService,
@@ -46,6 +49,29 @@ export class RaceListComponent implements OnInit {
     if(!this.isAdmin) {
       this.getUsersByGroup();
       this.getGrouppedScores();
+    }
+  }
+
+  onSearchQueryChange(query: string): void {
+    if(query.length > 2) {
+      this.filteredRaces = this.races.filter(
+        race => race.country?.toLowerCase()?.includes(query.toLowerCase()) ||
+        race.name?.toLowerCase()?.includes(query.toLowerCase()));
+    } else {
+      this.resetRaces();
+    }
+  }
+
+  resetSearch(): void {
+    this.query = '';
+    this.resetRaces();
+  }
+
+  nextRaceOnly(): void {
+    if(this.showNextRaceOnly) {
+      this.filteredRaces = this.races.filter(race => race === this.nextRace);
+    } else {
+      this.onSearchQueryChange(this.query);
     }
   }
 
@@ -86,6 +112,7 @@ export class RaceListComponent implements OnInit {
     if(this.seasonId) {
       this.raceService.getAllRacesForSeason(this.seasonId).subscribe(races => {
         this.races = races;
+        this.filteredRaces = [...this.races];
         this.nextRace = this.getNextRaceByDate(this.races);
       });
     }
@@ -140,6 +167,10 @@ export class RaceListComponent implements OnInit {
     }
 
     return closestRace;
+  }
+
+  private resetRaces(): void {
+    this.filteredRaces = [...this.races];
   }
 
 }

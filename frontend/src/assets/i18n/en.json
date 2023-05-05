@@ -53,7 +53,8 @@
     "seasons": "Seasons"
   },
   "race": {
-    "comingSoon": "Coming soon",
+    "comingSoon": "Coming soon...",
+    "noRacesFound": "No races found",
     "raceFinished": "Race finished",
     "statTable": {
       "player": "Player",

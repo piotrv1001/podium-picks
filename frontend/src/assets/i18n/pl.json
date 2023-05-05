@@ -53,7 +53,8 @@
     "seasons": "Sezony"
   },
   "race": {
-    "comingSoon": "Coming soon",
+    "comingSoon": "Już wkrótce...",
+    "noRacesFound": "Nie znaleziono wyścigów",
     "raceFinished": "Wyścig zakończony",
     "statTable": {
       "player": "Gracz",
