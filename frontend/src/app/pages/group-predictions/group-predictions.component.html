@@ -1,12 +1,14 @@
-<div class="timer-container">
-  <app-countdown-timer *ngIf="!raceFinished && timeLeft; else raceFinishedTemplate"></app-countdown-timer>
-  <ng-template #raceFinishedTemplate>
-    <div>
-      <span class="race-over">{{ 'race.raceFinished' | translate }}</span>
-      <img src="assets/img/flag.png" alt="Race flag" width="30" class="flag-img">
+<div class="timer-container" *ngIf="loading; else raceLoaded"></div>
+<ng-template #raceLoaded>
+  <div class="timer-container" [ngSwitch]="raceStatus">
+    <div *ngSwitchCase="RaceStatus.BEFORE_DEADLINE">
+      <app-countdown-timer></app-countdown-timer>
     </div>
-  </ng-template>
-</div>
+    <div *ngSwitchCase="RaceStatus.AFTER_DEADLINE_BEFORE_RACE">Predictions locked in!</div>
+    <div *ngSwitchCase="RaceStatus.AFTER_RACE_BEFORE_RESULTS">Race finished!</div>
+    <div *ngSwitchCase="RaceStatus.AFTER_RACE_AFTER_RESULTS">Race finished! Results available!</div>
+  </div>
+</ng-template>
 <div class="row">
   <mat-tab-group class="tab-group" #tabGroup>
     <mat-tab *ngFor="let data of dataArray" [label]="userId2Users.get(data[0])?.username ?? 'Unknown'">
@@ -20,13 +22,13 @@
                 <mat-icon>check_circle_outline</mat-icon>
               </div>
             </div>
-            <button *ngIf="data[0] === userId"
+            <button *ngIf="data[0] === userId && !raceFinished && !scoreAvailable"
                 mat-raised-button
                 color="primary"
                 (click)="handlePredictionSaveBtnClick()"
                 [disabled]="!madeChanges">{{ 'race.save' | translate }}</button>
+              <span *ngIf="scoreAvailable" class="total-points">{{ userId2Total.get(data[0]) }}</span>
           </div>
-          <span *ngIf="scoreAvailable" class="total-points">{{ userId2Total.get(data[0]) }}</span>
         </div>
         <div class="space-between" *ngIf="data[0] === userId && !raceFinished && timeLeft && !scoreAvailable; else othersPredictions">
           <mat-form-field appearance="fill" class="fl-dnf">

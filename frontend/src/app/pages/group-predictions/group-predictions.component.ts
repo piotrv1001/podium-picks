@@ -22,6 +22,7 @@ import { GroupService } from 'src/app/services/group.service';
 import { User } from 'src/app/model/entities/user.model';
 import { TranslateService } from '@ngx-translate/core';
 import { MatTabGroup } from '@angular/material/tabs';
+import { RaceStatus } from 'src/app/model/types/race-status';
 
 @Component({
   selector: 'app-group-predictions',
@@ -48,10 +49,11 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   madeChanges: boolean = false;
   raceIntervalId?: any;
   scoreAvailable: boolean = false;
-  timeLoading: boolean = true;
-  timeLoadingSub?: Subscription;
   selectedDNF?: Driver;
   selectedFL?: Driver;
+  raceStatus: RaceStatus = RaceStatus.BEFORE_DEADLINE;
+  loading: boolean = true;
+  RaceStatus = RaceStatus;
 
   constructor(
     private driverService: DriverService,
@@ -72,7 +74,6 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
       this.getMadeChanges();
-      this.getTimeLoading();
       this.getRace();
       this.getUserId();
       this.getUsersByGroup();
@@ -81,7 +82,6 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-      this.timeLoadingSub?.unsubscribe();
       clearInterval(this.raceIntervalId);
     }
 
@@ -244,6 +244,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
               this.userId2Total.set(userId, sum);
             }
           }
+          this.checkRaceStatus();
         });
       }
     }
@@ -267,6 +268,26 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       }
     }
 
+    private checkRaceStatus(): void {
+      const now = new Date();
+      if(this.race?.predictionDeadline && this.race?.date) {
+        if(now > this.race.predictionDeadline) {
+          if(now < this.race.date) {
+            this.raceStatus = RaceStatus.AFTER_DEADLINE_BEFORE_RACE;
+          } else {
+            if(this.scoreAvailable) {
+              this.raceStatus = RaceStatus.AFTER_RACE_AFTER_RESULTS;
+            } else {
+              this.raceStatus = RaceStatus.AFTER_RACE_BEFORE_RESULTS;
+            }
+          }
+        } else {
+          this.raceStatus = RaceStatus.BEFORE_DEADLINE;
+        }
+      }
+      this.loading = false;
+    }
+
     private getUsersByGroup(): void {
       if(this.groupId) {
         this.groupService.getUsersByGroup(this.groupId).subscribe({
@@ -279,12 +300,6 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           }
         })
       }
-    }
-
-    private getTimeLoading(): void {
-      this.timeLoadingSub = this.raceEventService.getTimeLoadingObservable().subscribe(timeLoading => {
-        this.timeLoading = timeLoading;
-      });
     }
 
     private updateTimeLeft(raceDate: Date): void {
