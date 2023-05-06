@@ -22,6 +22,7 @@ export class AdminRaceResultsComponent implements OnInit  {
   raceId?: number;
   drivers: Driver[] = [];
   results: Result[] = [];
+  madeChanges: boolean = false;
 
   constructor(
     private router: Router,
@@ -34,10 +35,12 @@ export class AdminRaceResultsComponent implements OnInit  {
   }
 
   ngOnInit() {
+    this.getMadeChanges();
     this.getRaceResutls();
   }
 
-  handleResultSaveBtnClick(drivers: Driver[]) {
+  handleResultSaveBtnClick() {
+    const drivers = this.raceEventService.getDrivers();
     const isUpdate = this.results.length !== 0;
     if(isUpdate) {
       this.updateResults();
@@ -57,6 +60,12 @@ export class AdminRaceResultsComponent implements OnInit  {
         }
       }
     }
+  }
+
+  private getMadeChanges(): void {
+    this.raceEventService.getMadeChangesObservable().subscribe(madeChanges => {
+      this.madeChanges = madeChanges;
+    });
   }
 
   private createResults(drivers: Driver[]): void {

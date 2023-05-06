@@ -1,19 +1,19 @@
 <div class="row" *ngIf="!loading; else spinner">
   <div class="col" *ngIf="formattedTime?.days !== 0">
     <span class="big-text">{{ formattedTime?.days }}</span>
-    <span class="small-text">Days</span>
+    <span class="small-text">{{ 'countdownTimer.days'| translate }}</span>
   </div>
   <div class="col">
     <span class="big-text">{{ formattedTime?.hours}}</span>
-    <span class="small-text">Hours</span>
+    <span class="small-text">{{ 'countdownTimer.hours'| translate }}</span>
   </div>
   <div class="col">
     <span class="big-text">{{ formattedTime?.minutes }}</span>
-    <span class="small-text">Minutes</span>
+    <span class="small-text">{{ 'countdownTimer.minutes'| translate }}</span>
   </div>
   <div class="col">
     <span class="big-text">{{ formattedTime?.seconds }}</span>
-    <span class="small-text">Seconds</span>
+    <span class="small-text">{{ 'countdownTimer.seconds'| translate }}</span>
   </div>
 </div>
 <ng-template #spinner>

@@ -17,7 +17,6 @@ export class DriverDragDropComponent implements OnInit, OnChanges {
   @Input() isPointsUpdate: boolean = false;
   @Input() scoreArray?: Score[] = [];
   @Output() dropped: EventEmitter<DragDropEvent> = new EventEmitter();
-  @Output() saved: EventEmitter<Driver[]> = new EventEmitter();
   @Output() scoresChanged: EventEmitter<Score> = new EventEmitter();
   madeChanges: boolean = false;
   pointArray: number[] = [];
@@ -38,14 +37,12 @@ export class DriverDragDropComponent implements OnInit, OnChanges {
     const currIndex = event.currentIndex;
     if(prevIndex !== currIndex) {
       this.madeChanges = true;
+      this.raceEventService.notifyAboutMadeChanges(true);
       moveItemInArray(this.drivers, prevIndex, currIndex);
       this.dropped.emit({ previousIndex: prevIndex, currentIndex: currIndex, drivers: this.drivers });
+      this.raceEventService.setDrivers(this.drivers);
     }
     this.lastMovedItemIndex = currIndex;
-  }
-
-  saveBtnClicked(): void {
-    this.saved.emit(this.drivers);
   }
 
   pointsChanged(index: number, increment: boolean): void {
@@ -53,6 +50,7 @@ export class DriverDragDropComponent implements OnInit, OnChanges {
       const score = this.scoreArray[index];
       if(score && score.points != null) {
         this.madeChanges = true;
+        this.raceEventService.notifyAboutMadeChanges(true);
         if(increment) {
           score.points = Number(score.points) + 0.5;
         } else {

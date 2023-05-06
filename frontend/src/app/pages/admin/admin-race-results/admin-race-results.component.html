@@ -1,5 +1,11 @@
+<button
+  class="save-btn"
+  mat-raised-button
+  color="primary"
+  (click)="handleResultSaveBtnClick()"
+  [disabled]="!madeChanges">{{ 'race.save' | translate }}</button>
 <app-driver-drag-drop
   [drivers]="drivers"
   [isEditable]="true"
-  (dropped)="handleDriverDragDrop($event)"
-  (saved)="handleResultSaveBtnClick($event)"></app-driver-drag-drop>
+  (dropped)="handleDriverDragDrop($event)">
+</app-driver-drag-drop>

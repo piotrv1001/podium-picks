@@ -1,7 +1,7 @@
 <div class="timer-container">
   <app-countdown-timer *ngIf="!raceFinished && timeLeft; else raceFinishedTemplate"></app-countdown-timer>
   <ng-template #raceFinishedTemplate>
-    <div *ngIf="!timeLoading && raceFinished">
+    <div>
       <span class="race-over">{{ 'race.raceFinished' | translate }}</span>
       <img src="assets/img/flag.png" alt="Race flag" width="30" class="flag-img">
     </div>
@@ -13,25 +13,32 @@
       <div class="prediction-container">
         <div class="space-between">
           <div class="prediction-header">
-            <span class="username">{{ userId2Users.get(data[0])?.username }}</span>
-            <div *ngIf="data[1].confirmed" class="confirm-status-container">
-              <span class="saved">Saved</span>
-              <mat-icon>check_circle_outline</mat-icon>
+            <div style="display: flex;">
+              <span class="username">{{ userId2Users.get(data[0])?.username }}</span>
+              <div *ngIf="data[1].confirmed" class="confirm-status-container">
+                <span class="saved">{{ 'race.saved' | translate }}</span>
+                <mat-icon>check_circle_outline</mat-icon>
+              </div>
             </div>
+            <button *ngIf="data[0] === userId"
+                mat-raised-button
+                color="primary"
+                (click)="handlePredictionSaveBtnClick()"
+                [disabled]="!madeChanges">{{ 'race.save' | translate }}</button>
           </div>
           <span *ngIf="scoreAvailable" class="total-points">{{ userId2Total.get(data[0]) }}</span>
         </div>
         <div class="space-between" *ngIf="data[0] === userId && !raceFinished && timeLeft && !scoreAvailable; else othersPredictions">
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" class="fl-dnf">
             <mat-label class="big-screen">Fastest lap</mat-label>
             <mat-label class="small-screen">FL</mat-label>
-            <mat-select>
+            <mat-select [(ngModel)]="selectedFL" (ngModelChange)="selectedDriverChanged()">
               <mat-option *ngFor="let driver of drivers" [value]="driver">{{ driver.name }}</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="fill">
+          <mat-form-field appearance="fill" class="fl-dnf">
             <mat-label>DNF</mat-label>
-            <mat-select>
+            <mat-select [(ngModel)]="selectedDNF" (ngModelChange)="selectedDriverChanged()">
               <mat-option *ngFor="let driver of drivers" [value]="driver">{{ driver.name }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -53,7 +60,6 @@
           [drivers]="data[1].drivers"
           [scoreArray]="userId2Scores.get(data[0])"
           [isEditable]="data[0] === userId && !raceFinished && !scoreAvailable"
-          (saved)="handlePredictionSaveBtnClick($event)"
           (dropped)="handleDriverDragDrop($event)">
         </app-driver-drag-drop>
       </div>
