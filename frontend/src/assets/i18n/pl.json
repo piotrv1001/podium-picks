@@ -53,6 +53,8 @@
     "seasons": "Sezony"
   },
   "race": {
+    "saved": "Zapisano",
+    "save": "Zapisz",
     "search": "Szukaj...",
     "nextRace": "Następny",
     "comingSoon": "Już wkrótce...",
@@ -91,5 +93,11 @@
   },
   "error": {
     "userNotFound": "Błąd: Użytkownik nie znaleziony! Spróbuj ponownie później"
+  },
+  "countdownTimer": {
+    "days": "Dni",
+    "hours": "Godziny",
+    "minutes": "Minuty",
+    "seconds": "Sekundy"
   }
 }

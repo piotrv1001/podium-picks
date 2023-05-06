@@ -50,6 +50,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   scoreAvailable: boolean = false;
   timeLoading: boolean = true;
   timeLoadingSub?: Subscription;
+  selectedDNF?: Driver;
+  selectedFL?: Driver;
 
   constructor(
     private driverService: DriverService,
@@ -69,6 +71,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+      this.getMadeChanges();
       this.getTimeLoading();
       this.getRace();
       this.getUserId();
@@ -82,7 +85,14 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       clearInterval(this.raceIntervalId);
     }
 
-    handlePredictionSaveBtnClick(drivers: Driver[]): void {
+    selectedDriverChanged(): void {
+      if(this.selectedDNF && this.selectedFL) {
+        this.madeChanges = true;
+      }
+    }
+
+    handlePredictionSaveBtnClick(): void {
+      const drivers = this.raceEventService.getDrivers();
       this.setTabAnimationDuration(0);
       if(this.userId) {
         const isUpdate = this.userId2Predictions.get(this.userId)?.length !== 0;
@@ -111,6 +121,12 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           }
         }
       }
+    }
+
+    private getMadeChanges(): void {
+      this.raceEventService.getMadeChangesObservable().subscribe(madeChanges => {
+        this.madeChanges = madeChanges;
+      });
     }
 
     private updatePredictions(): void {

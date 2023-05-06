@@ -1,8 +1,13 @@
+<button
+  class="save-btn"
+  mat-raised-button
+  color="primary"
+  (click)="handleSavePointsBtnClick()"
+  [disabled]="!madeChanges">{{ 'race.save' | translate }}</button>
 <app-driver-drag-drop
   [drivers]="drivers"
   [scoreArray]="scores"
   [isEditable]="false"
   [isPointsUpdate]="true"
-  (scoresChanged)="handleScoreUpdate($event)"
-  (saved)="handleSavePointsBtnClick()">
+  (scoresChanged)="handleScoreUpdate($event)">
 </app-driver-drag-drop>

@@ -24,6 +24,7 @@ export class AdminPointsComponent implements OnInit {
   predictions: Prediction[] = [];
   drivers: Driver[] = [];
   updatedScores: Score[] = [];
+  madeChanges: boolean = false;
 
   constructor(
     private router: Router,
@@ -41,6 +42,7 @@ export class AdminPointsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getMadeChanges();
     this.getScores();
     this.getPredictions();
     this.getDrivers();
@@ -52,6 +54,12 @@ export class AdminPointsComponent implements OnInit {
 
   handleSavePointsBtnClick(): void {
     this.updateScores();
+  }
+
+  private getMadeChanges(): void {
+    this.raceEventService.getMadeChangesObservable().subscribe(madeChanges => {
+      this.madeChanges = madeChanges;
+    });
   }
 
   private getScores(): void {

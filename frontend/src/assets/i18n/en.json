@@ -53,6 +53,8 @@
     "seasons": "Seasons"
   },
   "race": {
+    "saved": "Saved",
+    "save": "Save",
     "search": "Search...",
     "nextRace": "Next race",
     "comingSoon": "Coming soon...",
@@ -91,5 +93,11 @@
   },
   "error": {
     "userNotFound": "Error! User not found. Try again later"
+  },
+  "countdownTimer": {
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Minutes",
+    "seconds": "Seconds"
   }
 }

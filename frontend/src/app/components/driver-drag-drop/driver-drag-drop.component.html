@@ -25,11 +25,5 @@
       <button class="point-btn" [disabled]="pointArray[i] < 0.5" (click)="pointsChanged(i, false)">-</button>
     </div>
   </div>
-  <button *ngIf="isEditable || isPointsUpdate"
-    mat-raised-button
-    color="primary"
-    (click)="saveBtnClicked()"
-    class="save-btn"
-    [disabled]="!madeChanges">Save</button>
 </div>
 
