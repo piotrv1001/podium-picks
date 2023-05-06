@@ -1,5 +1,13 @@
-<div class="race-card" (click)="raceClicked()" [ngClass]="isNextRace ? 'next-race' : 'race'">
-  <div class="wrapper" [ngClass]="isNextRace ? 'next-race-wrapper' : 'race-wrapper'">
+<div class="race-card" (click)="raceClicked()" [ngClass]="{
+  'next-race': isNextRace,
+  'race': !isNextRace,
+  'no-hover': isAdmin
+}">
+  <div class="wrapper" [ngClass]="{
+    'next-race-wrapper': isNextRace,
+    'race-wrapper': !isNextRace,
+    'no-hover-wrapper': isAdmin
+  }">
     <div class="row">
       <div class="race-country">{{ race?.country }}</div>
       <mat-icon *ngIf="isAdmin" (click)="editRaceClicked($event)" class="edit-icon">edit</mat-icon>
@@ -11,8 +19,8 @@
     <div class="race-name">{{ race?.name }}</div>
     <span [class]="'fi fi-' + race?.countryCode?.toLowerCase() + ' race-flag'"></span>
     <div *ngIf="isAdmin" class="race-buttons">
-      <button class="race-btn results-btn" (click)="resultsBtnClicked($event)">Results</button>
-      <button class="race-btn points-btn" (click)="pointsBtnClicked($event)">Points</button>
+      <button class="race-btn results-btn" (click)="resultsBtnClicked($event)">{{ 'race.update.results' | translate }}<mat-icon>chevron_right</mat-icon></button>
+      <button class="race-btn points-btn" (click)="pointsBtnClicked($event)">{{ 'race.update.points' | translate }}<mat-icon>chevron_right</mat-icon></button>
     </div>
   </div>
 </div>

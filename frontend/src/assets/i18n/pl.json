@@ -53,6 +53,8 @@
     "seasons": "Sezony"
   },
   "race": {
+    "search": "Szukaj...",
+    "nextRace": "Następny",
     "comingSoon": "Już wkrótce...",
     "noRacesFound": "Nie znaleziono wyścigów",
     "raceFinished": "Wyścig zakończony",
@@ -71,7 +73,9 @@
       "deadline": "Deadline",
       "deadlineDate": "Data deadline'u",
       "cancel": "Anuluj",
-      "update": "Zapisz"
+      "update": "Zapisz",
+      "results": "Wyniki",
+      "points": "Punkty"
     },
     "points": {
       "updated": "Zapisano punkty!"

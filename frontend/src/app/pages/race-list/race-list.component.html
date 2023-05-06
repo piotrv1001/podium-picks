@@ -25,7 +25,7 @@
   </div>
   <div class="filter-row" *ngIf="races.length > 0">
     <mat-form-field class="search-field">
-      <input matInput type="text" placeholder="Search..." [(ngModel)]="query" (ngModelChange)="onSearchQueryChange($event)"/>
+      <input matInput type="text" placeholder="{{ 'race.search' | translate }}" [(ngModel)]="query" (ngModelChange)="onSearchQueryChange($event)"/>
       <button *ngIf="query; else emptySpace" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()">
         <mat-icon>close</mat-icon>
       </button>
@@ -35,7 +35,7 @@
         </button>
       </ng-template>
     </mat-form-field>
-    <mat-checkbox class="next-race-checkbox" color="primary" [(ngModel)]="showNextRaceOnly" (ngModelChange)="nextRaceOnly()">Next race</mat-checkbox>
+    <mat-checkbox class="next-race-checkbox" color="primary" [(ngModel)]="showNextRaceOnly" (ngModelChange)="nextRaceOnly()">{{ 'race.nextRace' | translate }}</mat-checkbox>
   </div>
   <div *ngIf="races.length > 0; else noRaces" class="race-list">
     <app-race *ngFor="let race of filteredRaces"
