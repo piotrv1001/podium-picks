@@ -8,7 +8,7 @@
   </ng-template>
 </div>
 <div class="row">
-  <mat-tab-group class="tab-group">
+  <mat-tab-group class="tab-group" #tabGroup>
     <mat-tab *ngFor="let data of dataArray" [label]="userId2Users.get(data[0])?.username ?? 'Unknown'">
       <div class="prediction-container">
         <div class="space-between">

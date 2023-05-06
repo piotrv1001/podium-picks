@@ -61,6 +61,14 @@
   background-color: rgba(69, 255, 69, 0.2);
 }
 
+.no-hover:hover {
+  cursor: default;
+}
+
+.no-hover-wrapper:hover {
+  background-color: white;
+}
+
 @keyframes rotate {
 	100% {
 		transform: rotate(1turn);
@@ -114,6 +122,9 @@
 
 .race-btn {
   width: 50%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
   padding: 1rem;
   border-radius: 5px;
   text-transform: uppercase;

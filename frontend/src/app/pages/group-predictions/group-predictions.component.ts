@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Driver } from 'src/app/model/entities/driver.model';
@@ -21,6 +21,7 @@ import { Score } from 'src/app/model/entities/score.model';
 import { GroupService } from 'src/app/services/group.service';
 import { User } from 'src/app/model/entities/user.model';
 import { TranslateService } from '@ngx-translate/core';
+import { MatTabGroup } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-group-predictions',
@@ -29,6 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
+  @ViewChild('tabGroup') tabGroup?: MatTabGroup;
   drivers: Driver[] = [];
   driverObj: { [id: number]: Driver } = {};
   raceId?: number;
@@ -81,6 +83,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     handlePredictionSaveBtnClick(drivers: Driver[]): void {
+      this.setTabAnimationDuration(0);
       if(this.userId) {
         const isUpdate = this.userId2Predictions.get(this.userId)?.length !== 0;
         if(isUpdate) {
@@ -125,6 +128,9 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
               const msg = this.translateService.instant('race.predictions.updated');
               this.showSnackBar(msg);
               this.notifyAboutMadeChanges(false);
+              setTimeout(() => {
+                this.setTabAnimationDuration(400);
+              }, 0);
             },
             error: () => {
               this.showSnackBar(ERROR_MSG);
@@ -160,6 +166,9 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             const msg = this.translateService.instant('race.predictions.created');
             this.showSnackBar(msg);
             this.notifyAboutMadeChanges(false);
+            setTimeout(() => {
+              this.setTabAnimationDuration(400);
+            }, 0);
           },
           error: () => {
             this.showSnackBar(ERROR_MSG);
@@ -310,6 +319,12 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
     private notifyAboutMadeChanges(madeChanges: boolean): void {
       this.raceEventService.notifyAboutMadeChanges(madeChanges);
+    }
+
+    private setTabAnimationDuration(ms: 0 | 400): void {
+      if(this.tabGroup) {
+        this.tabGroup.animationDuration = `${ms}ms`;
+      }
     }
 
 }

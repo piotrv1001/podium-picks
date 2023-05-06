@@ -53,6 +53,8 @@
     "seasons": "Seasons"
   },
   "race": {
+    "search": "Search...",
+    "nextRace": "Next race",
     "comingSoon": "Coming soon...",
     "noRacesFound": "No races found",
     "raceFinished": "Race finished",
@@ -71,7 +73,9 @@
       "deadline": "Deadline",
       "deadlineDate": "Deadline date",
       "cancel": "Cancel",
-      "update": "Update"
+      "update": "Update",
+      "results": "Results",
+      "points": "Points"
     },
     "points": {
       "updated": "Updated points!"
