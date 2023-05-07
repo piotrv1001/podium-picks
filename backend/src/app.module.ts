@@ -21,6 +21,7 @@ import { Group } from './group/group.entity';
 import { Team } from './team/team.entity';
 import { SeasonModule } from './season/season.module';
 import { Season } from './season/season.entity';
+import { BonusStatDictModule } from './bonus-stat-dict/bonus-stat-dict.module';
 
 @Module({
   imports: [
@@ -59,6 +60,8 @@ import { Season } from './season/season.entity';
     ResultModule,
     ScoreModule,
     SeasonModule,
+    BonusStatDictModule,
+    BonusStatDictModule,
   ],
   controllers: [AppController],
   providers: [AppService],
