@@ -60,6 +60,8 @@
     "comingSoon": "Już wkrótce...",
     "noRacesFound": "Nie znaleziono wyścigów",
     "raceFinished": "Wyścig zakończony",
+    "resultsAvailable": "Wyniki dostępne",
+    "predictionsLockedIn": "Prognozy zamknięte!",
     "statTable": {
       "player": "Gracz",
       "worst": "Najgorszy",

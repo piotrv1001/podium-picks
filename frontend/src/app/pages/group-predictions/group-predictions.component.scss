@@ -6,6 +6,12 @@
   display: none;
 }
 
+.space-around {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .race-over {
   font-size: 1.1rem;
   color: #555;
@@ -29,6 +35,23 @@
 
 .prediction-container {
   margin: 2rem 1rem;
+}
+
+.bigger-font {
+  font-size: 1.1rem !important;
+}
+
+.gray-color {
+  color: #555 !important;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
 }
 
 .prediction-header {

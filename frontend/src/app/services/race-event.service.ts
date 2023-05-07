@@ -12,6 +12,7 @@ export class RaceEventService {
   private madeChangesSub: Subject<boolean> = new Subject<boolean>();
   private timeLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   private drivers: Driver[] = [];
+  private predictionLockSub: Subject<void> = new Subject<void>();
 
   getRaceTimeObservable(): Observable<CustomDate> {
     return this.raceTimeSub.asObservable();
@@ -25,6 +26,10 @@ export class RaceEventService {
     return this.timeLoading.asObservable();
   }
 
+  getPredictionLockObservabvle(): Observable<void> {
+    return this.predictionLockSub.asObservable();
+  }
+
   notifyAboutRaceTime(raceTime: CustomDate): void {
     this.raceTimeSub.next(raceTime);
   }
@@ -35,6 +40,10 @@ export class RaceEventService {
 
   notifyAboutTimeLoading(timeLoading: boolean): void {
     this.timeLoading.next(timeLoading);
+  }
+
+  notifyAboutPredictionLock(): void {
+    this.predictionLockSub.next();
   }
 
   getDrivers(): Driver[] {

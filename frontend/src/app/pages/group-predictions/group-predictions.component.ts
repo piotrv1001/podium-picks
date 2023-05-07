@@ -271,6 +271,12 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     private checkRaceStatus(): void {
       const now = new Date();
       if(this.race?.predictionDeadline && this.race?.date) {
+        if(typeof this.race.date === 'string') {
+          this.race.date = new Date(this.race.date);
+        }
+        if(typeof this.race.predictionDeadline === 'string') {
+          this.race.predictionDeadline = new Date(this.race.predictionDeadline);
+        }
         if(now > this.race.predictionDeadline) {
           if(now < this.race.date) {
             this.raceStatus = RaceStatus.AFTER_DEADLINE_BEFORE_RACE;
@@ -318,6 +324,9 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
         if (timeLeftMilis <= 0) {
           this.raceFinished = true;
+          this.raceStatus = RaceStatus.AFTER_DEADLINE_BEFORE_RACE;
+          this.raceEventService.notifyAboutPredictionLock();
+          this.handlePredictionSaveBtnClick();
           clearInterval(this.raceIntervalId);
         }
       }, 1000);

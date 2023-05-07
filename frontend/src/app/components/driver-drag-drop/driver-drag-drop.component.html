@@ -10,7 +10,7 @@
         cdkDrag
         [cdkDragDisabled]="!isEditable"
         [ngStyle]="{'cursor': isEditable ? 'move' : 'default'}"
-        [ngClass]="lastMovedItemIndex === i ? 'gray-bg' : 'white-bg'">
+        [ngClass]="lastMovedItemIndex === i && !predictionLock ? 'gray-bg' : 'white-bg'">
           <app-driver-name
           [driver]="driver"
           [points]="pointArray[i]"
