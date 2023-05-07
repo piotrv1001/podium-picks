@@ -4,6 +4,7 @@ import {
   Param,
   Delete,
   Post,
+  Put,
   Request,
   Query,
 } from '@nestjs/common';
@@ -51,6 +52,16 @@ export class BonusStatController {
   @Get(':id')
   getById(@Param('id') id: number): Promise<BonusStat> {
     return this.bonusStatService.getById(id);
+  }
+
+  @Put('updateMany')
+  updateMany(@Request() req): Promise<BonusStat[]> {
+    return this.bonusStatService.updateMany(req.body);
+  }
+
+  @Put()
+  update(@Request() req): Promise<BonusStat> {
+    return this.bonusStatService.update(req.body);
   }
 
   @Delete(':id')

@@ -35,6 +35,19 @@ export class BonusStatService {
     await this.bonusStatRepository.delete(id);
   }
 
+  async update(bonusStat: BonusStat): Promise<BonusStat> {
+    return await this.bonusStatRepository.save(bonusStat);
+  }
+
+  async updateMany(bonusStatArray: BonusStat[]): Promise<BonusStat[]> {
+    const updatedBonusStatArray: BonusStat[] = [];
+    for (const bonusStat of bonusStatArray) {
+      const updatedPrediction = await this.bonusStatRepository.save(bonusStat);
+      updatedBonusStatArray.push(updatedPrediction);
+    }
+    return updatedBonusStatArray;
+  }
+
   async getByRaceGroupUser(
     raceId: number,
     groupId: number,

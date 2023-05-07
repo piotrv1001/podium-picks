@@ -28,12 +28,12 @@
 </ng-template>
 <div class="row">
   <mat-tab-group class="tab-group" #tabGroup>
-    <mat-tab *ngFor="let data of dataArray" [label]="data[1].user?.username ?? 'Unknown'">
+    <mat-tab *ngFor="let data of dataArray" [label]="data[1].user?.username ?? 'race.unknown' | translate ">
       <div class="prediction-container">
         <div class="space-between">
           <div class="prediction-header">
             <div style="display: flex;">
-              <span class="username">{{ data[1].user?.username ?? 'Unknown'}}</span>
+              <span class="username">{{ data[1].user?.username ?? 'race.unknown' | translate }}</span>
               <div *ngIf="data[1].confirmedDrivers?.confirmed" class="confirm-status-container">
                 <span class="saved">{{ 'race.saved' | translate }}</span>
                 <mat-icon>check_circle_outline</mat-icon>

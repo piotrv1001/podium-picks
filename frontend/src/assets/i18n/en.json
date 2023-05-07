@@ -65,6 +65,7 @@
     "raceFinished": "Race finished",
     "resultsAvailable": "Results available",
     "predictionsLockedIn": "Predictions locked in!",
+    "unknown": "Unknown",
     "statTable": {
       "player": "Player",
       "worst": "Worst",
