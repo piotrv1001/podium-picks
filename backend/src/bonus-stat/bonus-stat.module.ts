@@ -13,4 +13,4 @@ import { Group } from 'src/group/group.entity';
   providers: [BonusStatService],
   controllers: [BonusStatController],
 })
-export class BonusStatDictModule {}
+export class BonusStatModule {}

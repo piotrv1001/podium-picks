@@ -10,8 +10,7 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { PredictionService } from 'src/app/services/prediction.service';
 import { RaceService } from 'src/app/services/race.service';
 import { DateUtilService } from 'src/app/shared/util/date-util.service';
-import { Subscription, firstValueFrom } from 'rxjs';
-import { ConfirmedDrivers } from 'src/app/model/types/confirmed-drivers';
+import { firstValueFrom } from 'rxjs';
 import { DragDropEvent } from 'src/app/model/types/drag-drop-event';
 import { ERROR_MSG } from 'src/app/app.constants';
 import { PredictionDTO } from 'src/app/model/dto/prediction.dto';
@@ -24,6 +23,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { RaceStatus } from 'src/app/model/types/race-status';
 import { BonusStatService } from 'src/app/services/bonus-stat.service';
+import { UserData } from 'src/app/model/types/user-data';
+import { BonusStat } from 'src/app/model/entities/bonus-stat.model';
+import { BonusStatEnum } from 'src/app/model/types/bonus-stat-enum';
 
 @Component({
   selector: 'app-group-predictions',
@@ -38,12 +40,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   raceId?: number;
   userId?: number;
   groupId?: number;
-  userId2Predictions: Map<number, Prediction[]> = new Map<number, Prediction[]>();
-  userId2Drivers: Map<number, ConfirmedDrivers> = new Map<number, ConfirmedDrivers>();
-  userId2Scores: Map<number, Score[]> = new Map<number, Score[]>();
-  userId2Total: Map<number, number> = new Map<number, number>();
-  userId2Users: Map<number, User> = new Map<number, User>();
-  dataArray: [number, ConfirmedDrivers][] = [];
+  userId2UserData: Map<number, UserData> = new Map<number, UserData>();
+  dataArray: [number, UserData][] = [];
   race?: Race;
   timeLeft?: CustomDate;
   raceFinished: boolean = false;
@@ -98,7 +96,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       const drivers = this.raceEventService.getDrivers();
       this.setTabAnimationDuration(0);
       if(this.userId) {
-        const isUpdate = this.userId2Predictions.get(this.userId)?.length !== 0;
+        const isUpdate = this.userId2UserData.get(this.userId)?.predictions?.length !== 0;
         if(isUpdate) {
           this.updatePredictions();
         } else {
@@ -112,7 +110,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
     handleDriverDragDrop(dragDropEvent: DragDropEvent): void {
       if(this.userId) {
-        const predictions = this.userId2Predictions.get(this.userId);
+        const predictions = this.userId2UserData.get(this.userId)?.predictions
         if(predictions && predictions.length > 0) {
           const lower = Math.min(dragDropEvent.previousIndex, dragDropEvent.currentIndex);
           const upper = Math.max(dragDropEvent.previousIndex, dragDropEvent.currentIndex);
@@ -127,7 +125,23 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getBonusStats(): void {
-
+      if(this.raceId !== undefined && this.groupId !== undefined) {
+        this.bonusStatService.getByRaceGroup(this.raceId, this.groupId).subscribe(bonusStatJSON => {
+          const bonusStatMap = new Map<number, BonusStat[]>(Object.entries(bonusStatJSON).map(([key, value]) => [parseInt(key), value]));
+          for(const [userId, bonusStats] of bonusStatMap) {
+            const fastestLapStat = bonusStats.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.FASTEST_LAP);
+            if(fastestLapStat && fastestLapStat.driverId !== undefined) {
+              const fastestLapDriver = this.driverObj[fastestLapStat.driverId];
+              this.userDataPartialUpdate(userId, { fastestLapDriver });
+            }
+            const dnfStat = bonusStats.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.DNF);
+            if(dnfStat && dnfStat.driverId !== undefined) {
+              const dnfDriver = this.driverObj[dnfStat.driverId];
+              this.userDataPartialUpdate(userId, { dnfDriver });
+            }
+          }
+        });
+      }
     }
 
     private getMadeChanges(): void {
@@ -136,16 +150,21 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       });
     }
 
+    private userDataPartialUpdate(userId: number, partial: UserData): void {
+      const userData = this.userId2UserData.get(userId);
+      this.userId2UserData.set(userId, { ...userData, ...partial });
+    }
+
     private updatePredictions(): void {
-      if(this.userId) {
-        let predictions = this.userId2Predictions.get(this.userId);
+      if(this.userId !== undefined) {
+        let predictions = this.userId2UserData.get(this.userId)?.predictions
         if(predictions) {
           this.predictionService.updateMany(predictions).subscribe({
             next: (updatedPredictions) => {
-              this.userId2Predictions.set(this.userId!, updatedPredictions);
-              const confirmedDrivers = this.userId2Drivers.get(this.userId!);
+              this.userDataPartialUpdate(this.userId!, { predictions: updatedPredictions });
+              const confirmedDrivers = this.userId2UserData.get(this.userId!)?.confirmedDrivers;
               if(confirmedDrivers) {
-                this.userId2Drivers.set(this.userId!, { drivers: confirmedDrivers.drivers, confirmed: true });
+                this.userDataPartialUpdate(this.userId!, { confirmedDrivers: { drivers: confirmedDrivers.drivers, confirmed: true } });
                 this.updateDataArray();
               }
               const msg = this.translateService.instant('race.predictions.updated');
@@ -180,11 +199,11 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           return;
         }
       });
-      if(this.userId) {
+      if(this.userId !== undefined) {
         this.predictionService.createMany(newPredictionArray).subscribe({
           next: (newPredictions: Prediction[]) => {
-            this.userId2Predictions.set(this.userId!, newPredictions);
-            this.userId2Drivers.set(this.userId!, { drivers, confirmed: true });
+            this.userDataPartialUpdate(this.userId!, { predictions: newPredictions });
+            this.userDataPartialUpdate(this.userId!, { confirmedDrivers: { drivers, confirmed: true } });
             this.updateDataArray();
             const msg = this.translateService.instant('race.predictions.created');
             this.showSnackBar(msg);
@@ -207,8 +226,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
         this.driverArrayToObj();
         this.predictionService.getGroupedPredictions(this.groupId, this.raceId).subscribe(predictionJSON => {
           const predictionMap = new Map<number, Prediction[]>(Object.entries(predictionJSON).map(([key, value]) => [parseInt(key), value]));
-          this.userId2Predictions = predictionMap;
           for(const [userId, predictions] of predictionMap) {
+            this.userDataPartialUpdate(userId, { predictions });
             if(userId === this.userId && predictions.length === 0) {
               this.notifyAboutMadeChanges(true); // if we want to have a default order
             }
@@ -227,7 +246,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             } else {
               drivers = [...this.drivers];
             }
-            this.userId2Drivers.set(userId, { drivers, confirmed });
+            this.userDataPartialUpdate(userId, { confirmedDrivers: { drivers, confirmed } });
           }
           this.updateDataArray();
         }
@@ -238,8 +257,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       if(this.groupId && this.raceId) {
         this.scoreService.getGroupedScores(this.groupId, this.raceId).subscribe(scoreJSON => {
           const scoreMap = new Map<number, Score[]>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
-          this.userId2Scores = scoreMap;
           for(const [userId, scores] of scoreMap) {
+            this.userDataPartialUpdate(userId, { scores });
             if(scores.length > 0) {
               this.scoreAvailable = true;
               let sum = 0;
@@ -248,7 +267,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
                   sum += Number(score.points);
                 }
               }
-              this.userId2Total.set(userId, sum);
+              this.userDataPartialUpdate(userId, { total: sum });
             }
           }
           this.checkRaceStatus();
@@ -307,7 +326,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           next: (users: User[]) => {
             users.forEach(user => {
               if(user.id !== undefined) {
-                this.userId2Users.set(user.id, user);
+                this.userDataPartialUpdate(user.id, { user });
               }
             });
           }
@@ -349,7 +368,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
     private getUserId(): void {
       const userId = this.localStorageService.getUserId();
-      if(userId) {
+      if(userId != null) {
         this.userId = userId;
       }
     }
@@ -361,7 +380,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private updateDataArray(): void {
-      this.dataArray = Array.from(this.userId2Drivers);
+      this.dataArray = Array.from(this.userId2UserData);
     }
 
     private notifyAboutMadeChanges(madeChanges: boolean): void {
