@@ -27,4 +27,8 @@ export class BonusStatService {
     return this.http.get<Record<string, BonusStat[]>>(url);
   }
 
+  updateMany(bonusStatArray: BonusStat[]): Observable<BonusStat[]> {
+    return this.http.put<BonusStat[]>(`${BASE_URL}/${this.BONUS_STAT_ROUTE}/updateMany`, bonusStatArray);
+  }
+
 }

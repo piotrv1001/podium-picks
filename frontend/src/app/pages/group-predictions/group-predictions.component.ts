@@ -53,6 +53,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   raceStatus: RaceStatus = RaceStatus.BEFORE_DEADLINE;
   loading: boolean = true;
   RaceStatus = RaceStatus;
+  bonusArray: BonusStat[] = [];
 
   constructor(
     private driverService: DriverService,
@@ -95,13 +96,14 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     handlePredictionSaveBtnClick(): void {
       const drivers = this.raceEventService.getDrivers();
       this.setTabAnimationDuration(0);
-      if(this.userId) {
+      if(this.userId !== undefined) {
         const isUpdate = this.userId2UserData.get(this.userId)?.predictions?.length !== 0;
         if(isUpdate) {
           this.updatePredictions();
         } else {
           this.createPredictions(drivers);
         }
+        this.saveBonusStats();
       } else {
         const msg = this.translateService.instant('error.userNotFound');
         this.showSnackBar(msg);
@@ -129,6 +131,9 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
         this.bonusStatService.getByRaceGroup(this.raceId, this.groupId).subscribe(bonusStatJSON => {
           const bonusStatMap = new Map<number, BonusStat[]>(Object.entries(bonusStatJSON).map(([key, value]) => [parseInt(key), value]));
           for(const [userId, bonusStats] of bonusStatMap) {
+            if(userId === this.userId) {
+              this.bonusArray = bonusStats;
+            }
             const fastestLapStat = bonusStats.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.FASTEST_LAP);
             if(fastestLapStat && fastestLapStat.driverId !== undefined) {
               const fastestLapDriver = this.driverObj[fastestLapStat.driverId];
@@ -141,6 +146,23 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             }
           }
         });
+      }
+    }
+
+    private saveBonusStats(): void {
+      const isUpdate = this.bonusArray.length > 0;
+      if(this.userId !== undefined && isUpdate) {
+        const fastestLapStat = this.bonusArray.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.FASTEST_LAP);
+        if(fastestLapStat) {
+          fastestLapStat.driver = this.userId2UserData.get(this.userId)?.fastestLapDriver;
+        }
+        const dnfStat = this.bonusArray.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.DNF);
+        if(dnfStat) {
+          dnfStat.driver = this.userId2UserData.get(this.userId)?.dnfDriver;
+        }
+        this.bonusStatService.updateMany(this.bonusArray).subscribe();
+      } else {
+        // TODO
       }
     }
 
@@ -220,7 +242,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private async getUserId2Predictions(): Promise<void> {
-      if(this.groupId && this.raceId) {
+      if(this.groupId !== undefined && this.raceId !== undefined) {
         const driverArray = await firstValueFrom(this.driverService.getAllDrivers());
         this.drivers = driverArray;
         this.driverArrayToObj();
@@ -254,7 +276,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getScores(): void {
-      if(this.groupId && this.raceId) {
+      if(this.groupId !== undefined && this.raceId !== undefined) {
         this.scoreService.getGroupedScores(this.groupId, this.raceId).subscribe(scoreJSON => {
           const scoreMap = new Map<number, Score[]>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
           for(const [userId, scores] of scoreMap) {
@@ -276,7 +298,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getRace(): void {
-      if(this.raceId) {
+      if(this.raceId !== undefined) {
         this.raceService.getById(this.raceId).subscribe(race => {
           this.race = race;
           if(this.race.predictionDeadline) {
@@ -321,7 +343,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getUsersByGroup(): void {
-      if(this.groupId) {
+      if(this.groupId !== undefined) {
         this.groupService.getUsersByGroup(this.groupId).subscribe({
           next: (users: User[]) => {
             users.forEach(user => {
@@ -360,7 +382,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
 
     private driverArrayToObj(): void {
       this.drivers.forEach((driver) => {
-        if(driver.id) {
+        if(driver.id !== undefined) {
           this.driverObj[driver.id] = driver;
         }
       });
