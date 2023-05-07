@@ -1,4 +1,5 @@
 import { BonusStatDict } from 'src/bonus-stat-dict/bonus-stat-dict.entity';
+import { Driver } from 'src/driver/driver.entity';
 import { Group } from 'src/group/group.entity';
 import { Race } from 'src/race/race.entity';
 import { User } from 'src/user/user.entity';
@@ -49,4 +50,12 @@ export class BonusStat {
 
   @Column({ nullable: true })
   userId?: number;
+
+  @ManyToOne(() => Driver, (driver) => driver.bonusStats, {
+    nullable: true,
+  })
+  driver?: Relation<Driver>;
+
+  @Column({ nullable: true })
+  driverId?: number;
 }
