@@ -21,10 +21,12 @@ export class DriverDragDropComponent implements OnInit, OnChanges {
   madeChanges: boolean = false;
   pointArray: number[] = [];
   lastMovedItemIndex: number = -1;
+  predictionLock: boolean = false;
 
   constructor(private raceEventService: RaceEventService) { }
 
   ngOnInit(): void {
+    this.subscribetToPredictionLock();
     this.subscribeToMadeChanges();
   }
 
@@ -60,6 +62,10 @@ export class DriverDragDropComponent implements OnInit, OnChanges {
         this.scoresChanged.emit(score);
       }
     }
+  }
+
+  private subscribetToPredictionLock(): void {
+    this.raceEventService.getPredictionLockObservabvle().subscribe(() => this.predictionLock = true);
   }
 
   private subscribeToMadeChanges(): void {

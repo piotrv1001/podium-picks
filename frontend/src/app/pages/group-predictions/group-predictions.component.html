@@ -4,9 +4,26 @@
     <div *ngSwitchCase="RaceStatus.BEFORE_DEADLINE">
       <app-countdown-timer></app-countdown-timer>
     </div>
-    <div *ngSwitchCase="RaceStatus.AFTER_DEADLINE_BEFORE_RACE">Predictions locked in!</div>
-    <div *ngSwitchCase="RaceStatus.AFTER_RACE_BEFORE_RESULTS">Race finished!</div>
-    <div *ngSwitchCase="RaceStatus.AFTER_RACE_AFTER_RESULTS">Race finished! Results available!</div>
+    <div *ngSwitchCase="RaceStatus.AFTER_DEADLINE_BEFORE_RACE">
+      <div class="bigger-font gray-color confirm-status-container">
+        <span class="saved">{{ 'race.predictionsLockedIn' | translate }}</span>
+        <mat-icon>lock</mat-icon>
+      </div>
+    </div>
+    <div *ngSwitchCase="RaceStatus.AFTER_RACE_AFTER_RESULTS">
+      <span class="race-over">{{ 'race.raceFinished' | translate }}</span>
+      <img src="assets/img/flag.png" alt="Race flag" width="30" class="flag-img">
+    </div>
+    <div *ngSwitchCase="RaceStatus.AFTER_RACE_BEFORE_RESULTS" class="space-around w-100">
+      <div class="align-center">
+        <span class="race-over">{{ 'race.raceFinished' | translate }}</span>
+        <img src="assets/img/flag.png" alt="Race flag" width="30" class="flag-img">
+      </div>
+      <div class="confirm-status-container">
+        <span class="saved">{{ 'race.resultsAvailable' | translate }}</span>
+        <mat-icon>check_circle_outline</mat-icon>
+      </div>
+    </div>
   </div>
 </ng-template>
 <div class="row">

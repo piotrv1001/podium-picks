@@ -60,6 +60,8 @@
     "comingSoon": "Coming soon...",
     "noRacesFound": "No races found",
     "raceFinished": "Race finished",
+    "resultsAvailable": "Results available",
+    "predictionsLockedIn": "Predictions locked in!",
     "statTable": {
       "player": "Player",
       "worst": "Worst",
