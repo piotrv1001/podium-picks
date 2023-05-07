@@ -30,6 +30,9 @@
     "noGroups": "No groups yet, create or join your first group!"
   },
   "group": {
+    "groups": "Groups",
+    "users": "Users",
+    "noGroupsFound": "No groups found",
     "leave": "Leave group",
     "player": "{{ count }} player",
     "players": "{{ count }} players",

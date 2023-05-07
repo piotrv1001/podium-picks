@@ -1,5 +1,9 @@
-<app-user
-  *ngFor="let user of users"
-  [user]="user"
-  (userClick)="handleUserClick($event)">
-</app-user>
+<div class="users">
+  <h1>{{ 'group.users' | translate }}</h1>
+  <app-user
+    *ngFor="let user of users"
+    [user]="user"
+    (userClick)="handleUserClick($event)">
+  </app-user>
+</div>
+
