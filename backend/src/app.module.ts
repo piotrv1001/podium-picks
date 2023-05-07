@@ -24,6 +24,7 @@ import { Season } from './season/season.entity';
 import { BonusStatDictModule } from './bonus-stat-dict/bonus-stat-dict.module';
 import { BonusStat } from './bonus-stat/bonus-stat.entity';
 import { BonusStatDict } from './bonus-stat-dict/bonus-stat-dict.entity';
+import { BonusStatModule } from './bonus-stat/bonus-stat.module';
 
 @Module({
   imports: [
@@ -65,7 +66,7 @@ import { BonusStatDict } from './bonus-stat-dict/bonus-stat-dict.entity';
     ScoreModule,
     SeasonModule,
     BonusStatDictModule,
-    BonusStatDictModule,
+    BonusStatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

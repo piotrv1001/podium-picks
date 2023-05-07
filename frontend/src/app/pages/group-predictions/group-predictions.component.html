@@ -28,13 +28,13 @@
 </ng-template>
 <div class="row">
   <mat-tab-group class="tab-group" #tabGroup>
-    <mat-tab *ngFor="let data of dataArray" [label]="userId2Users.get(data[0])?.username ?? 'Unknown'">
+    <mat-tab *ngFor="let data of dataArray" [label]="data[1].user?.username ?? 'Unknown'">
       <div class="prediction-container">
         <div class="space-between">
           <div class="prediction-header">
             <div style="display: flex;">
-              <span class="username">{{ userId2Users.get(data[0])?.username }}</span>
-              <div *ngIf="data[1].confirmed" class="confirm-status-container">
+              <span class="username">{{ data[1].user?.username ?? 'Unknown'}}</span>
+              <div *ngIf="data[1].confirmedDrivers?.confirmed" class="confirm-status-container">
                 <span class="saved">{{ 'race.saved' | translate }}</span>
                 <mat-icon>check_circle_outline</mat-icon>
               </div>
@@ -44,20 +44,20 @@
                 color="primary"
                 (click)="handlePredictionSaveBtnClick()"
                 [disabled]="!madeChanges">{{ 'race.save' | translate }}</button>
-              <span *ngIf="scoreAvailable" class="total-points">{{ userId2Total.get(data[0]) }}</span>
+              <span *ngIf="scoreAvailable" class="total-points">{{ data[1].total }}</span>
           </div>
         </div>
         <div class="space-between" *ngIf="data[0] === userId && !raceFinished && timeLeft && !scoreAvailable; else othersPredictions">
           <mat-form-field appearance="fill" class="fl-dnf">
             <mat-label class="big-screen">Fastest lap</mat-label>
             <mat-label class="small-screen">FL</mat-label>
-            <mat-select [(ngModel)]="selectedFL" (ngModelChange)="selectedDriverChanged()">
+            <mat-select [(ngModel)]="data[1].fastestLapDriver" (ngModelChange)="selectedDriverChanged()">
               <mat-option *ngFor="let driver of drivers" [value]="driver">{{ driver.name }}</mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field appearance="fill" class="fl-dnf">
             <mat-label>DNF</mat-label>
-            <mat-select [(ngModel)]="selectedDNF" (ngModelChange)="selectedDriverChanged()">
+            <mat-select [(ngModel)]="data[1].dnfDriver" (ngModelChange)="selectedDriverChanged()">
               <mat-option *ngFor="let driver of drivers" [value]="driver">{{ driver.name }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -67,17 +67,17 @@
             <div class="flex-col purple">
               <p class="gray-text big-screen">Fastest lap</p>
               <p class="gray-text small-screen">FL</p>
-              <p>Max Verstappen</p>
+              <p>{{ data[1].fastestLapDriver ?? '-' }}</p>
             </div>
             <div class="flex-col gray">
               <p class="gray-text">DNF</p>
-              <p>Yuki Tsunoda</p>
+              <p>{{ data[1].dnfDriver ?? '-' }}</p>
             </div>
           </div>
         </ng-template>
         <app-driver-drag-drop
-          [drivers]="data[1].drivers"
-          [scoreArray]="userId2Scores.get(data[0])"
+          [drivers]="data[1].confirmedDrivers?.drivers ?? drivers"
+          [scoreArray]="data[1].scores"
           [isEditable]="data[0] === userId && !raceFinished && !scoreAvailable"
           (dropped)="handleDriverDragDrop($event)">
         </app-driver-drag-drop>
