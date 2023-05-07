@@ -16,8 +16,8 @@ export class GroupService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Group[]> {
-    return this.http.get<Group[]>(`${BASE_URL}/${this.GROUP_ROTE}`);
+  getAll(): Observable<GroupWithUserCount[]> {
+    return this.http.get<GroupWithUserCount[]>(`${BASE_URL}/${this.GROUP_ROTE}`);
   }
 
   create(groupDto: GroupDTO, userId?: number): Observable<Group> {

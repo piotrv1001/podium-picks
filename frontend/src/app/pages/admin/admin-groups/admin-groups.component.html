@@ -1,9 +1,29 @@
 <div class="groups">
-  <div class="group-container" *ngFor="let group of groups">
-    <app-group
-      [group]="group"
-      [isAdmin]="true"
-      (groupClick)="handleGroupClick($event)">
-    </app-group>
+  <h1>{{ 'group.groups' | translate }}</h1>
+  <div *ngIf="groups.length > 0">
+    <mat-form-field class="search-field">
+      <input class="search-input" matInput type="text" placeholder="{{ 'race.search' | translate }}" [(ngModel)]="query" (ngModelChange)="onSearchQueryChange($event)"/>
+      <button *ngIf="query; else emptySpace" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <ng-template #emptySpace>
+        <button matSuffix mat-icon-button aria-label="Search" disabled>
+          <mat-icon>search</mat-icon>
+        </button>
+      </ng-template>
+    </mat-form-field>
   </div>
+  <div *ngIf="groups.length > 0; else noGroups">
+    <div class="group-container" *ngFor="let group of filteredGroups">
+      <app-group
+        [group]="group"
+        [isAdmin]="true"
+        (groupClick)="handleGroupClick($event)">
+      </app-group>
+    </div>
+  </div>
+  <ng-template #noGroups>
+    <div class="no-groups">{{ 'group.noGroupsFound' | translate }}</div>
+  </ng-template>
+  <div *ngIf="groups.length > 0 && filteredGroups.length === 0" class="no-groups text-center">{{ 'group.noGroupsFound' | translate }}</div>
 </div>

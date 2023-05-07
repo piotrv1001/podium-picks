@@ -30,6 +30,9 @@
     "noGroups": "Brak grup, utwórz lub dołącz do pierwszej grupy!"
   },
   "group": {
+    "groups": "Groupy",
+    "users": "Użytkownicy",
+    "noGroupsFound": "Nie znaleziono grup",
     "leave": "Opuść grupę",
     "player": "{{ count }} gracz",
     "players": "{{ count }} graczy",
