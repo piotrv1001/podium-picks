@@ -26,6 +26,7 @@ import { BonusStatService } from 'src/app/services/bonus-stat.service';
 import { UserData } from 'src/app/model/types/user-data';
 import { BonusStat } from 'src/app/model/entities/bonus-stat.model';
 import { BonusStatEnum } from 'src/app/model/types/bonus-stat-enum';
+import { BonusStatDTO } from 'src/app/model/dto/bonus-stat.dto';
 
 @Component({
   selector: 'app-group-predictions',
@@ -162,7 +163,27 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
         }
         this.bonusStatService.updateMany(this.bonusArray).subscribe();
       } else {
-        // TODO
+        if(this.raceId !== undefined && this.groupId !== undefined && this.userId !== undefined) {
+          const fastestLapDriver = this.userId2UserData.get(this.userId)?.fastestLapDriver;
+          const dnfDriver = this.userId2UserData.get(this.userId)?.dnfDriver;
+          if(fastestLapDriver && fastestLapDriver.id !== undefined && dnfDriver && dnfDriver.id !== undefined) {
+            const fastestLapBonusStat = new BonusStatDTO(
+              BonusStatEnum.FASTEST_LAP,
+              this.raceId,
+              this.groupId,
+              this.userId,
+              fastestLapDriver.id
+            );
+            const dnfBonusStat = new BonusStatDTO(
+              BonusStatEnum.DNF,
+              this.raceId,
+              this.groupId,
+              this.userId,
+              dnfDriver.id
+            );
+            this.bonusStatService.updateMany([fastestLapBonusStat, dnfBonusStat]).subscribe();
+          }
+        }
       }
     }
 

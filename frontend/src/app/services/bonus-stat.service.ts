@@ -31,4 +31,8 @@ export class BonusStatService {
     return this.http.put<BonusStat[]>(`${BASE_URL}/${this.BONUS_STAT_ROUTE}/updateMany`, bonusStatArray);
   }
 
+  createMany(bonusStatDtoArray: BonusStatDTO[]): Observable<BonusStat[]> {
+    return this.http.post<BonusStat[]>(`${BASE_URL}/${this.BONUS_STAT_ROUTE}/createMany`, bonusStatDtoArray);
+  }
+
 }

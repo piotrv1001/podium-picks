@@ -15,6 +15,11 @@ import { BonusStat } from './bonus-stat.entity';
 export class BonusStatController {
   constructor(private readonly bonusStatService: BonusStatService) {}
 
+  @Post('createMany')
+  createMany(@Request() req): Promise<BonusStat[]> {
+    return this.bonusStatService.createMany(req.body);
+  }
+
   @Post()
   create(@Request() req): Promise<BonusStat> {
     return this.bonusStatService.create(req.body);

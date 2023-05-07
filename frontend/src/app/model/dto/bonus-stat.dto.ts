@@ -3,6 +3,7 @@ export class BonusStatDTO {
     public bonusStatDictId: number,
     public raceId: number,
     public groupId: number,
-    public userId: number
+    public userId: number,
+    public driverId: number
   ) {}
 }
