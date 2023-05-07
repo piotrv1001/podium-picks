@@ -23,6 +23,8 @@ export class AdminRaceResultsComponent implements OnInit  {
   drivers: Driver[] = [];
   results: Result[] = [];
   madeChanges: boolean = false;
+  fastestLapDriver?: Driver;
+  dnfDrivers: Driver[] = [];
 
   constructor(
     private router: Router,
@@ -59,6 +61,14 @@ export class AdminRaceResultsComponent implements OnInit  {
           this.results[driverIndex].position = i + 1;
         }
       }
+    }
+  }
+
+  onSelectionChange(): void {
+    if(this.fastestLapDriver && this.dnfDrivers.length > 0) {
+      this.madeChanges = true;
+    } else {
+      this.madeChanges = false;
     }
   }
 

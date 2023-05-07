@@ -1,3 +1,22 @@
 .save-btn {
   margin: 1rem 0;
 }
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.fl-dnf {
+  width: calc(50% - 1rem);
+}
+
+@media (max-width: 768px) {
+  .space-between {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .fl-dnf {
+    width: 100%;
+  }
+}
