@@ -1,4 +1,5 @@
 import { Prediction } from 'src/prediction/prediction.entity';
+import { Race } from 'src/race/race.entity';
 import { Result } from 'src/result/result.entity';
 import { Team } from 'src/team/team.entity';
 import {
@@ -8,6 +9,8 @@ import {
   ManyToOne,
   Relation,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 @Entity({ name: 'driver' })
@@ -33,4 +36,16 @@ export class Driver {
     nullable: true,
   })
   results?: Relation<Result[]>;
+
+  @OneToMany(() => Race, (race) => race.fastestLapDriver, {
+    nullable: true,
+  })
+  fastestLapRaces?: Relation<Race[]>;
+
+  @ManyToMany(() => Race, (race) => race.dnfDrivers, {
+    nullable: true,
+    cascade: true,
+  })
+  @JoinTable()
+  dnfRaces?: Relation<Race[]>;
 }

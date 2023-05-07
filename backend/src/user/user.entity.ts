@@ -1,3 +1,4 @@
+import { BonusStat } from 'src/bonus-stat/bonus-stat.entity';
 import { Group } from 'src/group/group.entity';
 import { Prediction } from 'src/prediction/prediction.entity';
 import { Score } from 'src/score/score.entity';
@@ -36,4 +37,9 @@ export class User {
 
   @ManyToMany(() => Group, (group) => group.users, { nullable: true })
   groups?: Relation<Group[]>;
+
+  @OneToMany(() => BonusStat, (bonusStat) => bonusStat.bonusStatDict, {
+    nullable: true,
+  })
+  bonusStats?: Relation<BonusStat[]>;
 }

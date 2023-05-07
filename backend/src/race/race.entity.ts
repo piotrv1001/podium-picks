@@ -1,3 +1,5 @@
+import { BonusStat } from 'src/bonus-stat/bonus-stat.entity';
+import { Driver } from 'src/driver/driver.entity';
 import { Prediction } from 'src/prediction/prediction.entity';
 import { Result } from 'src/result/result.entity';
 import { Score } from 'src/score/score.entity';
@@ -9,6 +11,7 @@ import {
   PrimaryGeneratedColumn,
   Relation,
   ManyToOne,
+  ManyToMany,
 } from 'typeorm';
 
 @Entity({ name: 'race' })
@@ -51,4 +54,18 @@ export class Race {
 
   @Column({ nullable: true })
   seasonId?: number;
+
+  @OneToMany(() => BonusStat, (bonusStat) => bonusStat.bonusStatDict, {
+    nullable: true,
+  })
+  bonusStats?: Relation<BonusStat[]>;
+
+  @ManyToOne(() => Driver, (driver) => driver.fastestLapRaces)
+  fastestLapDriver?: Relation<Season>;
+
+  @Column({ nullable: true })
+  fastestLapDriverId?: number;
+
+  @ManyToMany(() => Driver, (driver) => driver.dnfRaces, { nullable: true })
+  dnfDrivers?: Relation<Driver[]>;
 }

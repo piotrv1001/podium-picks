@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Race } from './race.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { RaceDTO } from './race.dto';
+import { Driver } from 'src/driver/driver.entity';
 
 @Injectable()
 export class RaceService {
   constructor(
     @InjectRepository(Race)
     private readonly raceRepository: Repository<Race>,
+    @InjectRepository(Driver)
+    private readonly driverRepository: Repository<Driver>,
   ) {}
 
   async create(raceDto: RaceDTO): Promise<Race> {
@@ -42,6 +45,25 @@ export class RaceService {
       where: { seasonId: seasonId },
       order: { date: 'ASC' },
     });
+  }
+
+  async assignFastestLap(driverId: number, raceId: number): Promise<Race> {
+    const race = await this.raceRepository.findOneBy({ id: raceId });
+    if (!race) {
+      throw new Error(`Race with ID ${raceId} not found`);
+    }
+    race.fastestLapDriverId = driverId;
+    return await this.raceRepository.save(race);
+  }
+
+  async assignDnfDrivers(driverIds: number[], raceId: number): Promise<Race> {
+    const race = await this.raceRepository.findOneBy({ id: raceId });
+    if (!race) {
+      throw new Error(`Race with ID ${raceId} not found`);
+    }
+    const drivers = await this.driverRepository.findBy({ id: In(driverIds) });
+    race.dnfDrivers = drivers;
+    return await this.raceRepository.save(race);
   }
 
   async initRaces(): Promise<Race[]> {

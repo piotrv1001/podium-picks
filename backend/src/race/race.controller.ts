@@ -9,6 +9,7 @@ import {
   Delete,
   Query,
   Put,
+  Patch,
 } from '@nestjs/common';
 
 @Controller('races')
@@ -18,6 +19,22 @@ export class RaceController {
   @Post('init')
   initRaces(): Promise<Race[]> {
     return this.raceService.initRaces();
+  }
+
+  @Patch('dnf/:raceId')
+  assignDnfDrivers(
+    @Request() req,
+    @Param('raceId') raceId: number,
+  ): Promise<Race> {
+    return this.raceService.assignDnfDrivers(req.body, raceId);
+  }
+
+  @Patch('fastest-lap/:raceId/:driverId')
+  assignFastestLap(
+    @Param('raceId') raceId: number,
+    @Param('driverId') driverId: number,
+  ): Promise<Race> {
+    return this.raceService.assignFastestLap(driverId, raceId);
   }
 
   @Get()
