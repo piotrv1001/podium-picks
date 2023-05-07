@@ -52,7 +52,8 @@ export class RaceService {
     if (!race) {
       throw new Error(`Race with ID ${raceId} not found`);
     }
-    race.fastestLapDriverId = driverId;
+    const driver = await this.driverRepository.findOneBy({ id: driverId });
+    race.fastestLapDriver = driver;
     return await this.raceRepository.save(race);
   }
 

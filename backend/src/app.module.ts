@@ -22,6 +22,8 @@ import { Team } from './team/team.entity';
 import { SeasonModule } from './season/season.module';
 import { Season } from './season/season.entity';
 import { BonusStatDictModule } from './bonus-stat-dict/bonus-stat-dict.module';
+import { BonusStat } from './bonus-stat/bonus-stat.entity';
+import { BonusStatDict } from './bonus-stat-dict/bonus-stat-dict.entity';
 
 @Module({
   imports: [
@@ -47,6 +49,8 @@ import { BonusStatDictModule } from './bonus-stat-dict/bonus-stat-dict.module';
           Group,
           Team,
           Season,
+          BonusStat,
+          BonusStatDict,
         ],
         synchronize: true,
       }),
