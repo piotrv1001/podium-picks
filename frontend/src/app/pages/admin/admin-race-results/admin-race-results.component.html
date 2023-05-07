@@ -3,7 +3,23 @@
   mat-raised-button
   color="primary"
   (click)="handleResultSaveBtnClick()"
-  [disabled]="!madeChanges">{{ 'race.save' | translate }}</button>
+  [disabled]="!madeChanges">{{ 'race.save' | translate }}
+</button>
+<div class="space-between">
+  <mat-form-field appearance="fill" class="fl-dnf">
+    <mat-label class="big-screen">Fastest lap</mat-label>
+    <mat-label class="small-screen">FL</mat-label>
+    <mat-select [(ngModel)]="fastestLapDriver" (ngModelChange)="onSelectionChange()">
+      <mat-option *ngFor="let driver of drivers" [value]="driver">{{ driver.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="fl-dnf">
+    <mat-label>DNF</mat-label>
+    <mat-select multiple [(ngModel)]="dnfDrivers" (ngModelChange)="onSelectionChange()">
+      <mat-option *ngFor="let driver of drivers" [value]="driver">{{ driver.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
 <app-driver-drag-drop
   [drivers]="drivers"
   [isEditable]="true"
