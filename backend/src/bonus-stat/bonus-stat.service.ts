@@ -48,6 +48,15 @@ export class BonusStatService {
     return updatedBonusStatArray;
   }
 
+  async createMany(bonusStatDtoArray: BonusStatDTO[]): Promise<BonusStat[]> {
+    const newBonusStatArray: BonusStat[] = [];
+    for (const bonusStatDto of bonusStatDtoArray) {
+      const newBonusStat = await this.bonusStatRepository.save(bonusStatDto);
+      newBonusStatArray.push(newBonusStat);
+    }
+    return newBonusStatArray;
+  }
+
   async getByRaceGroupUser(
     raceId: number,
     groupId: number,
@@ -80,7 +89,7 @@ export class BonusStatService {
     const userIds = group.users.map((user) => user.id);
     const groupedBonusStats = new Map<number, BonusStat[]>();
     bonusStats.forEach((bonusStat) => {
-      const userId = bonusStat.user.id;
+      const userId = bonusStat.userId;
       if (groupedBonusStats.has(userId)) {
         const userBonusStats = groupedBonusStats.get(userId);
         userBonusStats.push(bonusStat);
