@@ -1,3 +1,4 @@
+import { BonusStat } from 'src/bonus-stat/bonus-stat.entity';
 import { Prediction } from 'src/prediction/prediction.entity';
 import { Race } from 'src/race/race.entity';
 import { Result } from 'src/result/result.entity';
@@ -48,4 +49,9 @@ export class Driver {
   })
   @JoinTable()
   dnfRaces?: Relation<Race[]>;
+
+  @OneToMany(() => BonusStat, (bonusStat) => bonusStat.bonusStatDict, {
+    nullable: true,
+  })
+  bonusStats?: Relation<BonusStat[]>;
 }

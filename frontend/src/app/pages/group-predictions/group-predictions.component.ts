@@ -23,6 +23,7 @@ import { User } from 'src/app/model/entities/user.model';
 import { TranslateService } from '@ngx-translate/core';
 import { MatTabGroup } from '@angular/material/tabs';
 import { RaceStatus } from 'src/app/model/types/race-status';
+import { BonusStatService } from 'src/app/services/bonus-stat.service';
 
 @Component({
   selector: 'app-group-predictions',
@@ -66,7 +67,8 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     private raceEventService: RaceEventService,
     private scoreService: ScoreService,
     private groupService: GroupService,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    private bonusStatService: BonusStatService) {
       const navState = this.router.getCurrentNavigation()?.extras?.state
       this.raceId = navState?.["raceId"];
       this.groupId = navState?.["groupId"];
@@ -78,6 +80,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       this.getUserId();
       this.getUsersByGroup();
       this.getUserId2Predictions();
+      this.getBonusStats();
       this.getScores();
     }
 
@@ -121,6 +124,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
           }
         }
       }
+    }
+
+    private getBonusStats(): void {
+
     }
 
     private getMadeChanges(): void {

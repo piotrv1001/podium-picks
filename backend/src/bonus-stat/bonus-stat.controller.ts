@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Delete, Post, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Delete,
+  Post,
+  Request,
+  Query,
+} from '@nestjs/common';
 import { BonusStatService } from './bonus-stat.service';
 import { BonusStat } from './bonus-stat.entity';
 
@@ -12,7 +20,31 @@ export class BonusStatController {
   }
 
   @Get()
-  getAll(): Promise<BonusStat[]> {
+  async getBonusStats(
+    @Query('raceId') raceId?: number,
+    @Query('groupId') groupId?: number,
+    @Query('userId') userId?: number,
+  ) {
+    if (raceId !== undefined && groupId !== undefined) {
+      if (userId !== undefined) {
+        return this.bonusStatService.getByRaceGroupUser(
+          raceId,
+          groupId,
+          userId,
+        );
+      }
+      const groupedBonusStats = await this.bonusStatService.getByRaceGroup(
+        raceId,
+        groupId,
+      );
+
+      const response = {};
+      groupedBonusStats.forEach((bonusStats, userId) => {
+        response[userId] = bonusStats;
+      });
+
+      return response;
+    }
     return this.bonusStatService.getAll();
   }
 

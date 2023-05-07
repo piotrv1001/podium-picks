@@ -3,17 +3,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BonusStat } from './bonus-stat.entity';
 import { BonusStatDTO } from './bonus-stat.dto';
+import { Group } from 'src/group/group.entity';
 
 @Injectable()
 export class BonusStatService {
   constructor(
     @InjectRepository(BonusStat)
     private readonly bonusStatRepository: Repository<BonusStat>,
+    @InjectRepository(Group)
+    private readonly groupRepository: Repository<Group>,
   ) {}
 
   async create(bonusStatDTO: BonusStatDTO): Promise<BonusStat> {
     const bonusStat = new BonusStat();
-    bonusStat.points = bonusStatDTO.points;
     bonusStat.bonusStatDictId = bonusStatDTO.bonusStatDictId;
     bonusStat.raceId = bonusStatDTO.raceId;
     bonusStat.groupId = bonusStatDTO.groupId;
@@ -31,5 +33,56 @@ export class BonusStatService {
 
   async delete(id: number): Promise<void> {
     await this.bonusStatRepository.delete(id);
+  }
+
+  async getByRaceGroupUser(
+    raceId: number,
+    groupId: number,
+    userId: number,
+  ): Promise<BonusStat[]> {
+    return await this.bonusStatRepository.find({
+      where: { raceId: raceId, groupId: groupId, userId: userId },
+    });
+  }
+
+  async getByRaceGroup(
+    raceId: number,
+    groupId: number,
+  ): Promise<Map<number, BonusStat[]>> {
+    const bonusStats = await this.bonusStatRepository.find({
+      where: { raceId, groupId },
+    });
+
+    const group = await this.groupRepository.findOne({
+      relations: {
+        users: true,
+      },
+      where: {
+        id: groupId,
+      },
+    });
+    if (!group) {
+      throw new Error(`Group with ID ${groupId} not found`);
+    }
+    const userIds = group.users.map((user) => user.id);
+    const groupedBonusStats = new Map<number, BonusStat[]>();
+    bonusStats.forEach((bonusStat) => {
+      const userId = bonusStat.user.id;
+      if (groupedBonusStats.has(userId)) {
+        const userBonusStats = groupedBonusStats.get(userId);
+        userBonusStats.push(bonusStat);
+        groupedBonusStats.set(userId, userBonusStats);
+      } else {
+        groupedBonusStats.set(userId, [bonusStat]);
+      }
+    });
+
+    userIds.forEach((userId) => {
+      if (!groupedBonusStats.has(userId)) {
+        groupedBonusStats.set(userId, []);
+      }
+    });
+
+    return groupedBonusStats;
   }
 }
