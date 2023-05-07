@@ -11,6 +11,7 @@ import { ResultDTO } from 'src/app/model/dto/result.dto';
 import { ERROR_MSG } from 'src/app/app.constants';
 import { RaceEventService } from 'src/app/services/race-event.service';
 import { TranslateService } from '@ngx-translate/core';
+import { RaceService } from 'src/app/services/race.service';
 
 @Component({
   selector:'app-admin-race-results',
@@ -32,7 +33,8 @@ export class AdminRaceResultsComponent implements OnInit  {
     private resultService: ResultService,
     private snackBar: MatSnackBar,
     private raceEventService: RaceEventService,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    private raceService: RaceService) {
     this.raceId = this.router.getCurrentNavigation()?.extras?.state?.['raceId'];
   }
 
@@ -43,6 +45,7 @@ export class AdminRaceResultsComponent implements OnInit  {
 
   handleResultSaveBtnClick() {
     const drivers = this.raceEventService.getDrivers();
+    this.saveDnfAndFastestLap();
     const isUpdate = this.results.length !== 0;
     if(isUpdate) {
       this.updateResults();
@@ -72,9 +75,17 @@ export class AdminRaceResultsComponent implements OnInit  {
     }
   }
 
+  private saveDnfAndFastestLap(): void {
+    if(this.raceId && this.fastestLapDriver && this.dnfDrivers.length > 0) {
+      const dnfDriverIds = this.dnfDrivers.map(dnfDriver => dnfDriver.id!);
+      this.raceService.assignDnfDrivers(this.raceId, dnfDriverIds).subscribe();
+      this.raceService.assignFastestLap(this.raceId, this.fastestLapDriver.id!).subscribe();
+    }
+  }
+
   private getMadeChanges(): void {
     this.raceEventService.getMadeChangesObservable().subscribe(madeChanges => {
-      this.madeChanges = madeChanges;
+      this.madeChanges = madeChanges && this.fastestLapDriver !== undefined && this.dnfDrivers.length > 0;
     });
   }
 
