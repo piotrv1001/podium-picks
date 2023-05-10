@@ -65,13 +65,19 @@
         <ng-template #othersPredictions>
           <div class="row">
             <div class="flex-col purple">
-              <p class="gray-text big-screen">Fastest lap</p>
-              <p class="gray-text small-screen">FL</p>
-              <p>{{ data[1].fastestLapDriver ?? '-' }}</p>
+              <div class="fl-dnf-row">
+                <span class="gray-text big-screen m-bottom">Fastest lap</span>
+                <span class="gray-text small-screen m-bottom">FL</span>
+                <span *ngIf="data[1].fastestLapPoints != null" class="gray-text m-bottom">{{ data[1].fastestLapPoints }}</span>
+              </div>
+              <span>{{ data[1].fastestLapDriver?.name ?? '-' }}</span>
             </div>
             <div class="flex-col gray">
-              <p class="gray-text">DNF</p>
-              <p>{{ data[1].dnfDriver ?? '-' }}</p>
+              <div class="fl-dnf-row">
+                <span class="gray-text m-bottom">DNF</span>
+                <span *ngIf="data[1].dnfPoints != null" class="gray-text m-bottom">{{ data[1].dnfPoints }}</span>
+              </div>
+              <span>{{ data[1].dnfDriver?.name ?? '-' }}</span>
             </div>
           </div>
         </ng-template>

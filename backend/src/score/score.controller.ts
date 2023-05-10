@@ -26,15 +26,14 @@ export class ScoreController {
   }
 
   @Get(':groupId/:seasonId/stats-by-user')
-  async getSumPointsByGroupIdAndSeasonId(
+  async getStatsByGroupIdAndSeasonId(
     @Param('groupId') groupId: number,
     @Param('seasonId') seasonId: number,
   ) {
-    const grouppedPoints =
-      await this.scoreService.getSumPointsByGroupIdAndSeasonId(
-        groupId,
-        seasonId,
-      );
+    const grouppedPoints = await this.scoreService.getStatsByGroupIdAndSeasonId(
+      groupId,
+      seasonId,
+    );
 
     const response = {};
     grouppedPoints.forEach((stats, userId) => {

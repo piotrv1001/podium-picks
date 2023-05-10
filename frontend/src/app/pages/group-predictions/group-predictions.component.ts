@@ -28,6 +28,8 @@ import { BonusStat } from 'src/app/model/entities/bonus-stat.model';
 import { BonusStatEnum } from 'src/app/model/types/bonus-stat-enum';
 import { BonusStatDTO } from 'src/app/model/dto/bonus-stat.dto';
 
+type DataArray = [number, UserData][];
+
 @Component({
   selector: 'app-group-predictions',
   templateUrl: './group-predictions.component.html',
@@ -42,7 +44,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   userId?: number;
   groupId?: number;
   userId2UserData: Map<number, UserData> = new Map<number, UserData>();
-  dataArray: [number, UserData][] = [];
+  dataArray: DataArray = [];
   race?: Race;
   timeLeft?: CustomDate;
   raceFinished: boolean = false;
@@ -95,7 +97,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     handlePredictionSaveBtnClick(): void {
-      const drivers = this.raceEventService.getDrivers();
+      let drivers = this.raceEventService.getDrivers();
+      if(drivers.length === 0) {
+        drivers = this.drivers;
+      }
       this.setTabAnimationDuration(0);
       if(this.userId !== undefined) {
         const isUpdate = this.userId2UserData.get(this.userId)?.predictions?.length !== 0;
@@ -138,12 +143,14 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             const fastestLapStat = bonusStats.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.FASTEST_LAP);
             if(fastestLapStat && fastestLapStat.driverId !== undefined) {
               const fastestLapDriver = this.driverObj[fastestLapStat.driverId];
-              this.userDataPartialUpdate(userId, { fastestLapDriver });
+              const fastestLapPoints = fastestLapStat.points;
+              this.userDataPartialUpdate(userId, { fastestLapDriver, fastestLapPoints });
             }
             const dnfStat = bonusStats.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.DNF);
             if(dnfStat && dnfStat.driverId !== undefined) {
               const dnfDriver = this.driverObj[dnfStat.driverId];
-              this.userDataPartialUpdate(userId, { dnfDriver });
+              const dnfPoints = dnfStat.points;
+              this.userDataPartialUpdate(userId, { dnfDriver, dnfPoints });
             }
           }
         });
@@ -423,7 +430,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private updateDataArray(): void {
-      this.dataArray = Array.from(this.userId2UserData);
+      this.dataArray = this.moveUserToFirst(Array.from(this.userId2UserData));
     }
 
     private notifyAboutMadeChanges(madeChanges: boolean): void {
@@ -434,6 +441,16 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       if(this.tabGroup) {
         this.tabGroup.animationDuration = `${ms}ms`;
       }
+    }
+
+    private moveUserToFirst(users: DataArray): DataArray {
+      const userIndex = users.findIndex(userData => userData[1].user?.id === this.userId);
+      if (userIndex === -1) {
+        return users;
+      }
+      const user = users[userIndex];
+      const remainingUsers = users.filter((_, index) => index !== userIndex);
+      return [user, ...remainingUsers];
     }
 
 }

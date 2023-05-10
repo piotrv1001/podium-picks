@@ -122,6 +122,20 @@
   width: calc(50% - 1rem);
 }
 
+.fl-dnf-row {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.m-bottom {
+  margin-bottom: .5rem;
+}
+
+.m-top {
+  margin-top: .5rem;
+}
+
 @media (max-width: 768px) {
   .username {
     font-size: 1.3rem;
