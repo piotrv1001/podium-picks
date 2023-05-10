@@ -7,6 +7,7 @@ import { User } from "./user.model";
 export class BonusStat {
   constructor(
     public id?: number,
+    public points?: number,
     public bonusStatDictId?: number,
     public raceId?: number,
     public groupId?: number,

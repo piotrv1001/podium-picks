@@ -12,4 +12,6 @@ export interface UserData {
   user?: User
   fastestLapDriver?: Driver;
   dnfDriver?: Driver;
+  fastestLapPoints?: number;
+  dnfPoints?: number;
 }

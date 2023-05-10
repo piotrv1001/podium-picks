@@ -6,6 +6,9 @@ import { ScoreDTO } from './score.dto';
 import { Result } from 'src/result/result.entity';
 import { PredictionService } from 'src/prediction/prediction.service';
 import { Group } from 'src/group/group.entity';
+import { Race } from 'src/race/race.entity';
+import { BonusStat } from 'src/bonus-stat/bonus-stat.entity';
+import { BonusStatEnum } from 'src/types/bonus-stat-enum';
 
 export interface Stats {
   total: number;
@@ -21,6 +24,10 @@ export class ScoreService {
     private readonly scoreRepository: Repository<Score>,
     @InjectRepository(Group)
     private readonly groupRepository: Repository<Group>,
+    @InjectRepository(Race)
+    private readonly raceRepository: Repository<Race>,
+    @InjectRepository(BonusStat)
+    private readonly bonusStatRepository: Repository<BonusStat>,
     private readonly predictionService: PredictionService,
   ) {}
 
@@ -121,6 +128,48 @@ export class ScoreService {
         groupId,
         raceId,
       );
+    const race = await this.raceRepository.findOne({
+      where: {
+        id: raceId,
+      },
+      relations: {
+        dnfDrivers: true,
+      },
+    });
+    const fastestLapDriverId = race.fastestLapDriverId;
+    const dnfDrivers = race.dnfDrivers;
+    for (const [userId] of grouppedPredictions) {
+      const predictedFastestLap = await this.bonusStatRepository.findOne({
+        where: {
+          raceId,
+          groupId,
+          userId,
+          bonusStatDictId: BonusStatEnum.FASTEST_LAP,
+        },
+      });
+      if (!!predictedFastestLap) {
+        const predictedFlDriverId = predictedFastestLap.driverId;
+        const flPoints = predictedFlDriverId === fastestLapDriverId ? 0.5 : 0;
+        predictedFastestLap.points = flPoints;
+        await this.bonusStatRepository.save(predictedFastestLap);
+      }
+      const predictedDNF = await this.bonusStatRepository.findOne({
+        where: {
+          raceId,
+          groupId,
+          userId,
+          bonusStatDictId: BonusStatEnum.DNF,
+        },
+      });
+      if (!!predictedDNF) {
+        const dnfPoints =
+          dnfDrivers.find((d) => d.id === predictedDNF.driverId) !== undefined
+            ? 0.5
+            : 0;
+        predictedDNF.points = dnfPoints;
+        await this.bonusStatRepository.save(predictedDNF);
+      }
+    }
     for (let i = 0; i < results.length; i++) {
       let fullGuess = false;
       let smallestDiff: number | null = null;
@@ -213,7 +262,7 @@ export class ScoreService {
     return parseFloat(result.sum_points);
   }
 
-  async getSumPointsByGroupIdAndSeasonId(
+  async getStatsByGroupIdAndSeasonId(
     groupId: number,
     seasonId: number,
   ): Promise<Map<number, Stats>> {
@@ -244,8 +293,32 @@ export class ScoreService {
       .getRawMany();
 
     let raceCount = 0;
-    scores.forEach((score: any) => {
-      const points = parseFloat(score.sum_points);
+    scores.forEach(async (score: any) => {
+      let points = parseFloat(score.sum_points);
+      const bonusFL = await this.bonusStatRepository.findOne({
+        where: {
+          userId: score.userId,
+          groupId,
+          raceId: score.raceId,
+          bonusStatDictId: BonusStatEnum.FASTEST_LAP,
+        },
+      });
+      if (bonusFL && bonusFL.points != null) {
+        const bonusFLPoints = bonusFL.points;
+        points += bonusFLPoints;
+      }
+      const bonusDNF = await this.bonusStatRepository.findOne({
+        where: {
+          userId: score.userId,
+          groupId,
+          raceId: score.raceId,
+          bonusStatDictId: BonusStatEnum.DNF,
+        },
+      });
+      if (bonusDNF && bonusDNF.points != null) {
+        const bonusDNFPoints = bonusDNF.points;
+        points += bonusDNFPoints;
+      }
       const stats: Stats = resultMap.get(score.userId);
       if (Object.keys(stats).length !== 0) {
         raceCount++;
