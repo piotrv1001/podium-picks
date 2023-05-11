@@ -2,6 +2,10 @@
   margin: 1rem 0;
 }
 
+.small-screen {
+  display: none;
+}
+
 .space-between {
   display: flex;
   justify-content: space-between;
@@ -18,5 +22,11 @@
   }
   .fl-dnf {
     width: 100%;
+  }
+  .big-screen {
+    display: none;
+  }
+  .small-screen {
+    display: block;
   }
 }

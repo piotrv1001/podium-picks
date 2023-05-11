@@ -17,6 +17,10 @@ export class RaceService {
     return this.http.get<Race>(`${BASE_URL}/${this.RACE_ROUTE}/${raceId}`);
   }
 
+  getByIdWithFLandDNF(raceId: number): Observable<Race> {
+    return this.http.get<Race>(`${BASE_URL}/${this.RACE_ROUTE}/${raceId}/fl-dnf`);
+  }
+
   getAllRacesForSeason(seasonId: number): Observable<Race[]> {
     return this.http.get<Race[]>(`${BASE_URL}/${this.RACE_ROUTE}?seasonId=${seasonId}`);
   }

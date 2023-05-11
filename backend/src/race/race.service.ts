@@ -32,6 +32,18 @@ export class RaceService {
     return this.raceRepository.findOneBy({ id: id });
   }
 
+  async getByIdWithFLandDNF(id: number): Promise<Race> {
+    return this.raceRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: {
+        fastestLapDriver: true,
+        dnfDrivers: true,
+      },
+    });
+  }
+
   async delete(id: number): Promise<void> {
     await this.raceRepository.delete(id);
   }

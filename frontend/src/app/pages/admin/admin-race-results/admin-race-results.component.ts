@@ -22,6 +22,7 @@ export class AdminRaceResultsComponent implements OnInit  {
 
   raceId?: number;
   drivers: Driver[] = [];
+  driverObj: { [id: number]: Driver } = {};
   results: Result[] = [];
   madeChanges: boolean = false;
   fastestLapDriver?: Driver;
@@ -38,9 +39,13 @@ export class AdminRaceResultsComponent implements OnInit  {
     this.raceId = this.router.getCurrentNavigation()?.extras?.state?.['raceId'];
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const driverArray = await firstValueFrom(this.driverService.getAllDrivers());
+    this.drivers = driverArray;
+    this.driverArrayToObj();
     this.getMadeChanges();
-    this.getRaceResutls();
+    this.getRaceWithFLandDNF();
+    this.getRaceResults();
   }
 
   handleResultSaveBtnClick() {
@@ -75,8 +80,25 @@ export class AdminRaceResultsComponent implements OnInit  {
     }
   }
 
+  private getRaceWithFLandDNF(): void {
+    if(this.raceId !== undefined) {
+      this.raceService.getByIdWithFLandDNF(this.raceId).subscribe(race => {
+        if(race.fastestLapDriver && race.fastestLapDriver.id !== undefined) {
+          this.fastestLapDriver = this.driverObj[race.fastestLapDriver.id];
+        }
+        if(race.dnfDrivers) {
+          for(const dnf of race.dnfDrivers) {
+            if(dnf.id !== undefined) {
+              this.dnfDrivers.push(this.driverObj[dnf.id]);
+            }
+          }
+        }
+      });
+    }
+  }
+
   private saveDnfAndFastestLap(): void {
-    if(this.raceId && this.fastestLapDriver && this.dnfDrivers.length > 0) {
+    if(this.raceId !== undefined && this.fastestLapDriver && this.dnfDrivers.length > 0) {
       const dnfDriverIds = this.dnfDrivers.map(dnfDriver => dnfDriver.id!);
       this.raceService.assignDnfDrivers(this.raceId, dnfDriverIds).subscribe();
       this.raceService.assignFastestLap(this.raceId, this.fastestLapDriver.id!).subscribe();
@@ -92,7 +114,7 @@ export class AdminRaceResultsComponent implements OnInit  {
   private createResults(drivers: Driver[]): void {
     const newResultArray: ResultDTO[] = [];
     drivers.forEach((driver: Driver, index: number) => {
-      if(driver.id && this.raceId) {
+      if(driver.id !== undefined && this.raceId !== undefined) {
         const newResult = new ResultDTO(
           index + 1,
           this.raceId,
@@ -132,10 +154,8 @@ export class AdminRaceResultsComponent implements OnInit  {
     });
   }
 
-  private async getRaceResutls(): Promise<void> {
-    const driverArray = await firstValueFrom(this.driverService.getAllDrivers());
-    this.drivers = driverArray;
-    if(this.raceId) {
+  private getRaceResults(): void {
+    if(this.raceId !== undefined) {
       this.resultService.getByRaceId(this.raceId).subscribe(results => {
         this.results = results;
         if(results.length > 0) {
@@ -148,11 +168,30 @@ export class AdminRaceResultsComponent implements OnInit  {
             }
           }
           this.drivers = resultDrivers;
+          this.driverArrayToObj();
+          if(this.fastestLapDriver && this.fastestLapDriver.id !== undefined) {
+            this.fastestLapDriver = this.driverObj[this.fastestLapDriver.id];
+          }
+          const dnfDrivers: Driver[] = [];
+          for(const dnf of this.dnfDrivers) {
+            if(dnf.id !== undefined) {
+              dnfDrivers.push(this.driverObj[dnf.id]);
+            }
+          }
+          this.dnfDrivers = dnfDrivers;
         } else {
           this.notifyAboutMadeChanges(true);
         }
       })
     }
+  }
+
+  private driverArrayToObj(): void {
+    this.drivers.forEach((driver) => {
+      if(driver.id !== undefined) {
+        this.driverObj[driver.id] = driver;
+      }
+    });
   }
 
   private showSnackBar(msg: string): void {

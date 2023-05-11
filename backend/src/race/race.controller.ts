@@ -52,6 +52,11 @@ export class RaceController {
     return this.raceService.getAll();
   }
 
+  @Get(':id/fl-dnf')
+  getByIdWithFLandDNF(@Param('id') id: number): Promise<Race> {
+    return this.raceService.getByIdWithFLandDNF(id);
+  }
+
   @Get(':id')
   getById(@Param('id') id: number): Promise<Race> {
     return this.raceService.getById(id);
