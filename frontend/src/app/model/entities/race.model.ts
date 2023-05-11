@@ -1,3 +1,4 @@
+import { Driver } from "./driver.model";
 import { Prediction } from "./prediction.model";
 import { Result } from "./result.model";
 import { Score } from "./score.model";
@@ -15,6 +16,9 @@ export class Race {
     public results?: Result[],
     public scores?: Score[],
     public season?: Season,
-    public seasonId?: number
+    public seasonId?: number,
+    public fastestLapDriver?: Driver,
+    public fastestLapDriverId?: number,
+    public dnfDrivers?: Driver[]
   ) {}
 }
