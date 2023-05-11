@@ -293,7 +293,7 @@ export class ScoreService {
       .getRawMany();
 
     let raceCount = 0;
-    scores.forEach(async (score: any) => {
+    for (const score of scores) {
       let points = parseFloat(score.sum_points);
       const bonusFL = await this.bonusStatRepository.findOne({
         where: {
@@ -304,7 +304,10 @@ export class ScoreService {
         },
       });
       if (bonusFL && bonusFL.points != null) {
-        const bonusFLPoints = bonusFL.points;
+        let bonusFLPoints = bonusFL.points;
+        if (typeof bonusFLPoints === 'string') {
+          bonusFLPoints = parseFloat(bonusFLPoints);
+        }
         points += bonusFLPoints;
       }
       const bonusDNF = await this.bonusStatRepository.findOne({
@@ -316,7 +319,10 @@ export class ScoreService {
         },
       });
       if (bonusDNF && bonusDNF.points != null) {
-        const bonusDNFPoints = bonusDNF.points;
+        let bonusDNFPoints = bonusDNF.points;
+        if (typeof bonusDNFPoints === 'string') {
+          bonusDNFPoints = parseFloat(bonusDNFPoints);
+        }
         points += bonusDNFPoints;
       }
       const stats: Stats = resultMap.get(score.userId);
@@ -339,7 +345,7 @@ export class ScoreService {
         };
         resultMap.set(score.userId, newStats);
       }
-    });
+    }
 
     return resultMap;
   }
