@@ -143,14 +143,32 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             const fastestLapStat = bonusStats.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.FASTEST_LAP);
             if(fastestLapStat && fastestLapStat.driverId !== undefined) {
               const fastestLapDriver = this.driverObj[fastestLapStat.driverId];
-              const fastestLapPoints = fastestLapStat.points;
-              this.userDataPartialUpdate(userId, { fastestLapDriver, fastestLapPoints });
+              let fastestLapPoints = fastestLapStat.points;
+              if(typeof fastestLapPoints === 'string') {
+                fastestLapPoints = parseFloat(fastestLapPoints);
+              }
+              const total = this.userId2UserData.get(userId)?.total;
+              if(total !== undefined && fastestLapPoints !== undefined) {
+                const newTotal = total + fastestLapPoints;
+                this.userDataPartialUpdate(userId, { fastestLapDriver, fastestLapPoints, total: newTotal });
+              } else {
+                this.userDataPartialUpdate(userId, { fastestLapDriver, fastestLapPoints, total: fastestLapPoints });
+              }
             }
             const dnfStat = bonusStats.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.DNF);
             if(dnfStat && dnfStat.driverId !== undefined) {
               const dnfDriver = this.driverObj[dnfStat.driverId];
-              const dnfPoints = dnfStat.points;
-              this.userDataPartialUpdate(userId, { dnfDriver, dnfPoints });
+              let dnfPoints = dnfStat.points;
+              if(typeof dnfPoints === 'string') {
+                dnfPoints = parseFloat(dnfPoints);
+              }
+              const total = this.userId2UserData.get(userId)?.total;
+              if(total !== undefined && dnfPoints !== undefined) {
+                const newTotal = total + dnfPoints;
+                this.userDataPartialUpdate(userId, { dnfDriver, dnfPoints, total: newTotal });
+              } else {
+                this.userDataPartialUpdate(userId, { dnfDriver, dnfPoints, total: dnfPoints });
+              }
             }
           }
         });
@@ -317,7 +335,12 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
                   sum += Number(score.points);
                 }
               }
-              this.userDataPartialUpdate(userId, { total: sum });
+              const existingTotal = this.userId2UserData.get(userId)?.total;
+              if(existingTotal !== undefined) {
+                this.userDataPartialUpdate(userId, { total: sum + existingTotal });
+              } else {
+                this.userDataPartialUpdate(userId, { total: sum });
+              }
             }
           }
           this.checkRaceStatus();
