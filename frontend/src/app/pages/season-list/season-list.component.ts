@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { SeasonWithProgress } from "src/app/model/types/season-with-progress";
+import { NavigationService } from "src/app/services/navigation.service";
 import { SeasonService } from "src/app/services/season.service";
 
 @Component({
@@ -15,7 +16,8 @@ export class SeasonListComponent implements OnInit {
 
   constructor(
     private seasonService: SeasonService,
-    private router: Router) {
+    private router: Router,
+    private navigationService: NavigationService) {
       this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
     }
 
@@ -24,7 +26,14 @@ export class SeasonListComponent implements OnInit {
   }
 
   handleSeasonClick(season: SeasonWithProgress): void {
-    this.router.navigate(['races'], { state: { groupId: this.groupId, seasonId: season.id } });
+    const navExtras = { state: { groupId: this.groupId, seasonId: season.id } };
+    const navItem = {
+      url: 'races',
+      name: 'Races',
+      navExtras
+    };
+    this.navigationService.notifyAboutNavItem(navItem);
+    this.router.navigate(['races'], navExtras);
   }
 
   private getAllSeasons(): void {

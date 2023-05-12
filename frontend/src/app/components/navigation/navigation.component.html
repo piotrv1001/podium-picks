@@ -1,0 +1,11 @@
+<div class="flex-row">
+  <div *ngFor="let route of routes; let i = index" class="flex-row">
+    <button
+      mat-button
+      (click)="navigateToNavItem(i)"
+      class="nav-btn">
+      {{ route.name }}
+    </button>
+    <mat-icon *ngIf="i < routes.length - 1">chevron_right</mat-icon>
+  </div>
+</div>

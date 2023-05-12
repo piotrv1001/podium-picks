@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from './shared/auth/auth.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { NavigationService } from './services/navigation.service';
 
 interface Language {
   langKey: string;
@@ -30,7 +31,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private localStorageService: LocalStorageService,
     private router: Router,
-    public translateService: TranslateService
+    public translateService: TranslateService,
+    private navigationService: NavigationService
     ) {
     this.languages = [
       { langKey: 'en', flagKey: 'us', langName: 'English' },
@@ -76,6 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   navigateHome(): void {
+    this.navigationService.notifyAboutReset();
     this.router.navigate(['/']);
   }
 
