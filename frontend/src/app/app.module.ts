@@ -57,6 +57,7 @@ import { ToFixedStringPipe } from './pipes/to-fixed-string.pipe';
 import { TimePickerComponent } from './components/time-picker/time-picker.component';
 import { TimeStringPipe } from './pipes/time-string.pipe';
 import { ProgressCircleComponent } from './components/progress-circle/progress-circle.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -94,7 +95,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AdminPointsComponent,
     TimePickerComponent,
     TimeStringPipe,
-    ProgressCircleComponent
+    ProgressCircleComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,

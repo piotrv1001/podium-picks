@@ -3,7 +3,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   padding: 5rem 0 1rem 0;
+}
+
+.nav-container {
+  margin: 1rem;
+  width: 100%;
+  justify-self: flex-start;
 }
 
 .log-out-btn {

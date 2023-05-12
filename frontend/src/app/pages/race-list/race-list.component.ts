@@ -10,6 +10,7 @@ import { ScoreService } from "src/app/services/score.service";
 import { User } from "src/app/model/entities/user.model";
 import { GroupService } from "src/app/services/group.service";
 import { Stats } from "src/app/model/types/stats";
+import { NavigationService } from "src/app/services/navigation.service";
 
 @Component({
   selector: 'app-race-list',
@@ -37,7 +38,8 @@ export class RaceListComponent implements OnInit {
     private router: Router,
     private localStorageServie: LocalStorageService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar) {
+    private snackBar: MatSnackBar,
+    private navigationService: NavigationService) {
       this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
       this.seasonId = this.router.getCurrentNavigation()?.extras?.state?.["seasonId"];
     }
@@ -77,7 +79,14 @@ export class RaceListComponent implements OnInit {
 
   handleRaceClick(raceId: number) {
     if(this.isAdmin == null || this.isAdmin !== 1) {
-      this.router.navigate(['drivers'], { state: { raceId: raceId, groupId: this.groupId } });
+      const navExtras = { state: { raceId: raceId, groupId: this.groupId } };
+      const navItem = {
+        url: 'drivers',
+        name: 'Predictions',
+        navExtras
+      };
+      this.navigationService.notifyAboutNavItem(navItem);
+      this.router.navigate(['drivers'], navExtras);
     }
   }
 
