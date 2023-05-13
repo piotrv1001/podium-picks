@@ -84,9 +84,12 @@ tr:hover {
   .race-list {
     grid-template-columns: repeat(2, 1fr);
   }
+  .wrapper {
+    width: 80vw;
+  }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 760px) {
   .optional {
     display: none;
   }
