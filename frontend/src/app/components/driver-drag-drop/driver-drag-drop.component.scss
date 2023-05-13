@@ -25,7 +25,12 @@
   align-items: center;
 }
 
-.new-index {
+.driver-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.index {
   padding: 1rem 0;
   display: flex;
   justify-content: center;
@@ -72,26 +77,19 @@
 }
 
 .point-btn {
+  width: 45%;
+}
+
+.point-btn-row {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  width: 24px;
-  height: 24px;
-  background-color: #e4e4e4;
-  border-radius: 50%;
-  border: none;
+  justify-content: space-around;
+  margin-top: .5rem;
+  margin-bottom: 1rem;
 }
 
-.point-btn:hover {
-  cursor: pointer;
-  background-color: #d3d3d3;
-}
-
-.point-btn:disabled {
-  background-color: rgb(243, 186, 186);
-  color: darkred;
-  cursor: default;
+.divider {
+  height: 1px;
+  background-color: #cbcbcb;
 }
 
 .save-btn {
@@ -114,7 +112,7 @@
   .driver-list {
     width: 350px;
   }
-  .new-index {
+  .index {
     font-size: 12px;
   }
 }

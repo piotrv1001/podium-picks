@@ -3,26 +3,27 @@
     cdkDropList
     class="driver-list"
     (cdkDropListDropped)="drop($event)">
-    <div class="driver-row" *ngFor="let driver of drivers; let i = index">
-      <span class="new-index">{{ i + 1 }}</span>
-      <div
-        class="driver-box"
-        cdkDrag
-        [cdkDragDisabled]="!isEditable"
-        [ngStyle]="{'cursor': isEditable ? 'move' : 'default'}"
-        [ngClass]="lastMovedItemIndex === i && !predictionLock ? 'gray-bg' : 'white-bg'">
-          <app-driver-name
-          [driver]="driver"
-          [points]="pointArray[i]"
-          [showDragIcon]="isEditable">
-        </app-driver-name>
+    <div class="driver-col" *ngFor="let driver of drivers; let i = index">
+      <div class="driver-row">
+        <span class="index">{{ i + 1 }}</span>
+        <div
+          class="driver-box"
+          cdkDrag
+          [cdkDragDisabled]="!isEditable"
+          [ngStyle]="{'cursor': isEditable ? 'move' : 'default'}"
+          [ngClass]="lastMovedItemIndex === i && !predictionLock ? 'gray-bg' : 'white-bg'">
+            <app-driver-name
+            [driver]="driver"
+            [points]="pointArray[i]"
+            [showDragIcon]="isEditable">
+          </app-driver-name>
+        </div>
       </div>
-    </div>
-  </div>
-  <div *ngIf="isPointsUpdate" class="index-list">
-    <div *ngFor="let driver of drivers; let i = index" class="point-btn-col">
-      <button class="point-btn" [disabled]="pointArray[i] > 0.5" (click)="pointsChanged(i, true)">+</button>
-      <button class="point-btn" [disabled]="pointArray[i] < 0.5" (click)="pointsChanged(i, false)">-</button>
+      <div *ngIf="isPointsUpdate" class="point-btn-row">
+        <button class="point-btn" mat-raised-button [disabled]="pointArray[i] > 0.5" (click)="pointsChanged(i, true)">+</button>
+        <button class="point-btn" mat-raised-button [disabled]="pointArray[i] < 0.5" (click)="pointsChanged(i, false)">-</button>
+      </div>
+      <div class="divider"></div>
     </div>
   </div>
 </div>
