@@ -9,7 +9,7 @@ import {
   Query,
   HttpException,
 } from '@nestjs/common';
-import { GroupService } from './group.service';
+import { GroupService, GroupWithUserCount } from './group.service';
 import { Group } from './group.entity';
 import { User } from 'src/user/user.entity';
 
@@ -26,12 +26,13 @@ export class GroupController {
   async getGroupByCode(
     @Query('code') code: string,
     @Query('userId') userId: number,
-  ): Promise<Group> {
+  ): Promise<GroupWithUserCount> {
     const group = await this.groupService.getGroupByCode(code);
     if (!group) {
       throw new HttpException('Not found', 404);
     }
-    return this.groupService.addUserToGroup(userId, group.id);
+    await this.groupService.addUserToGroup(userId, group.id);
+    return group;
   }
 
   @Get()
