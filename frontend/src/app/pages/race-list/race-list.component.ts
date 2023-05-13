@@ -11,6 +11,7 @@ import { User } from "src/app/model/entities/user.model";
 import { GroupService } from "src/app/services/group.service";
 import { Stats } from "src/app/model/types/stats";
 import { NavigationService } from "src/app/services/navigation.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-race-list',
@@ -39,7 +40,8 @@ export class RaceListComponent implements OnInit {
     private localStorageServie: LocalStorageService,
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private navigationService: NavigationService) {
+    private navigationService: NavigationService,
+    public translateService: TranslateService) {
       this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
       this.seasonId = this.router.getCurrentNavigation()?.extras?.state?.["seasonId"];
     }
@@ -80,9 +82,10 @@ export class RaceListComponent implements OnInit {
   handleRaceClick(raceId: number) {
     if(this.isAdmin == null || this.isAdmin !== 1) {
       const navExtras = { state: { raceId: raceId, groupId: this.groupId } };
+      const name = this.translateService.instant('navigation.predictions');
       const navItem = {
         url: 'drivers',
-        name: 'Predictions',
+        name,
         navExtras
       };
       this.navigationService.notifyAboutNavItem(navItem);
@@ -92,13 +95,29 @@ export class RaceListComponent implements OnInit {
 
   handleResultsBtnClick(raceId: number): void {
     if(this.isAdmin && this.isAdmin === 1) {
-      this.router.navigate(['results'], { state: { raceId: raceId } });
+      const navExtras = { state: { raceId: raceId } };
+      const name = this.translateService.instant('navigation.results');
+      const navItem = {
+        url: 'results',
+        name,
+        navExtras
+      };
+      this.navigationService.notifyAboutNavItem(navItem);
+      this.router.navigate(['results'], navExtras);
     }
   }
 
   handlePointsBtnClick(raceId: number): void {
     if(this.isAdmin && this.isAdmin === 1) {
-      this.router.navigate(['groups'], { state: { raceId: raceId } });
+      const navExtras = { state: { raceId: raceId } };
+      const name = this.translateService.instant('navigation.groups');
+      const navItem = {
+        url: 'groups',
+        name,
+        navExtras
+      };
+      this.navigationService.notifyAboutNavItem(navItem);
+      this.router.navigate(['groups'], navExtras);
     }
   }
 

@@ -105,5 +105,15 @@
     "hours": "Hours",
     "minutes": "Minutes",
     "seconds": "Seconds"
+  },
+  "navigation": {
+    "home": "Home",
+    "seasons": "Seasons",
+    "races": "Races",
+    "predictions": "Predictions",
+    "results": "Results",
+    "groups": "Groups",
+    "users": "Users",
+    "points": "Points"
   }
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { User } from "src/app/model/entities/user.model";
 import { GroupService } from "src/app/services/group.service";
+import { NavigationService } from "src/app/services/navigation.service";
 
 @Component({
   selector: 'app-admin-users',
@@ -17,6 +19,8 @@ export class AdminUsersComponent implements OnInit {
   constructor(
     private router: Router,
     private groupService: GroupService,
+    private navigationService: NavigationService,
+    public translateService: TranslateService
   ) {
     this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
     this.raceId = this.router.getCurrentNavigation()?.extras?.state?.["raceId"];
@@ -27,7 +31,15 @@ export class AdminUsersComponent implements OnInit {
   }
 
   handleUserClick(userId: number): void {
-    this.router.navigate(['points'], { state: { raceId: this.raceId, groupId: this.groupId, userId: userId } });
+    const navExtras = { state: { raceId: this.raceId, groupId: this.groupId, userId: userId } };
+    const name = this.translateService.instant('navigation.points');
+      const navItem = {
+        url: 'points',
+        name,
+        navExtras
+      };
+      this.navigationService.notifyAboutNavItem(navItem);
+    this.router.navigate(['points'], navExtras);
   }
 
   private getUsers(): void {
