@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 import { Driver } from "src/app/model/entities/driver.model";
 import { Prediction } from "src/app/model/entities/prediction.model";
 import { Score } from "src/app/model/entities/score.model";
-import { DriverService } from "src/app/services/driver.service";
 import { PredictionService } from "src/app/services/prediction.service";
 import { ScoreService } from "src/app/services/score.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -30,7 +29,6 @@ export class AdminPointsComponent implements OnInit {
     private router: Router,
     private scoreService: ScoreService,
     private predictionService: PredictionService,
-    private driverService: DriverService,
     private snackBar: MatSnackBar,
     private raceEventService: RaceEventService,
     public translateService: TranslateService
@@ -45,7 +43,6 @@ export class AdminPointsComponent implements OnInit {
     this.getMadeChanges();
     this.getScores();
     this.getPredictions();
-    this.getDrivers();
   }
 
   handleScoreUpdate(score: Score): void {
@@ -79,14 +76,6 @@ export class AdminPointsComponent implements OnInit {
         }
       });
     }
-  }
-
-  private getDrivers(): void {
-    this.driverService.getAllDrivers().subscribe(drivers => {
-      if(this.drivers.length === 0) {
-        this.drivers = drivers;
-      }
-    })
   }
 
   private updateScores(): void {
