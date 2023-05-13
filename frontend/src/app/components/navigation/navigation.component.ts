@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { NavigationExtras, Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { NavigationService } from "src/app/services/navigation.service";
 
 export interface NavItem {
@@ -19,7 +20,8 @@ export class NavigationComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+    public translateService: TranslateService
     ) {}
 
     ngOnInit(): void {
@@ -29,9 +31,10 @@ export class NavigationComponent implements OnInit {
 
     private initializeRoutes(): void {
       this.routes = [];
+      const name = this.translateService.instant('navigation.home');
       const initialRoute: NavItem = {
         url: '/',
-        name: 'Home'
+        name
       };
       this.routes.push(initialRoute);
     }

@@ -105,5 +105,15 @@
     "hours": "Godziny",
     "minutes": "Minuty",
     "seconds": "Sekundy"
+  },
+  "navigation": {
+    "home": "Start",
+    "seasons": "Sezony",
+    "races": "Wyścigi",
+    "predictions": "Prognozy",
+    "results": "Wyniki",
+    "groups": "Groupy",
+    "users": "Użytkownicy",
+    "points": "Punkty"
   }
 }
