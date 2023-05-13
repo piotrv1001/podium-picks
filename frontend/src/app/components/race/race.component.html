@@ -16,7 +16,7 @@
       <mat-icon>date_range</mat-icon>
       <span class="race-date">{{ race?.date | date : 'longDate' }}</span>
     </div>
-    <div class="race-name">{{ race?.name }}</div>
+    <div truncateText class="race-name">{{ race?.name }}</div>
     <span [class]="'fi fi-' + race?.countryCode?.toLowerCase() + ' race-flag'"></span>
     <div *ngIf="isAdmin" class="race-buttons">
       <button class="race-btn results-btn" (click)="resultsBtnClicked($event)">{{ 'race.update.results' | translate }}<mat-icon>chevron_right</mat-icon></button>

@@ -58,6 +58,8 @@ import { TimePickerComponent } from './components/time-picker/time-picker.compon
 import { TimeStringPipe } from './pipes/time-string.pipe';
 import { ProgressCircleComponent } from './components/progress-circle/progress-circle.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
+import { TruncateTextDirective } from './directives/truncate-text.directive';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -96,7 +98,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     TimePickerComponent,
     TimeStringPipe,
     ProgressCircleComponent,
-    NavigationComponent
+    NavigationComponent,
+    TruncatePipe,
+    TruncateTextDirective
   ],
   imports: [
     BrowserModule,
