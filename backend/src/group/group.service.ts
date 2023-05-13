@@ -75,12 +75,19 @@ export class GroupService {
     return groups;
   }
 
-  async getGroupByCode(code: string): Promise<Group> {
-    return this.groupRepository.findOne({
+  async getGroupByCode(code: string): Promise<GroupWithUserCount> {
+    const result = await this.groupRepository.findOne({
       where: {
         code: code,
       },
     });
+    const count = (await this.getUsersByGroupId(result.id)).length;
+    return {
+      id: result.id,
+      name: result.name,
+      code: result.code,
+      count: count,
+    };
   }
 
   async addUserToGroup(userId: number, groupId: number): Promise<Group> {
