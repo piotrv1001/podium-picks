@@ -48,6 +48,7 @@ export class AdminGroupsComponent implements OnInit {
       const navItem = {
         url: 'users',
         name,
+        translateName: 'users',
         navExtras
       };
       this.navigationService.notifyAboutNavItem(navItem);

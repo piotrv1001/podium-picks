@@ -6,6 +6,7 @@ import { NavigationService } from "src/app/services/navigation.service";
 export interface NavItem {
   url: string;
   name: string;
+  translateName: string;
   navExtras?: NavigationExtras;
 }
 
@@ -34,7 +35,8 @@ export class NavigationComponent implements OnInit {
       const name = this.translateService.instant('navigation.home');
       const initialRoute: NavItem = {
         url: '/',
-        name
+        name,
+        translateName: 'home'
       };
       this.routes.push(initialRoute);
     }

@@ -36,6 +36,7 @@ export class AdminUsersComponent implements OnInit {
       const navItem = {
         url: 'points',
         name,
+        translateName: 'points',
         navExtras
       };
       this.navigationService.notifyAboutNavItem(navItem);

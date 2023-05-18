@@ -4,7 +4,7 @@
       mat-button
       (click)="navigateToNavItem(i)"
       class="nav-btn">
-      {{ route.name }}
+      {{ 'navigation.' + route.translateName | translate }}
     </button>
     <mat-icon *ngIf="i < routes.length - 1">chevron_right</mat-icon>
   </div>

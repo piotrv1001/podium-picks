@@ -94,7 +94,8 @@
     },
     "predictions": {
       "created": "Created predictions!",
-      "updated": "Updated predictions!"
+      "updated": "Updated predictions!",
+      "noPredictions": "No predictions"
     }
   },
   "error": {
