@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
   }
 
   handleLeaveGroupClick(groupId: number): void {
-    if(this.userId) {
+    if(this.userId != null) {
       this.groupService.removeUserFromGroup(groupId, this.userId).subscribe((group) => {
         const groupIndex = this.groups.findIndex(mGroup => mGroup.id === group.id);
         if(groupIndex >= 0) {

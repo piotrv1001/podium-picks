@@ -25,6 +25,7 @@ export class RaceListComponent implements OnInit {
   groupId?: number;
   seasonId?: number;
   isAdmin?: number | null;
+  userId?: number;
   userId2Stats: Map<number, Stats> = new Map<number, Stats>();
   dataArray: [number, Stats][] = [];
   userId2Users: Map<number, User> = new Map<number, User>();
@@ -41,12 +42,17 @@ export class RaceListComponent implements OnInit {
     public dialog: MatDialog,
     private snackBar: MatSnackBar,
     private navigationService: NavigationService,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    private localStorageService: LocalStorageService) {
       this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
       this.seasonId = this.router.getCurrentNavigation()?.extras?.state?.["seasonId"];
     }
 
   ngOnInit(): void {
+    const userId = this.localStorageService.getUserId();
+    if(userId) {
+      this.userId = userId;
+    }
     const isAdmin = this.localStorageServie.getIsAdmin();
     this.isAdmin = isAdmin;
     this.getRaces();
