@@ -86,6 +86,7 @@ export class RaceListComponent implements OnInit {
       const navItem = {
         url: 'drivers',
         name,
+        translateName: 'predictions',
         navExtras
       };
       this.navigationService.notifyAboutNavItem(navItem);
@@ -100,6 +101,7 @@ export class RaceListComponent implements OnInit {
       const navItem = {
         url: 'results',
         name,
+        translateName: 'results',
         navExtras
       };
       this.navigationService.notifyAboutNavItem(navItem);
@@ -114,6 +116,7 @@ export class RaceListComponent implements OnInit {
       const navItem = {
         url: 'groups',
         name,
+        translateName: 'groups',
         navExtras
       };
       this.navigationService.notifyAboutNavItem(navItem);

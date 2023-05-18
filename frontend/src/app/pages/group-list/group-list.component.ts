@@ -26,6 +26,7 @@ export class GroupListComponent {
     const navItem = {
       url: 'seasons',
       name,
+      translateName: 'seasons',
       navExtras
     };
     this.navigationService.notifyAboutNavItem(navItem);

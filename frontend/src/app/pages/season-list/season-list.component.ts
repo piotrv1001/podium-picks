@@ -33,6 +33,7 @@ export class SeasonListComponent implements OnInit {
     const navItem = {
       url: 'races',
       name,
+      translateName: 'races',
       navExtras
     };
     this.navigationService.notifyAboutNavItem(navItem);

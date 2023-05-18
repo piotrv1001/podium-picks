@@ -1,3 +1,10 @@
 .users {
   margin-top: 1rem;
+  width: calc(20vw + 2rem);
+}
+
+@media (max-width: 1200px) {
+  .users {
+    width: calc(80vw + 2rem);
+  }
 }

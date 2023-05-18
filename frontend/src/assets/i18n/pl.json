@@ -94,7 +94,8 @@
     },
     "predictions": {
       "created": "Stworzono prognozy!",
-      "updated": "Zapisano prognozy!"
+      "updated": "Zapisano prognozy!",
+      "noPredictions": "Brak prognoz"
     }
   },
   "error": {
