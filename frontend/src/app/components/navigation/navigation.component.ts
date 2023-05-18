@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { NavigationExtras, Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { NavigationService } from "src/app/services/navigation.service";
@@ -15,7 +15,7 @@ export interface NavItem {
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss']
 })
-export class NavigationComponent implements OnInit {
+export class NavigationComponent implements OnInit, OnDestroy {
 
   routes: NavItem[] = [];
 
@@ -31,6 +31,11 @@ export class NavigationComponent implements OnInit {
         this.initializeRoutes();
       }
       this.getNavItems();
+    }
+
+    ngOnDestroy(): void {
+      this.routes = [];
+      localStorage.removeItem('routes');
     }
 
     private initializeRoutes(): void {

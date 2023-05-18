@@ -20,10 +20,10 @@
         </div>
       </div>
       <div *ngIf="isPointsUpdate" class="point-btn-row">
-        <button class="point-btn" mat-raised-button [disabled]="pointArray[i] > 0.5" (click)="pointsChanged(i, true)">+</button>
         <button class="point-btn" mat-raised-button [disabled]="pointArray[i] < 0.5" (click)="pointsChanged(i, false)">-</button>
+        <button class="point-btn" mat-raised-button [disabled]="pointArray[i] > 0.5" (click)="pointsChanged(i, true)">+</button>
       </div>
-      <div class="divider"></div>
+      <div *ngIf="i !== drivers.length - 1" class="divider"></div>
     </div>
   </div>
 </div>

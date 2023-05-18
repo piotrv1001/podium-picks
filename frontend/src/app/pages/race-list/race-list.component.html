@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let data of dataArray; let i = index">
+        <tr *ngFor="let data of dataArray; let i = index" [ngClass]="{'current-user': data[0] === userId}">
           <td class="lp">{{ i + 1 }}</td>
           <td>{{ userId2Users.get(data[0])?.username }}</td>
           <td class="optional">{{ data[1].min | toFixedString:2}}</td>
@@ -25,8 +25,19 @@
   </div>
   <div class="filter-row" *ngIf="races.length > 0">
     <mat-form-field class="search-field">
-      <input matInput type="text" placeholder="{{ 'race.search' | translate }}" [(ngModel)]="query" (ngModelChange)="onSearchQueryChange($event)"/>
-      <button *ngIf="query; else emptySpace" matSuffix mat-icon-button aria-label="Clear" (click)="resetSearch()">
+      <input
+        matInput
+        type="text"
+        placeholder="{{ 'race.search' | translate }}"
+        [(ngModel)]="query"
+        (ngModelChange)="onSearchQueryChange($event)"
+        [disabled]="showNextRaceOnly"/>
+      <button *ngIf="query; else emptySpace"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="resetSearch()"
+        [disabled]="showNextRaceOnly">
         <mat-icon>close</mat-icon>
       </button>
       <ng-template #emptySpace>
@@ -35,7 +46,11 @@
         </button>
       </ng-template>
     </mat-form-field>
-    <mat-checkbox class="next-race-checkbox" color="primary" [(ngModel)]="showNextRaceOnly" (ngModelChange)="nextRaceOnly()">{{ 'race.nextRace' | translate }}</mat-checkbox>
+    <mat-checkbox
+      class="next-race-checkbox"
+      color="primary"
+      [(ngModel)]="showNextRaceOnly"
+      (ngModelChange)="nextRaceOnly()">{{ 'race.nextRace' | translate }}</mat-checkbox>
   </div>
   <div *ngIf="races.length > 0; else noRaces" class="race-list">
     <app-race *ngFor="let race of filteredRaces"
