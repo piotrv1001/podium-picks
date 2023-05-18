@@ -26,7 +26,10 @@ export class NavigationComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-      this.initializeRoutes();
+      this.getRoutesAfterRefresh();
+      if(this.routes.length === 0) {
+        this.initializeRoutes();
+      }
       this.getNavItems();
     }
 
@@ -39,21 +42,44 @@ export class NavigationComponent implements OnInit {
         translateName: 'home'
       };
       this.routes.push(initialRoute);
+      this.updateStorageRoutes();
     }
 
     navigateToNavItem(index: number): void {
       const navItem = this.routes[index];
       this.routes = this.routes.slice(0, index + 1);
+      this.updateStorageRoutes();
       this.router.navigate([navItem.url], navItem.navExtras);
     }
 
     private getNavItems(): void {
       this.navigationService.getNavItemObservable().subscribe(navItem => {
         this.routes.push(navItem);
+        this.updateStorageRoutes();
       });
       this.navigationService.getResetObservable().subscribe(() => {
         this.initializeRoutes();
       });
+    }
+
+    private getRoutesAfterRefresh(): void {
+      const routesFromStorage = localStorage.getItem('routes');
+      if(routesFromStorage !== null) {
+        try {
+          this.routes = JSON.parse(routesFromStorage);
+        } catch(error) {
+          console.log(error);
+        }
+      }
+    }
+
+    private updateStorageRoutes(): void {
+      try {
+        const routeString = JSON.stringify(this.routes);
+        localStorage.setItem('routes', routeString);
+      } catch(error) {
+        console.log(error);
+      }
     }
 
 }
