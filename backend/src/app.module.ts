@@ -9,9 +9,6 @@ import { TeamModule } from './team/team.module';
 import { DriverModule } from './driver/driver.module';
 import { RaceModule } from './race/race.module';
 import { GroupModule } from './group/group.module';
-import { PredictionModule } from './prediction/prediction.module';
-import { ResultModule } from './result/result.module';
-import { ScoreModule } from './score/score.module';
 import { Prediction } from './prediction/prediction.entity';
 import { Score } from './score/score.entity';
 import { Result } from './result/result.entity';
@@ -25,6 +22,7 @@ import { BonusStatDictModule } from './bonus-stat-dict/bonus-stat-dict.module';
 import { BonusStat } from './bonus-stat/bonus-stat.entity';
 import { BonusStatDict } from './bonus-stat-dict/bonus-stat-dict.entity';
 import { BonusStatModule } from './bonus-stat/bonus-stat.module';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -61,9 +59,7 @@ import { BonusStatModule } from './bonus-stat/bonus-stat.module';
     DriverModule,
     RaceModule,
     GroupModule,
-    PredictionModule,
-    ResultModule,
-    ScoreModule,
+    SharedModule,
     SeasonModule,
     BonusStatDictModule,
     BonusStatModule,

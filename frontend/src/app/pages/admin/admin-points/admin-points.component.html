@@ -1,18 +1,41 @@
-<div *ngIf="drivers.length > 0; else noPredictions">
-  <button
-    class="save-btn"
-    mat-raised-button
-    color="primary"
-    (click)="handleSavePointsBtnClick()"
-    [disabled]="!madeChanges">{{ 'race.save' | translate }}</button>
-  <app-driver-drag-drop
-    [drivers]="drivers"
-    [scoreArray]="scores"
-    [isEditable]="false"
-    [isPointsUpdate]="true"
-    (scoresChanged)="handleScoreUpdate($event)">
-  </app-driver-drag-drop>
+<div>
+  <mat-tab-group #tabGroup>
+    <mat-tab label="{{ 'navigation.predictions' | translate }}">
+      <button
+        class="save-btn"
+        mat-raised-button
+        color="primary"
+        (click)="handlePredictionSaveBtnClick()"
+        [disabled]="!madeChanges"
+      >
+        {{ "race.save" | translate }}
+      </button>
+      <app-driver-drag-drop
+        [drivers]="drivers"
+        [isEditable]="true"
+        [isPointsUpdate]="false"
+        (dropped)="handleDriverDragDrop($event)"
+      >
+      </app-driver-drag-drop>
+    </mat-tab>
+    <mat-tab label="{{ 'navigation.points' | translate }}">
+      <button
+        class="save-btn"
+        mat-raised-button
+        color="primary"
+        (click)="handleSavePointsBtnClick()"
+        [disabled]="!madeChanges"
+      >
+        {{ "race.save" | translate }}
+      </button>
+      <app-driver-drag-drop
+        [drivers]="drivers"
+        [scoreArray]="scores"
+        [isEditable]="false"
+        [isPointsUpdate]="true"
+        (scoresChanged)="handleScoreUpdate($event)"
+      >
+      </app-driver-drag-drop>
+    </mat-tab>
+  </mat-tab-group>
 </div>
-<ng-template #noPredictions>
-  <div class="no-predictions">{{ 'race.predictions.noPredictions' | translate }}</div>
-</ng-template>
