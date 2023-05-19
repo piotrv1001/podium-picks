@@ -62,4 +62,19 @@ export class SeasonService {
   async delete(id: number): Promise<void> {
     await this.seasonRepository.delete(id);
   }
+
+  async initSeasons(): Promise<Season[]> {
+    const seasons = await this.seasonRepository.find();
+    if (seasons.length > 1) {
+      return seasons;
+    }
+    const newSeasons: Season[] = [];
+    const season2023 = new Season();
+    season2023.name = '2023';
+    newSeasons.push(await this.seasonRepository.save(season2023));
+    const season2024 = new Season();
+    season2023.name = '2024';
+    newSeasons.push(await this.seasonRepository.save(season2024));
+    return newSeasons;
+  }
 }
