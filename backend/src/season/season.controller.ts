@@ -6,6 +6,11 @@ import { Season } from './season.entity';
 export class SeasonController {
   constructor(private readonly seasonService: SeasonService) {}
 
+  @Post('init')
+  initRaces(): Promise<Season[]> {
+    return this.seasonService.initSeasons();
+  }
+
   @Post()
   create(@Request() req): Promise<Season> {
     return this.seasonService.create(req.body);
