@@ -38,11 +38,15 @@ export class PredictionController {
       if (results.length > 0) {
         const groupId = predictionDtoArray?.[0]?.groupId;
         if (groupId != null) {
-          const scores = await this.scoreService.calculateScoresForRaceForGroup(
+          let scores = await this.scoreService.calculateScoresForRaceForGroup(
             raceId,
             groupId,
             results,
           );
+          const userId = predictionDtoArray?.[0]?.userId;
+          if (userId != null) {
+            scores = scores.filter((score) => score.userId == userId);
+          }
           return { predictions, scores };
         }
       }
@@ -67,11 +71,15 @@ export class PredictionController {
       if (results.length > 0) {
         const groupId = predictionDtoArray?.[0]?.groupId;
         if (groupId != null) {
-          const scores = await this.scoreService.calculateScoresForRaceForGroup(
+          let scores = await this.scoreService.calculateScoresForRaceForGroup(
             raceId,
             groupId,
             results,
           );
+          const userId = predictionDtoArray?.[0]?.userId;
+          if (userId != null) {
+            scores = scores.filter((score) => score.userId == userId);
+          }
           return { predictions, scores };
         }
       }
