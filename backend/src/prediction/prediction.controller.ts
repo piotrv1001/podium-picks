@@ -10,14 +10,44 @@ import {
 } from '@nestjs/common';
 import { PredictionService } from './prediction.service';
 import { Prediction } from './prediction.entity';
+import { ResultService } from 'src/result/result.service';
+import { ScoreService } from 'src/score/score.service';
+import { Score } from 'src/score/score.entity';
+
+type PredictionOutput =
+  | Prediction[]
+  | { predictions: Prediction[]; scores: Score[] };
 
 @Controller('predictions')
 export class PredictionController {
-  constructor(private readonly predictionService: PredictionService) {}
+  constructor(
+    private readonly predictionService: PredictionService,
+    private readonly resultService: ResultService,
+    private readonly scoreService: ScoreService,
+  ) {}
 
   @Post('createMany')
-  createMany(@Request() req): Promise<Prediction[]> {
-    return this.predictionService.createMany(req.body);
+  async createMany(@Request() req): Promise<PredictionOutput> {
+    const predictionDtoArray = req.body;
+    const predictions = await this.predictionService.createMany(
+      predictionDtoArray,
+    );
+    const raceId = predictionDtoArray?.[0]?.raceId;
+    if (raceId != null) {
+      const results = await this.resultService.getByRaceId(raceId);
+      if (results.length > 0) {
+        const groupId = predictionDtoArray?.[0]?.groupId;
+        if (groupId != null) {
+          const scores = await this.scoreService.calculateScoresForRaceForGroup(
+            raceId,
+            groupId,
+            results,
+          );
+          return { predictions, scores };
+        }
+      }
+    }
+    return predictions;
   }
 
   @Post()
@@ -26,8 +56,27 @@ export class PredictionController {
   }
 
   @Put('updateMany')
-  updateMany(@Request() req): Promise<Prediction[]> {
-    return this.predictionService.updateMany(req.body);
+  async updateMany(@Request() req): Promise<PredictionOutput> {
+    const predictionDtoArray = req.body;
+    const predictions = await this.predictionService.updateMany(
+      predictionDtoArray,
+    );
+    const raceId = predictionDtoArray?.[0]?.raceId;
+    if (raceId != null) {
+      const results = await this.resultService.getByRaceId(raceId);
+      if (results.length > 0) {
+        const groupId = predictionDtoArray?.[0]?.groupId;
+        if (groupId != null) {
+          const scores = await this.scoreService.calculateScoresForRaceForGroup(
+            raceId,
+            groupId,
+            results,
+          );
+          return { predictions, scores };
+        }
+      }
+    }
+    return predictions;
   }
 
   @Get(':groupId/races/:raceId/predictions')

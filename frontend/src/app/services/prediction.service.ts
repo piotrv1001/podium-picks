@@ -4,6 +4,11 @@ import { Injectable } from "@angular/core";
 import { Prediction } from '../model/entities/prediction.model';
 import { PredictionDTO } from '../model/dto/prediction.dto';
 import { BASE_URL } from '../app.constants';
+import { Score } from '../model/entities/score.model';
+
+export type PredictionOutput =
+  | Prediction[]
+  | { predictions: Prediction[]; scores: Score[] };
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +19,12 @@ export class PredictionService {
 
   constructor(private http: HttpClient) {}
 
-  createMany(predictionDtoArray: PredictionDTO[]): Observable<Prediction[]> {
-    return this.http.post<Prediction[]>(`${BASE_URL}/${this.PREDICTION_ROUTE}/createMany`, predictionDtoArray);
+  createMany(predictionDtoArray: PredictionDTO[]): Observable<PredictionOutput> {
+    return this.http.post<PredictionOutput>(`${BASE_URL}/${this.PREDICTION_ROUTE}/createMany`, predictionDtoArray);
   }
 
-  updateMany(predictionArray: Prediction[]): Observable<Prediction[]> {
-    return this.http.put<Prediction[]>(`${BASE_URL}/${this.PREDICTION_ROUTE}/updateMany`, predictionArray);
+  updateMany(predictionArray: Prediction[]): Observable<PredictionOutput> {
+    return this.http.put<PredictionOutput>(`${BASE_URL}/${this.PREDICTION_ROUTE}/updateMany`, predictionArray);
   }
 
   getByUserAndRaceAndGroup(userId: number, raceId: number, groupId: number): Observable<Prediction[]> {

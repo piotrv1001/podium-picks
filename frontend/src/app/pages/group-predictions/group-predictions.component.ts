@@ -7,7 +7,7 @@ import { Race } from 'src/app/model/entities/race.model';
 import { CustomDate } from 'src/app/model/types/custom-date';
 import { DriverService } from 'src/app/services/driver.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
-import { PredictionService } from 'src/app/services/prediction.service';
+import { PredictionOutput, PredictionService } from 'src/app/services/prediction.service';
 import { RaceService } from 'src/app/services/race.service';
 import { DateUtilService } from 'src/app/shared/util/date-util.service';
 import { firstValueFrom } from 'rxjs';
@@ -228,8 +228,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
         let predictions = this.userId2UserData.get(this.userId)?.predictions
         if(predictions) {
           this.predictionService.updateMany(predictions).subscribe({
-            next: (updatedPredictions) => {
-              this.userDataPartialUpdate(this.userId!, { predictions: updatedPredictions });
+            next: (updatedPredictions: PredictionOutput) => {
+              if(this.isArrayOfPredictions(updatedPredictions)) {
+                this.userDataPartialUpdate(this.userId!, { predictions: updatedPredictions });
+              }
               const confirmedDrivers = this.userId2UserData.get(this.userId!)?.confirmedDrivers;
               if(confirmedDrivers) {
                 this.userDataPartialUpdate(this.userId!, { confirmedDrivers: { drivers: confirmedDrivers.drivers, confirmed: true } });
@@ -269,8 +271,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       });
       if(this.userId !== undefined) {
         this.predictionService.createMany(newPredictionArray).subscribe({
-          next: (newPredictions: Prediction[]) => {
-            this.userDataPartialUpdate(this.userId!, { predictions: newPredictions });
+          next: (newPredictions: PredictionOutput) => {
+            if(this.isArrayOfPredictions(newPredictions)) {
+              this.userDataPartialUpdate(this.userId!, { predictions: newPredictions });
+            }
             this.userDataPartialUpdate(this.userId!, { confirmedDrivers: { drivers, confirmed: true } });
             this.updateDataArray();
             const msg = this.translateService.instant('race.predictions.created');
@@ -464,6 +468,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
       if(this.tabGroup) {
         this.tabGroup.animationDuration = `${ms}ms`;
       }
+    }
+
+    private isArrayOfPredictions(output: PredictionOutput): output is Prediction[] {
+      return Array.isArray(output);
     }
 
     private moveUserToFirst(users: DataArray): DataArray {
