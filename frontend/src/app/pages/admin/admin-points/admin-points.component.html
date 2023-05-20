@@ -6,10 +6,25 @@
         mat-raised-button
         color="primary"
         (click)="handlePredictionSaveBtnClick()"
-        [disabled]="!madeChanges"
+        [disabled]="!madePredictionChanges"
       >
         {{ "race.save" | translate }}
       </button>
+      <div class="space-between">
+        <mat-form-field appearance="fill" class="fl-dnf">
+          <mat-label class="big-screen">Fastest lap</mat-label>
+          <mat-label class="small-screen">FL</mat-label>
+          <mat-select [(ngModel)]="fastestLapDriver" (ngModelChange)="handleModelChange()">
+            <mat-option *ngFor="let driver of drivers" [value]="driver">{{ driver.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="fl-dnf">
+          <mat-label>DNF</mat-label>
+          <mat-select [(ngModel)]="dnfDriver" (ngModelChange)="handleModelChange()">
+            <mat-option *ngFor="let driver of drivers" [value]="driver">{{ driver.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <app-driver-drag-drop
         [drivers]="drivers"
         [isEditable]="true"
@@ -19,23 +34,58 @@
       </app-driver-drag-drop>
     </mat-tab>
     <mat-tab label="{{ 'navigation.points' | translate }}">
-      <button
-        class="save-btn"
-        mat-raised-button
-        color="primary"
-        (click)="handleSavePointsBtnClick()"
-        [disabled]="!madeChanges"
-      >
-        {{ "race.save" | translate }}
-      </button>
-      <app-driver-drag-drop
-        [drivers]="drivers"
-        [scoreArray]="scores"
-        [isEditable]="false"
-        [isPointsUpdate]="true"
-        (scoresChanged)="handleScoreUpdate($event)"
-      >
-      </app-driver-drag-drop>
+      <ng-container *ngIf="predictions.length > 0; else noPredictions">
+        <div class="remain-space">
+          <button
+            class="save-btn"
+            mat-raised-button
+            color="primary"
+            (click)="handleSavePointsBtnClick()"
+            [disabled]="!madePointChanges"
+          >
+            {{ "race.save" | translate }}
+          </button>
+          <span class="total">{{ total }}</span>
+        </div>
+        <div class="row">
+          <div class="flex-col purple">
+            <div class="fl-dnf-row">
+              <span class="gray-text big-screen m-bottom">Fastest lap</span>
+              <span class="gray-text small-screen m-bottom">FL</span>
+              <span class="gray-text m-bottom">{{ fastestLapPoints }}</span>
+            </div>
+            <span>{{ fastestLapDriver?.name ?? '-' }}</span>
+            <div class="point-btn-row">
+              <button class="point-btn" mat-raised-button [disabled]="fastestLapPoints < 0.5" (click)="fastestLapPointsChanged(false)">-</button>
+              <button class="point-btn" mat-raised-button [disabled]="fastestLapPoints > 0" (click)="fastestLapPointsChanged(true)">+</button>
+            </div>
+          </div>
+          <div class="flex-col gray">
+            <div class="fl-dnf-row">
+              <span class="gray-text m-bottom">DNF</span>
+              <span class="gray-text m-bottom">{{ dnfPoints }}</span>
+            </div>
+            <span>{{ dnfDriver?.name ?? '-' }}</span>
+            <div class="point-btn-row">
+              <button class="point-btn" mat-raised-button [disabled]="dnfPoints < 0.5" (click)="dnfPointsChanged(false)">-</button>
+              <button class="point-btn" mat-raised-button [disabled]="dnfPoints > 0" (click)="dnfPointsChanged(true)">+</button>
+            </div>
+          </div>
+        </div>
+        <app-driver-drag-drop
+          [drivers]="drivers"
+          [scoreArray]="scores"
+          [isEditable]="false"
+          [isPointsUpdate]="true"
+          (scoresChanged)="handleScoreUpdate($event)"
+        >
+        </app-driver-drag-drop>
+      </ng-container>
+      <ng-template #noPredictions>
+        <div class="no-predictions">
+          {{ "race.predictions.noPredictions" | translate }}
+        </div>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 </div>

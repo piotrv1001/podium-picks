@@ -52,7 +52,7 @@ export class DriverDragDropComponent implements OnInit, OnChanges {
       const score = this.scoreArray[index];
       if(score && score.points != null) {
         this.madeChanges = true;
-        this.raceEventService.notifyAboutMadeChanges(true);
+        // this.raceEventService.notifyAboutMadeChanges(true);
         if(increment) {
           score.points = Number(score.points) + 0.5;
         } else {

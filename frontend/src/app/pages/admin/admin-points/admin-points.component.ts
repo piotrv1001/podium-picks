@@ -13,6 +13,11 @@ import { DragDropEvent } from "src/app/model/types/drag-drop-event";
 import { MatTabGroup } from "@angular/material/tabs";
 import { ERROR_MSG } from "src/app/app.constants";
 import { PredictionDTO } from "src/app/model/dto/prediction.dto";
+import { BonusStatService } from "src/app/services/bonus-stat.service";
+import { BonusStatEnum } from "src/app/model/types/bonus-stat-enum";
+import { BonusStatDTO } from "src/app/model/dto/bonus-stat.dto";
+import { BonusStat } from "src/app/model/entities/bonus-stat.model";
+import { firstValueFrom } from "rxjs";
 
 @Component({
   selector: 'app-admin-points',
@@ -29,7 +34,15 @@ export class AdminPointsComponent implements OnInit {
   predictions: Prediction[] = [];
   drivers: Driver[] = [];
   updatedScores: Score[] = [];
-  madeChanges: boolean = false;
+  total: number = 0;
+  fastestLapDriver?: Driver;
+  dnfDriver?: Driver;
+  fastestLapPoints: number = 0;
+  dnfPoints: number = 0;
+  driverObj: { [id: number]: Driver } = {};
+  madePredictionChanges: boolean = false;
+  madePointChanges: boolean = false;
+  bonusArray: BonusStat[] = [];
 
   constructor(
     private router: Router,
@@ -38,7 +51,8 @@ export class AdminPointsComponent implements OnInit {
     private snackBar: MatSnackBar,
     private raceEventService: RaceEventService,
     public translateService: TranslateService,
-    private driverService: DriverService
+    private driverService: DriverService,
+    private bonusStatService: BonusStatService
   ) {
     const navState = this.router.getCurrentNavigation()?.extras?.state
     this.raceId = navState?.["raceId"];
@@ -51,15 +65,17 @@ export class AdminPointsComponent implements OnInit {
     this.getDrivers();
     this.getScores();
     this.getPredictions();
+    this.getBonusStats();
   }
 
-  handlePredictionSaveBtnClick(): void {
+  async handlePredictionSaveBtnClick(): Promise<void> {
     let drivers = this.raceEventService.getDrivers();
     if(drivers.length === 0) {
       drivers = this.drivers;
     }
     this.setTabAnimationDuration(0);
     if(this.userId !== undefined) {
+      await this.saveBonusStats();
       const isUpdate = this.predictions.length !== 0;
       if(isUpdate) {
         this.updatePredictions();
@@ -73,11 +89,18 @@ export class AdminPointsComponent implements OnInit {
   }
 
   handleScoreUpdate(score: Score): void {
+    this.madePointChanges = true;
     this.updatedScores.push(score);
+    this.calculateTotal();
   }
 
   handleSavePointsBtnClick(): void {
     this.updateScores();
+    this.saveBonusStats();
+  }
+
+  handleModelChange(): void {
+    this.madePredictionChanges = true;
   }
 
   handleDriverDragDrop(dragDropEvent: DragDropEvent): void {
@@ -96,6 +119,115 @@ export class AdminPointsComponent implements OnInit {
     }
   }
 
+  fastestLapPointsChanged(increment: boolean): void {
+    this.fastestLapPoints += increment ? 0.5 : -0.5;
+    this.calculateTotal();
+    this.madePointChanges = true;
+  }
+
+  dnfPointsChanged(increment: boolean): void {
+    this.dnfPoints += increment ? 0.5 : -0.5;
+    this.calculateTotal();
+    this.madePointChanges = true;
+  }
+
+  private getBonusStats(): void {
+    if(this.raceId !== undefined && this.groupId !== undefined && this.userId !== undefined) {
+      this.bonusStatService.getByRaceGroupUser(this.raceId, this.groupId, this.userId).subscribe(bonusStats => {
+        this.bonusArray = bonusStats;
+        this.assignBonusStats();
+      });
+    }
+  }
+
+  private async saveBonusStats(): Promise<void> {
+    const isUpdate = this.bonusArray.length > 0;
+    if(this.userId !== undefined && isUpdate) {
+      const fastestLapStat = this.bonusArray.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.FASTEST_LAP);
+      if(fastestLapStat) {
+        fastestLapStat.driver = this.fastestLapDriver;
+        fastestLapStat.points = this.fastestLapPoints;
+      }
+      const dnfStat = this.bonusArray.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.DNF);
+      if(dnfStat) {
+        dnfStat.driver = this.dnfDriver;
+        dnfStat.points = this.dnfPoints;
+      }
+      const bonusStats = await firstValueFrom(this.bonusStatService.updateMany(this.bonusArray));
+      this.bonusArray = bonusStats;
+      this.assignBonusStats();
+      this.calculateTotal();
+    } else {
+      if(this.raceId !== undefined && this.groupId !== undefined && this.userId !== undefined) {
+        const fastestLapDriver = this.fastestLapDriver;
+        const dnfDriver = this.dnfDriver;
+        if(fastestLapDriver && fastestLapDriver.id !== undefined && dnfDriver && dnfDriver.id !== undefined) {
+          const fastestLapBonusStat = new BonusStatDTO(
+            BonusStatEnum.FASTEST_LAP,
+            this.raceId,
+            this.groupId,
+            this.userId,
+            fastestLapDriver.id
+          );
+          const dnfBonusStat = new BonusStatDTO(
+            BonusStatEnum.DNF,
+            this.raceId,
+            this.groupId,
+            this.userId,
+            dnfDriver.id
+          );
+          const bonusStats = await firstValueFrom(this.bonusStatService.createMany([fastestLapBonusStat, dnfBonusStat]));
+          this.bonusArray = bonusStats;
+          this.assignBonusStats();
+          this.calculateTotal();
+        }
+      }
+    }
+  }
+
+  private assignBonusStats(): void {
+    const fastestLapStat = this.bonusArray.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.FASTEST_LAP);
+    if(fastestLapStat && fastestLapStat.driverId !== undefined) {
+      this.fastestLapDriver = this.driverObj[fastestLapStat.driverId];
+      let fastestLapPoints = fastestLapStat.points;
+      if(typeof fastestLapPoints === 'string') {
+        fastestLapPoints = parseFloat(fastestLapPoints);
+      }
+      this.fastestLapPoints = fastestLapPoints ?? 0;
+      const total = this.total;
+      if(total !== undefined && fastestLapPoints !== undefined) {
+        const newTotal = total + fastestLapPoints;
+        this.total = newTotal;
+      } else {
+        this.total = fastestLapPoints ?? 0;
+      }
+    }
+    const dnfStat = this.bonusArray.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.DNF);
+    if(dnfStat && dnfStat.driverId !== undefined) {
+      this.dnfDriver = this.driverObj[dnfStat.driverId];
+      let dnfPoints = dnfStat.points;
+      if(typeof dnfPoints === 'string') {
+        dnfPoints = parseFloat(dnfPoints);
+      }
+      this.dnfPoints = dnfPoints ?? 0;
+      const total = this.total;
+      if(total !== undefined && dnfPoints !== undefined) {
+        const newTotal = total + dnfPoints;
+        this.total = newTotal;
+      } else {
+        this.total = dnfPoints ?? 0;
+      }
+    }
+  }
+
+  private driverArrayToObj(): void {
+    this.drivers.forEach((driver) => {
+      if(driver.id !== undefined) {
+        this.driverObj[driver.id] = driver;
+      }
+    });
+  }
+
   private updatePredictions(): void {
     if(this.userId !== undefined) {
       const predictions = this.predictions
@@ -108,6 +240,7 @@ export class AdminPointsComponent implements OnInit {
               this.predictions = updatedPredictions.predictions;
               this.scores = updatedPredictions.scores;
             }
+            this.calculateTotal();
             const msg = this.translateService.instant('race.predictions.updated');
             this.showSnackBar(msg);
             this.notifyAboutMadeChanges(false);
@@ -149,6 +282,7 @@ export class AdminPointsComponent implements OnInit {
             this.predictions = newPredictions.predictions;
             this.scores = newPredictions.scores;
           }
+          this.calculateTotal();
           const msg = this.translateService.instant('race.predictions.created');
           this.showSnackBar(msg);
           this.notifyAboutMadeChanges(false);
@@ -165,7 +299,7 @@ export class AdminPointsComponent implements OnInit {
 
   private getMadeChanges(): void {
     this.raceEventService.getMadeChangesObservable().subscribe(madeChanges => {
-      this.madeChanges = madeChanges;
+      this.madePredictionChanges = madeChanges;
     });
   }
 
@@ -173,7 +307,23 @@ export class AdminPointsComponent implements OnInit {
     if(this.userId != null && this.groupId != null && this.raceId != null) {
       this.scoreService.getByUserGroupRace(this.userId, this.groupId, this.raceId).subscribe(scores => {
         this.scores = scores;
+        this.calculateTotal();
       });
+    }
+  }
+
+  private calculateTotal(): void {
+    this.total = this.fastestLapPoints + this.dnfPoints;
+    if(this.scores.length > 0) {
+      for(const score of this.scores) {
+        if(score.points !== undefined) {
+          if(typeof score.points === 'string') {
+            this.total += parseFloat(score.points);
+          } else {
+            this.total += score.points;
+          }
+        }
+      }
     }
   }
 
@@ -183,6 +333,7 @@ export class AdminPointsComponent implements OnInit {
         this.predictions = predictions;
         if(predictions.length > 0) {
           this.drivers = predictions.map(prediction => prediction.driver!);
+          this.driverArrayToObj();
         }
       });
     }
@@ -192,6 +343,7 @@ export class AdminPointsComponent implements OnInit {
     this.driverService.getAllDrivers().subscribe(drivers => {
       if(this.drivers.length === 0) {
         this.drivers = drivers;
+        this.driverArrayToObj();
       }
     });
   }
@@ -202,6 +354,7 @@ export class AdminPointsComponent implements OnInit {
         const msg = this.translateService.instant('race.points.updated');
         this.showSnackBar(msg);
         this.raceEventService.notifyAboutMadeChanges(false);
+        this.madePointChanges = false;
       },
       error: (error: Error) => {
         this.showSnackBar(error.message);
