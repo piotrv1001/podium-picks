@@ -206,7 +206,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
               this.userId,
               dnfDriver.id
             );
-            this.bonusStatService.updateMany([fastestLapBonusStat, dnfBonusStat]).subscribe();
+            this.bonusStatService.createMany([fastestLapBonusStat, dnfBonusStat]).subscribe();
           }
         }
       }
