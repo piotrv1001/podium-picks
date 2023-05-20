@@ -239,6 +239,11 @@ export class AdminPointsComponent implements OnInit {
             } else {
               this.predictions = updatedPredictions.predictions;
               this.scores = updatedPredictions.scores;
+              const bonusStats = updatedPredictions?.bonusStats;
+              if(bonusStats) {
+                this.bonusArray = bonusStats;
+                this.assignBonusStats();
+              }
             }
             this.calculateTotal();
             const msg = this.translateService.instant('race.predictions.updated');
@@ -281,6 +286,11 @@ export class AdminPointsComponent implements OnInit {
           } else {
             this.predictions = newPredictions.predictions;
             this.scores = newPredictions.scores;
+            const bonusStats = newPredictions?.bonusStats;
+              if(bonusStats) {
+                this.bonusArray = bonusStats;
+                this.assignBonusStats();
+              }
           }
           this.calculateTotal();
           const msg = this.translateService.instant('race.predictions.created');

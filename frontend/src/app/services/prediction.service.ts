@@ -5,10 +5,11 @@ import { Prediction } from '../model/entities/prediction.model';
 import { PredictionDTO } from '../model/dto/prediction.dto';
 import { BASE_URL } from '../app.constants';
 import { Score } from '../model/entities/score.model';
+import { BonusStat } from '../model/entities/bonus-stat.model';
 
 export type PredictionOutput =
   | Prediction[]
-  | { predictions: Prediction[]; scores: Score[] };
+  | { predictions: Prediction[]; scores: Score[]; bonusStats?: BonusStat[]; };
 
 @Injectable({
   providedIn: 'root'
