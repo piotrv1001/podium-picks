@@ -11,12 +11,13 @@ import {
 import { PredictionService } from './prediction.service';
 import { Prediction } from './prediction.entity';
 import { ResultService } from 'src/result/result.service';
-import { ScoreService } from 'src/score/score.service';
+import { ScoreOutput, ScoreService } from 'src/score/score.service';
 import { Score } from 'src/score/score.entity';
+import { BonusStat } from 'src/bonus-stat/bonus-stat.entity';
 
 type PredictionOutput =
   | Prediction[]
-  | { predictions: Prediction[]; scores: Score[] };
+  | { predictions: Prediction[]; scores: Score[]; bonusStats?: BonusStat[] };
 
 @Controller('predictions')
 export class PredictionController {
@@ -38,16 +39,25 @@ export class PredictionController {
       if (results.length > 0) {
         const groupId = predictionDtoArray?.[0]?.groupId;
         if (groupId != null) {
-          let scores = await this.scoreService.calculateScoresForRaceForGroup(
-            raceId,
-            groupId,
-            results,
-          );
+          const scoreOutput =
+            await this.scoreService.calculateScoresForRaceForGroup(
+              raceId,
+              groupId,
+              results,
+            );
+          let bonusStats;
+          let scores;
+          if (!this.isArrayOfScores(scoreOutput)) {
+            scores = scoreOutput.scores;
+            bonusStats = scoreOutput.bonusStats;
+          } else {
+            scores = scoreOutput;
+          }
           const userId = predictionDtoArray?.[0]?.userId;
           if (userId != null) {
             scores = scores.filter((score) => score.userId == userId);
           }
-          return { predictions, scores };
+          return { predictions, scores, bonusStats };
         }
       }
     }
@@ -71,16 +81,25 @@ export class PredictionController {
       if (results.length > 0) {
         const groupId = predictionDtoArray?.[0]?.groupId;
         if (groupId != null) {
-          let scores = await this.scoreService.calculateScoresForRaceForGroup(
-            raceId,
-            groupId,
-            results,
-          );
+          const scoreOutput =
+            await this.scoreService.calculateScoresForRaceForGroup(
+              raceId,
+              groupId,
+              results,
+            );
+          let bonusStats;
+          let scores;
+          if (!this.isArrayOfScores(scoreOutput)) {
+            scores = scoreOutput.scores;
+            bonusStats = scoreOutput.bonusStats;
+          } else {
+            scores = scoreOutput;
+          }
           const userId = predictionDtoArray?.[0]?.userId;
           if (userId != null) {
             scores = scores.filter((score) => score.userId == userId);
           }
-          return { predictions, scores };
+          return { predictions, scores, bonusStats };
         }
       }
     }
@@ -132,5 +151,9 @@ export class PredictionController {
   @Delete(':id')
   delete(@Param('id') id: number): Promise<void> {
     return this.predictionService.delete(id);
+  }
+
+  private isArrayOfScores(scoreOutput: ScoreOutput): scoreOutput is Score[] {
+    return Array.isArray(scoreOutput);
   }
 }

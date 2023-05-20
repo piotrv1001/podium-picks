@@ -17,6 +17,10 @@ export interface Stats {
   max: number;
 }
 
+export type ScoreOutput =
+  | Score[]
+  | { scores: Score[]; bonusStats: BonusStat[] };
+
 @Injectable()
 export class ScoreService {
   constructor(
@@ -121,7 +125,8 @@ export class ScoreService {
     raceId: number,
     groupId: number,
     results: Result[],
-  ): Promise<Score[]> {
+  ): Promise<ScoreOutput> {
+    const bonusStats: BonusStat[] = [];
     const scores: Score[] = [];
     const grouppedPredictions =
       await this.predictionService.getPredictionsByGroupAndRace(
@@ -151,7 +156,9 @@ export class ScoreService {
         const predictedFlDriverId = predictedFastestLap.driverId;
         const flPoints = predictedFlDriverId === fastestLapDriverId ? 0.5 : 0;
         predictedFastestLap.points = flPoints;
-        await this.bonusStatRepository.save(predictedFastestLap);
+        bonusStats.push(
+          await this.bonusStatRepository.save(predictedFastestLap),
+        );
       }
       const predictedDNF = await this.bonusStatRepository.findOne({
         where: {
@@ -167,7 +174,7 @@ export class ScoreService {
             ? 0.5
             : 0;
         predictedDNF.points = dnfPoints;
-        await this.bonusStatRepository.save(predictedDNF);
+        bonusStats.push(await this.bonusStatRepository.save(predictedDNF));
       }
     }
     for (let i = 0; i < results.length; i++) {
@@ -242,7 +249,7 @@ export class ScoreService {
         }
       }
     }
-    return scores;
+    return { scores, bonusStats };
   }
 
   async sumPointsByUserIdAndGroupIdAndSeasonId(
