@@ -42,7 +42,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
       this.routes = [];
       const name = this.translateService.instant('navigation.home');
       const initialRoute: NavItem = {
-        url: '/',
+        url: 'home',
         name,
         translateName: 'home'
       };

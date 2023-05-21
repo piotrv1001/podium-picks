@@ -67,6 +67,9 @@ export class AppComponent implements OnInit, OnDestroy {
     });
     this.authSub = this.authService.getAuthObs().subscribe(auth => {
       this.isAuthenticated = auth;
+      if(auth) {
+        this.navigateHome();
+      }
     });
   }
 
@@ -79,13 +82,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   navigateHome(): void {
     this.navigationService.notifyAboutReset();
-    this.router.navigate(['/']);
+    this.router.navigate(['home']);
   }
 
   logOut(): void {
     this.authService.logout().then(() => {
         this.isAuthenticated = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['home']);
       }
     );
   }

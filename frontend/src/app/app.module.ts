@@ -15,6 +15,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 // Components
 import { LoginComponent } from './pages/login/login.component';
@@ -39,6 +41,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MatMenuModule,
     MatTooltipModule,
     MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
