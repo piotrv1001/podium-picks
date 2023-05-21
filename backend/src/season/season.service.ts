@@ -73,7 +73,7 @@ export class SeasonService {
     season2023.name = '2023';
     newSeasons.push(await this.seasonRepository.save(season2023));
     const season2024 = new Season();
-    season2023.name = '2024';
+    season2024.name = '2024';
     newSeasons.push(await this.seasonRepository.save(season2024));
     return newSeasons;
   }
