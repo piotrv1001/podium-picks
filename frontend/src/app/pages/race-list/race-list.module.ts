@@ -6,6 +6,7 @@ import { RaceComponent } from 'src/app/components/race/race.component';
 import { UpdateRaceDialogComponent } from '../admin/update-race-dialog/update-race-dialog.component';
 import { TimePickerComponent } from 'src/app/components/time-picker/time-picker.component';
 import { TimeStringPipe } from 'src/app/pipes/time-string.pipe';
+import { TruncateTextDirective } from 'src/app/directives/truncate-text.directive';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { TimeStringPipe } from 'src/app/pipes/time-string.pipe';
     RaceComponent,
     UpdateRaceDialogComponent,
     TimePickerComponent,
-    TimeStringPipe
+    TimeStringPipe,
+    TruncateTextDirective
   ]
 })
 export class RaceListModule {
