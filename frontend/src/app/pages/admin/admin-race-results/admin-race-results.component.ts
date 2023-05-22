@@ -98,7 +98,7 @@ export class AdminRaceResultsComponent implements OnInit  {
   }
 
   private saveDnfAndFastestLap(): void {
-    if(this.raceId !== undefined && this.fastestLapDriver && this.dnfDrivers.length > 0) {
+    if(this.raceId !== undefined && this.fastestLapDriver) {
       const dnfDriverIds = this.dnfDrivers.map(dnfDriver => dnfDriver.id!);
       this.raceService.assignDnfDrivers(this.raceId, dnfDriverIds).subscribe();
       this.raceService.assignFastestLap(this.raceId, this.fastestLapDriver.id!).subscribe();
@@ -107,7 +107,7 @@ export class AdminRaceResultsComponent implements OnInit  {
 
   private getMadeChanges(): void {
     this.raceEventService.getMadeChangesObservable().subscribe(madeChanges => {
-      this.madeChanges = madeChanges && this.fastestLapDriver !== undefined && this.dnfDrivers.length > 0;
+      this.madeChanges = madeChanges && this.fastestLapDriver !== undefined;
     });
   }
 
