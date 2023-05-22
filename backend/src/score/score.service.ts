@@ -273,17 +273,28 @@ export class ScoreService {
     groupId: number,
     seasonId: number,
   ): Promise<Map<number, Stats>> {
-    const users = await this.scoreRepository.query(
-      `
-    SELECT DISTINCT userId
-    FROM score
-    WHERE groupId = ?`,
-      [groupId],
-    );
-
-    const userIds = users.map((user) => user.userId);
+    const group = await this.groupRepository.findOne({
+      relations: {
+        users: true,
+      },
+      where: {
+        id: groupId,
+      },
+    });
+    if (!group) {
+      throw new Error(`Group with ID ${groupId} not found`);
+    }
+    const userIds = group.users.map((user) => user.id);
     const resultMap = new Map<number, Stats>(
-      userIds.map((userId) => [userId, {}]),
+      userIds.map((userId) => [
+        userId,
+        {
+          max: 0,
+          min: 0,
+          total: 0,
+          avg: 0,
+        },
+      ]),
     );
     const scores = await this.scoreRepository
       .createQueryBuilder('s')
