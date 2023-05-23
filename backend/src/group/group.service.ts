@@ -105,7 +105,9 @@ export class GroupService {
     if (!group || !user) {
       return group;
     }
-    group.users.push(user);
+    if (!group.users.includes(user)) {
+      group.users.push(user);
+    }
     return this.groupRepository.save(group);
   }
 
