@@ -88,12 +88,18 @@ tr:hover {
   margin-right: 1rem;
 }
 
+@media (max-width: 1920px) {
+  .wrapper {
+    width: 80vw;
+  }
+}
+
 @media (max-width: 1200px) {
   .race-list {
     grid-template-columns: repeat(2, 1fr);
   }
   .wrapper {
-    width: 80vw;
+    width: 90vw;
   }
 }
 
