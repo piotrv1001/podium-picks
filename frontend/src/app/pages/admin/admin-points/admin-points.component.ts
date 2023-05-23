@@ -18,6 +18,7 @@ import { BonusStatEnum } from "src/app/model/types/bonus-stat-enum";
 import { BonusStatDTO } from "src/app/model/dto/bonus-stat.dto";
 import { BonusStat } from "src/app/model/entities/bonus-stat.model";
 import { firstValueFrom } from "rxjs";
+import { NavigationService } from "src/app/services/navigation.service";
 
 @Component({
   selector: 'app-admin-points',
@@ -52,7 +53,8 @@ export class AdminPointsComponent implements OnInit {
     private raceEventService: RaceEventService,
     public translateService: TranslateService,
     private driverService: DriverService,
-    private bonusStatService: BonusStatService
+    private bonusStatService: BonusStatService,
+    private navigationService: NavigationService
   ) {
     const navState = this.router.getCurrentNavigation()?.extras?.state
     this.raceId = navState?.["raceId"];
@@ -61,6 +63,7 @@ export class AdminPointsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.navigationService.notifyAboutInitRoute('points');
     this.getMadeChanges();
     this.getDrivers();
     this.getScores();

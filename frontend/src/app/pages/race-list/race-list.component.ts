@@ -46,11 +46,18 @@ export class RaceListComponent implements OnInit {
     private localStorageService: LocalStorageService) {
       this.groupId = this.router.getCurrentNavigation()?.extras?.state?.["groupId"];
       this.seasonId = this.router.getCurrentNavigation()?.extras?.state?.["seasonId"];
+      if(this.groupId !== undefined) {
+        localStorage.setItem('groupId', this.groupId.toString());
+      }
+      if(this.seasonId !== undefined) {
+        localStorage.setItem('seasonId', this.seasonId.toString());
+      }
     }
 
   ngOnInit(): void {
+    this.navigationService.notifyAboutInitRoute('races');
     const userId = this.localStorageService.getUserId();
-    if(userId) {
+    if(userId !== null) {
       this.userId = userId;
     }
     const isAdmin = this.localStorageServie.getIsAdmin();
@@ -146,7 +153,13 @@ export class RaceListComponent implements OnInit {
   }
 
   private getRaces(): void {
-    if(this.seasonId) {
+    if(this.seasonId === undefined) {
+      const seasonIdStr = localStorage.getItem('seasonId');
+      if(seasonIdStr) {
+        this.seasonId = Number(seasonIdStr);
+      }
+    }
+    if(this.seasonId !== undefined) {
       this.raceService.getAllRacesForSeason(this.seasonId).subscribe(races => {
         this.races = races;
         this.filteredRaces = [...this.races];
@@ -162,7 +175,19 @@ export class RaceListComponent implements OnInit {
   }
 
   private getGrouppedScores(): void {
-    if(this.groupId && this.seasonId) {
+    if(this.seasonId === undefined) {
+      const seasonIdStr = localStorage.getItem('seasonId');
+      if(seasonIdStr) {
+        this.seasonId = Number(seasonIdStr);
+      }
+    }
+    if(this.groupId === undefined) {
+      const groupIdStr = localStorage.getItem('groupId');
+      if(groupIdStr) {
+        this.groupId = Number(groupIdStr);
+      }
+    }
+    if(this.groupId !== undefined && this.seasonId !== undefined) {
       this.scoreService.getGrouppedTotalScores(this.groupId, this.seasonId).subscribe(scoreJSON => {
         this.userId2Stats = new Map<number, Stats>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
         this.dataArray = Array.from(this.userId2Stats).sort((a, b) => b[1].total - a[1].total);
@@ -171,7 +196,7 @@ export class RaceListComponent implements OnInit {
   }
 
   private getUsersByGroup(): void {
-    if(this.groupId) {
+    if(this.groupId !== undefined) {
       this.groupService.getUsersByGroup(this.groupId).subscribe({
         next: (users: User[]) => {
           users.forEach(user => {

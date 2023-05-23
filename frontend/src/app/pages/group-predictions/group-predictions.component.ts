@@ -27,6 +27,7 @@ import { UserData } from 'src/app/model/types/user-data';
 import { BonusStat } from 'src/app/model/entities/bonus-stat.model';
 import { BonusStatEnum } from 'src/app/model/types/bonus-stat-enum';
 import { BonusStatDTO } from 'src/app/model/dto/bonus-stat.dto';
+import { NavigationService } from 'src/app/services/navigation.service';
 
 type DataArray = [number, UserData][];
 
@@ -70,13 +71,21 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     private scoreService: ScoreService,
     private groupService: GroupService,
     public translateService: TranslateService,
-    private bonusStatService: BonusStatService) {
+    private bonusStatService: BonusStatService,
+    private navigationService: NavigationService) {
       const navState = this.router.getCurrentNavigation()?.extras?.state
       this.raceId = navState?.["raceId"];
       this.groupId = navState?.["groupId"];
+      if(this.groupId !== undefined) {
+        localStorage.setItem('groupId', this.groupId.toString());
+      }
+      if(this.raceId !== undefined) {
+        localStorage.setItem('raceId', this.raceId.toString());
+      }
     }
 
     ngOnInit(): void {
+      this.navigationService.notifyAboutInitRoute('drivers');
       this.getMadeChanges();
       this.getRace();
       this.getUserId();
@@ -133,6 +142,18 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getBonusStats(): void {
+      if(this.groupId === undefined) {
+        const groupIdStr = localStorage.getItem('groupId');
+        if(groupIdStr) {
+          this.groupId = Number(groupIdStr);
+        }
+      }
+      if(this.raceId === undefined) {
+        const raceIdStr = localStorage.getItem('raceId');
+        if(raceIdStr) {
+          this.raceId = Number(raceIdStr);
+        }
+      }
       if(this.raceId !== undefined && this.groupId !== undefined) {
         this.bonusStatService.getByRaceGroup(this.raceId, this.groupId).subscribe(bonusStatJSON => {
           const bonusStatMap = new Map<number, BonusStat[]>(Object.entries(bonusStatJSON).map(([key, value]) => [parseInt(key), value]));
@@ -292,6 +313,18 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private async getUserId2Predictions(): Promise<void> {
+      if(this.groupId === undefined) {
+        const groupIdStr = localStorage.getItem('groupId');
+        if(groupIdStr) {
+          this.groupId = Number(groupIdStr);
+        }
+      }
+      if(this.raceId === undefined) {
+        const raceIdStr = localStorage.getItem('raceId');
+        if(raceIdStr) {
+          this.raceId = Number(raceIdStr);
+        }
+      }
       if(this.groupId !== undefined && this.raceId !== undefined) {
         const driverArray = await firstValueFrom(this.driverService.getAllDrivers());
         this.drivers = driverArray;
@@ -326,6 +359,18 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getScores(): void {
+      if(this.raceId === undefined) {
+        const raceIdStr = localStorage.getItem('raceId');
+        if(raceIdStr) {
+          this.raceId = Number(raceIdStr);
+        }
+      }
+      if(this.groupId === undefined) {
+        const groupIdStr = localStorage.getItem('groupId');
+        if(groupIdStr) {
+          this.groupId = Number(groupIdStr);
+        }
+      }
       if(this.groupId !== undefined && this.raceId !== undefined) {
         this.scoreService.getGroupedScores(this.groupId, this.raceId).subscribe(scoreJSON => {
           const scoreMap = new Map<number, Score[]>(Object.entries(scoreJSON).map(([key, value]) => [parseInt(key), value]));
@@ -353,6 +398,12 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getRace(): void {
+      if(this.raceId === undefined) {
+        const raceIdStr = localStorage.getItem('raceId');
+        if(raceIdStr) {
+          this.raceId = Number(raceIdStr);
+        }
+      }
       if(this.raceId !== undefined) {
         this.raceService.getById(this.raceId).subscribe(race => {
           this.race = race;
@@ -398,6 +449,12 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private getUsersByGroup(): void {
+      if(this.groupId === undefined) {
+        const groupIdStr = localStorage.getItem('groupId');
+        if(groupIdStr) {
+          this.groupId = Number(groupIdStr);
+        }
+      }
       if(this.groupId !== undefined) {
         this.groupService.getUsersByGroup(this.groupId).subscribe({
           next: (users: User[]) => {

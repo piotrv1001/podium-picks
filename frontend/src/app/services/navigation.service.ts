@@ -9,6 +9,7 @@ export class NavigationService {
 
   private routeSub: Subject<NavItem> = new Subject();
   private resetSub: Subject<void> = new Subject();
+  private initRouteSub: Subject<string> = new Subject();
 
   getNavItemObservable(): Observable<NavItem> {
     return this.routeSub.asObservable();
@@ -18,12 +19,20 @@ export class NavigationService {
     return this.resetSub.asObservable();
   }
 
+  getInitRoutSub(): Observable<string> {
+    return this.initRouteSub.asObservable();
+  }
+
   notifyAboutNavItem(navItem: NavItem): void {
     this.routeSub.next(navItem);
   }
 
   notifyAboutReset(): void {
     this.resetSub.next();
+  }
+
+  notifyAboutInitRoute(url: string): void {
+    this.initRouteSub.next(url);
   }
 
 }

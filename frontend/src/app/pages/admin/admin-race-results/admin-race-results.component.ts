@@ -12,6 +12,7 @@ import { ERROR_MSG } from 'src/app/app.constants';
 import { RaceEventService } from 'src/app/services/race-event.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RaceService } from 'src/app/services/race.service';
+import { NavigationService } from 'src/app/services/navigation.service';
 
 @Component({
   selector:'app-admin-race-results',
@@ -35,11 +36,13 @@ export class AdminRaceResultsComponent implements OnInit  {
     private snackBar: MatSnackBar,
     private raceEventService: RaceEventService,
     public translateService: TranslateService,
-    private raceService: RaceService) {
+    private raceService: RaceService,
+    private navigationService: NavigationService) {
     this.raceId = this.router.getCurrentNavigation()?.extras?.state?.['raceId'];
   }
 
   async ngOnInit() {
+    this.navigationService.notifyAboutInitRoute('results');
     const driverArray = await firstValueFrom(this.driverService.getAllDrivers());
     this.drivers = driverArray;
     this.driverArrayToObj();

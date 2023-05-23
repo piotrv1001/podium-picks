@@ -26,6 +26,7 @@ export class AdminGroupsComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.navigationService.notifyAboutInitRoute('groups');
     this.getGroups();
   }
 

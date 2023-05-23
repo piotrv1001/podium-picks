@@ -27,6 +27,7 @@ export class AdminUsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.navigationService.notifyAboutInitRoute('users');
     this.getUsers();
   }
 

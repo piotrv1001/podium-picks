@@ -8,6 +8,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { GroupWithUserCount } from "src/app/model/types/group-with-user-count";
 import { TranslateService } from "@ngx-translate/core";
+import { NavigationService } from "src/app/services/navigation.service";
 
 @Component({
   selector: 'app-home',
@@ -25,9 +26,11 @@ export class HomeComponent implements OnInit {
     private groupService: GroupService,
     private snackBar: MatSnackBar,
     private router: Router,
-    public translateService: TranslateService) {}
+    public translateService: TranslateService,
+    private navigationService: NavigationService) {}
 
   ngOnInit(): void {
+    this.navigationService.notifyAboutInitRoute('home');
     const isAdmin = this.localStorageService.getIsAdmin();
     if(isAdmin && isAdmin === 1) {
       this.router.navigate(['seasons']);

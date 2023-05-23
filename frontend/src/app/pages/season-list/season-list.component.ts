@@ -24,6 +24,7 @@ export class SeasonListComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.navigationService.notifyAboutInitRoute('seasons');
     this.getAllSeasons();
   }
 

@@ -65,6 +65,12 @@ export class NavigationComponent implements OnInit, OnDestroy {
       this.navigationService.getResetObservable().subscribe(() => {
         this.initializeRoutes();
       });
+      this.navigationService.getInitRoutSub().subscribe(url => {
+        const navItemIndex = this.routes.findIndex(route => route.url === url);
+        if(navItemIndex !== -1) {
+          this.routes = this.routes.slice(0, navItemIndex + 1);
+        }
+      })
     }
 
     private getRoutesAfterRefresh(): void {
