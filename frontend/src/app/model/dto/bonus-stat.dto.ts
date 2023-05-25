@@ -4,6 +4,6 @@ export class BonusStatDTO {
     public raceId: number,
     public groupId: number,
     public userId: number,
-    public driverId: number
+    public driverId?: number
   ) {}
 }

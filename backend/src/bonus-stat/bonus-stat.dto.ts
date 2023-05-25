@@ -3,4 +3,5 @@ export class BonusStatDTO {
   raceId: number;
   groupId: number;
   userId: number;
+  driverId: number;
 }

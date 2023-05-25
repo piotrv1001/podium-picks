@@ -100,9 +100,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     selectedDriverChanged(): void {
-      if(this.selectedDNF && this.selectedFL) {
-        this.madeChanges = true;
-      }
+      this.madeChanges = true;
     }
 
     handlePredictionSaveBtnClick(): void {
@@ -197,37 +195,59 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     private saveBonusStats(): void {
-      const isUpdate = this.bonusArray.length > 0;
-      if(this.userId !== undefined && isUpdate) {
+      if(this.raceId !== undefined && this.groupId !== undefined && this.userId !== undefined) {
+        let hasFastestLap = false;
+        let hasDnf = false;
         const fastestLapStat = this.bonusArray.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.FASTEST_LAP);
-        if(fastestLapStat) {
-          fastestLapStat.driver = this.userId2UserData.get(this.userId)?.fastestLapDriver;
-        }
         const dnfStat = this.bonusArray.find(bonusStat => bonusStat.bonusStatDictId === BonusStatEnum.DNF);
-        if(dnfStat) {
-          dnfStat.driver = this.userId2UserData.get(this.userId)?.dnfDriver;
+        const fastestLapDriver = this.userId2UserData.get(this.userId)?.fastestLapDriver;
+        const dnfDriver = this.userId2UserData.get(this.userId)?.dnfDriver;
+        const dnfBonusStatDto = new BonusStatDTO(
+          BonusStatEnum.DNF,
+          this.raceId,
+          this.groupId,
+          this.userId,
+          dnfDriver?.id
+        );
+        const fastestLapStatDto = new BonusStatDTO(
+          BonusStatEnum.FASTEST_LAP,
+          this.raceId,
+          this.groupId,
+          this.userId,
+          fastestLapDriver?.id
+        );
+        if(fastestLapStat && fastestLapDriver) {
+          fastestLapStat.driver = fastestLapDriver;
+          hasFastestLap = true;
         }
-        this.bonusStatService.updateMany(this.bonusArray).subscribe();
-      } else {
-        if(this.raceId !== undefined && this.groupId !== undefined && this.userId !== undefined) {
-          const fastestLapDriver = this.userId2UserData.get(this.userId)?.fastestLapDriver;
-          const dnfDriver = this.userId2UserData.get(this.userId)?.dnfDriver;
-          if(fastestLapDriver && fastestLapDriver.id !== undefined && dnfDriver && dnfDriver.id !== undefined) {
-            const fastestLapBonusStat = new BonusStatDTO(
-              BonusStatEnum.FASTEST_LAP,
-              this.raceId,
-              this.groupId,
-              this.userId,
-              fastestLapDriver.id
-            );
-            const dnfBonusStat = new BonusStatDTO(
-              BonusStatEnum.DNF,
-              this.raceId,
-              this.groupId,
-              this.userId,
-              dnfDriver.id
-            );
-            this.bonusStatService.createMany([fastestLapBonusStat, dnfBonusStat]).subscribe();
+        if(dnfStat && dnfDriver) {
+          dnfStat.driver = dnfDriver;
+          hasDnf = true;
+        }
+        if(hasFastestLap && hasDnf) {
+          this.bonusStatService.updateMany(this.bonusArray).subscribe(bonusArray => {
+            this.bonusArray = bonusArray;
+          });
+        } else if(hasFastestLap) {
+          this.bonusStatService.update(fastestLapStat!).subscribe();
+          if (dnfDriver) {
+            this.bonusStatService.create(dnfBonusStatDto).subscribe();
+          }
+        } else if(hasDnf) {
+          this.bonusStatService.update(dnfStat!).subscribe();
+          if(fastestLapDriver) {
+            this.bonusStatService.create(fastestLapStatDto).subscribe();
+          }
+        } else {
+          const dtoArray = [fastestLapStatDto, dnfBonusStatDto];
+          if(fastestLapDriver && dnfDriver) {
+            this.bonusStatService.createMany(dtoArray).subscribe(bonusArray => {
+              this.bonusArray = bonusArray;
+            });
+          } else if (dnfDriver) {
+            this.bonusStatService.create(dnfBonusStatDto).subscribe();
+          } else if(fastestLapDriver) {
+            this.bonusStatService.create(fastestLapStatDto).subscribe();
           }
         }
       }

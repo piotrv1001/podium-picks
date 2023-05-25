@@ -14,7 +14,7 @@ export class BonusStatService {
 
   constructor(private http: HttpClient) {}
 
-  createBonusStat(bonusStatDto: BonusStatDTO): Observable<BonusStat> {
+  create(bonusStatDto: BonusStatDTO): Observable<BonusStat> {
     return this.http.post<BonusStat>(`${BASE_URL}/${this.BONUS_STAT_ROUTE}`, bonusStatDto);
   }
 
@@ -35,4 +35,7 @@ export class BonusStatService {
     return this.http.post<BonusStat[]>(`${BASE_URL}/${this.BONUS_STAT_ROUTE}/createMany`, bonusStatDtoArray);
   }
 
+  update(bonusStat: BonusStat): Observable<BonusStat> {
+    return this.http.put<BonusStat>(`${BASE_URL}/${this.BONUS_STAT_ROUTE}`, bonusStat);
+  }
 }

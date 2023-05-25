@@ -20,6 +20,7 @@ export class BonusStatService {
     bonusStat.raceId = bonusStatDTO.raceId;
     bonusStat.groupId = bonusStatDTO.groupId;
     bonusStat.userId = bonusStatDTO.userId;
+    bonusStat.driverId = bonusStatDTO.driverId;
     return this.bonusStatRepository.save(bonusStat);
   }
 

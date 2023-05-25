@@ -103,6 +103,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.authSub?.unsubscribe();
+    const token = localStorage.getItem('token');
+    localStorage.clear();
+    if(token !== null) {
+      localStorage.setItem('token', token);
+    }
   }
 
 }
