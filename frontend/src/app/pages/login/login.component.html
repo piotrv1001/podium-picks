@@ -2,6 +2,7 @@
   <div class="login-card">
     <div class="login-heading">{{ 'login.login' | translate }}</div>
     <form *ngIf="loginForm !== undefined" [formGroup]="loginForm" class="login-form ">
+      <button mat-raised-button (click)="loginTestAccount()" class="test-btn">Test account</button>
       <mat-form-field class="login-form-field">
         <input
           matInput

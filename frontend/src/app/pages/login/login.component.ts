@@ -33,6 +33,15 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  loginTestAccount(): void {
+    const username = 'test';
+    const password = 'test';
+    const userDto = new UserDTO(
+      username, password
+    );
+    this.login(userDto);
+  }
+
   login(userDto?: UserDTO): void {
     if(!userDto) {
       userDto = new UserDTO(
