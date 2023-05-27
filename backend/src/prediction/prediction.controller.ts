@@ -55,7 +55,10 @@ export class PredictionController {
           }
           const userId = predictionDtoArray?.[0]?.userId;
           if (userId != null) {
-            scores = scores.filter((score) => score.userId == userId);
+            scores = scores.filter((score) => score.userId === userId);
+            bonusStats = bonusStats.filter(
+              (bonusStat) => bonusStat.userId === userId,
+            );
           }
           return { predictions, scores, bonusStats };
         }
@@ -98,6 +101,9 @@ export class PredictionController {
           const userId = predictionDtoArray?.[0]?.userId;
           if (userId != null) {
             scores = scores.filter((score) => score.userId == userId);
+            bonusStats = bonusStats.filter(
+              (bonusStat) => bonusStat.userId === userId,
+            );
           }
           return { predictions, scores, bonusStats };
         }

@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
     } else {
       newUserDto = userDto;
     }
-    console.log('newUserDto', newUserDto);
     this.authService.login(newUserDto).subscribe({
       next: () => {
         this.authService.authenticate();

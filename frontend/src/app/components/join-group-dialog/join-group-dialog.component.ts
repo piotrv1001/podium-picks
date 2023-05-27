@@ -23,7 +23,6 @@ export class JoinGroupDialogComponent {
   validateCode(): void {
     this.groupService.getGroupByCode(this.code, this.data.userId).subscribe({
       next: (group) => {
-        console.log('group', group);
         this.isCodeValid = true;
         this.snackBar.open(`Welcome to ${group?.name}!`, undefined, {
           duration: 3000
