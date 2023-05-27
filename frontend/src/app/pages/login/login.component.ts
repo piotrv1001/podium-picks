@@ -43,12 +43,16 @@ export class LoginComponent implements OnInit {
   }
 
   login(userDto?: UserDTO): void {
+    let newUserDto;
     if(!userDto) {
-      userDto = new UserDTO(
+      newUserDto = new UserDTO(
         this.username, this.password
       );
+    } else {
+      newUserDto = userDto;
     }
-    this.authService.login(userDto).subscribe({
+    console.log('newUserDto', newUserDto);
+    this.authService.login(newUserDto).subscribe({
       next: () => {
         this.authService.authenticate();
       },

@@ -51,9 +51,7 @@ export class AuthService {
 
   logout(): Promise<void> {
     return new Promise(resolve => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('id');
-      localStorage.removeItem('isAdmin');
+      localStorage.clear();
       resolve();
     });
   }
