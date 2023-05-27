@@ -6,7 +6,7 @@
         mat-raised-button
         color="primary"
         (click)="handlePredictionSaveBtnClick()"
-        [disabled]="!madePredictionChanges"
+        [disabled]="!madePredictionChanges || loading"
       >
         {{ "race.save" | translate }}
       </button>

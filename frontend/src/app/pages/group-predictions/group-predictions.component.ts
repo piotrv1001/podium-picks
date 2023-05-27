@@ -58,6 +58,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   RaceStatus = RaceStatus;
   bonusArray: BonusStat[] = [];
+  saving = false;
 
   constructor(
     private driverService: DriverService,
@@ -104,6 +105,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
     }
 
     handlePredictionSaveBtnClick(): void {
+      this.saving = true;
       let drivers = this.raceEventService.getDrivers();
       if(drivers.length === 0) {
         drivers = this.drivers;
@@ -118,6 +120,7 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
         }
         this.saveBonusStats();
       } else {
+        this.saving = false;
         const msg = this.translateService.instant('error.userNotFound');
         this.showSnackBar(msg);
       }
@@ -284,8 +287,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
               setTimeout(() => {
                 this.setTabAnimationDuration(400);
               }, 0);
+              this.saving = false;
             },
             error: () => {
+              this.saving = false;
               this.showSnackBar(ERROR_MSG);
             }
           });
@@ -324,8 +329,10 @@ export class GroupPredictionsComponent implements OnInit, OnDestroy {
             setTimeout(() => {
               this.setTabAnimationDuration(400);
             }, 0);
+            this.saving = false;
           },
           error: () => {
+            this.saving = false;
             this.showSnackBar(ERROR_MSG);
           }
         });

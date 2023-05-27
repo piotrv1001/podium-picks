@@ -43,7 +43,7 @@
                 mat-raised-button
                 color="primary"
                 (click)="handlePredictionSaveBtnClick()"
-                [disabled]="!madeChanges">{{ 'race.save' | translate }}</button>
+                [disabled]="!madeChanges || saving">{{ 'race.save' | translate }}</button>
               <span *ngIf="scoreAvailable" class="total-points">{{ data[1].total }}</span>
           </div>
         </div>

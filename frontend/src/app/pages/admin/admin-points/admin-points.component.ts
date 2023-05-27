@@ -44,6 +44,7 @@ export class AdminPointsComponent implements OnInit {
   madePredictionChanges: boolean = false;
   madePointChanges: boolean = false;
   bonusArray: BonusStat[] = [];
+  loading = false;
 
   constructor(
     private router: Router,
@@ -72,6 +73,7 @@ export class AdminPointsComponent implements OnInit {
   }
 
   async handlePredictionSaveBtnClick(): Promise<void> {
+    this.loading = true;
     let drivers = this.raceEventService.getDrivers();
     if(drivers.length === 0) {
       drivers = this.drivers;
@@ -86,6 +88,7 @@ export class AdminPointsComponent implements OnInit {
         this.createPredictions(drivers);
       }
     } else {
+      this.loading = false;
       const msg = this.translateService.instant('error.userNotFound');
       this.showSnackBar(msg);
     }
@@ -255,8 +258,10 @@ export class AdminPointsComponent implements OnInit {
             setTimeout(() => {
               this.setTabAnimationDuration(400);
             }, 0);
+            this.loading = false;
           },
           error: () => {
+            this.loading = false;
             this.showSnackBar(ERROR_MSG);
           }
         });
@@ -302,8 +307,10 @@ export class AdminPointsComponent implements OnInit {
           setTimeout(() => {
             this.setTabAnimationDuration(400);
           }, 0);
+          this.loading = false;
         },
         error: () => {
+          this.loading = false;
           this.showSnackBar(ERROR_MSG);
         }
       });
