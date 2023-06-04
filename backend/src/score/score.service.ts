@@ -13,7 +13,7 @@ import { BonusStatEnum } from 'src/types/bonus-stat-enum';
 export interface Stats {
   total: number;
   avg: number;
-  min: number;
+  min: number | null;
   max: number;
 }
 
@@ -290,7 +290,7 @@ export class ScoreService {
         userId,
         {
           max: 0,
-          min: 0,
+          min: null,
           total: 0,
           avg: 0,
         },
@@ -311,7 +311,14 @@ export class ScoreService {
       .getRawMany();
 
     let raceCount = 0;
+    let currentUserId: number | null = null;
     for (const score of scores) {
+      if (score.userId === currentUserId) {
+        raceCount++;
+      } else {
+        currentUserId = score.userId;
+        raceCount = 1;
+      }
       let points = parseFloat(score.sum_points);
       const bonusFL = await this.bonusStatRepository.findOne({
         where: {
@@ -344,24 +351,21 @@ export class ScoreService {
         points += bonusDNFPoints;
       }
       const stats: Stats = resultMap.get(score.userId);
-      if (Object.keys(stats).length !== 0) {
-        raceCount++;
-        stats.total += points;
-        stats.avg = stats.total / raceCount;
-        if (points > stats.max) {
-          stats.max = points;
-        } else if (points < stats.min) {
-          stats.min = points;
-        }
-      } else {
-        raceCount = 1;
-        const newStats: Stats = {
-          max: points,
-          min: points,
-          total: points,
-          avg: points,
-        };
-        resultMap.set(score.userId, newStats);
+      stats.total += points;
+      stats.avg = stats.total / raceCount;
+      if (stats.min === null && points > 0) {
+        stats.min = points;
+      }
+      if (points > stats.max) {
+        stats.max = points;
+      } else if (stats.min !== null && points > 0 && points < stats.min) {
+        stats.min = points;
+      }
+    }
+
+    for (const result of resultMap.values()) {
+      if (result.min === null) {
+        result.min = 0;
       }
     }
 
