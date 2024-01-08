@@ -1,5 +1,5 @@
 
-# F1 Racing App
+# Podium Picks
 
 This project is an app for predicting the results of Formula 1 races. It contains the customer app, where users can join groups and play together, as well as the admin app, where the admin can provide race results and supervise the entire system.
 
